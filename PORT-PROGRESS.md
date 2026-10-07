@@ -83,3 +83,46 @@ gui.submitGuiElementRenderState(new GuiItemRenderState(new Matrix3x2f(gui.pose()
 - @EventBusSubscriber: bus attr GONE, only value (Dist[]) + modid remain.
 - RegisterClientReloadListenersEvent → AddClientReloadListenersEvent;
   event.addListener(Identifier id, PreparableReloadListener) (was registerReloadListener).
+
+## Chunk 4-6 progress (2026-10-07 evening) — ERROR COUNT: ~200 (was 300)
+
+### Done & verified
+- GUI overlay redraw (Chunk 4): GuiGraphicsExtractor paths — submitOverlayGuiItem via
+  getItemModelResolver+GuiItemRenderState, submitOverlayEntity via createRenderState,
+  2D Matrix3x2fStack helpers, stratum depth. Old ItemRenderer.renderStatic GONE.
+- RenderEvent world stage: RenderLevelStageEvent.AfterTranslucentParticles sub-event,
+  camera via gameRenderer.getMainCamera(), DeltaTracker via mc.getDeltaTracker().
+- FomekFlicker model posing via createRenderState + setupAnim(state).
+- Shader.java: apply/restore/applyUniforms → 26.1 no-ops (global shader color +
+  ShaderInstance uniforms GONE; raw GLSL path manages own uniforms). Dead
+  RenderStateShard reflection helpers removed.
+- Projection matrix: RenderSystem.getProjectionMatrix() GONE — matrix only lives in a
+  GPU UBO (GpuBufferSlice). Shader.Manager.readProjectionMatrix() reads it back via
+  GlBuffer.handle reflection + GL45 glGetNamedBufferSubData (std140 col-major mat4).
+- BEWRL item parts: resolve via TrackingItemStackRenderState + drawItemQuads
+  (RenderAPI helper emits baked quads via putBakedQuad + QuadInstance);
+  tint baked per-vertex via multiplyArgb (no setShaderColor anymore).
+- Raw-GL blend/depth/cull toggles in BEWRL → plain GL11 calls (RenderSystem toggles GONE).
+- NBT Optional getters swept: getStringOr/getIntOr/getFloatOr/getLongOr/getDoubleOr/
+  getByteOr/getBooleanOr/getCompoundOrEmpty/getListOrEmpty, ListTag.getCompoundOrEmpty(i),
+  receivers any local (Animation, Shader, BEWRLStorage ×9 receivers, RenderData).
+- Package renames: rendertype.RenderType/RenderTypes, util.LightCoordsUtil.
+- EntityRenderer<?,?> generics, VertexConsumer.setLineWidth override, Model.setupAnim(state),
+  EventBusSubscriber bus attr, AddClientReloadListenersEvent.addListener(Identifier,...).
+
+### Open errors (~200, mostly cascades)
+- BEWRLStorage: 96 — mostly NBT getter sweep fallout (now fixed, unverified) +
+  4× FMLEnvironment.dist (NeoForge 26.1: check FMLEnvironment API in universal jar).
+- RenderAPI: 46 — ghost-collector getTextureLocation + blend subsystem (deep item 1).
+- Shader: 8 — glGetNamedBufferSubData signature (LWJGL wants (int,long,ByteBuffer) or
+  (int,long,long,ByteBuffer)?), JOML Matrix4f has NO float[] ctor → new Matrix4f().set(m),
+  CompoundTag.getAllKeys() → check replacement (keySet()?).
+- BEWRL: 6 — RenderTypes.energySwirl signature, RenderType.LINES, GL14 glBlendFuncSeparate.
+- RenderData: 8 (NBT conditionals, likely fixed by sweep), Animation: 4 (fixed),
+  JavaModelRenderer: 2 — dragonExplosionAlpha → RenderTypes.dragonRays? (VISUAL VERIFY).
+- PageFlip: 4 — BookModel API in 26.1 (check sources jar).
+
+### Deep-work queue (unchanged)
+1. RenderAPI blend-mode subsystem → custom RenderPipelines per BlendMode.
+2. Shape custom RenderType/swirl — RenderTypes.energySwirl(Identifier, Identifier, x, z)?
+3. BEWRL BakedQuad record port in reconstructResolvedModel.
