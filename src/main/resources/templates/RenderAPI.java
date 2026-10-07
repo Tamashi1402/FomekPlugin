@@ -309,14 +309,46 @@ public class RenderAPI {
     // The stack's model is its ITEM_MODEL component id, resolvable via the
     // ModelManager's bakery. (display transforms: ResolvedModel.getTopTransforms)
 
-    private static ResolvedModel resolveItemModel(net.minecraft.world.item.ItemStack stack) {
+    /**
+     * Resolve a stack's baked quads + display transform through the 26.1 item
+     * resolver. Replaces the old resolveItemModel(ResolvedModel) path — resolved
+     * models are no longer reachable at runtime, but a scratch render state
+     * exposes both the baked quads and the applied context transform.
+     */
+    private static final class ResolvedItemGeometry {
+        final java.util.List<net.minecraft.client.resources.model.geometry.BakedQuad> quads =
+                new java.util.ArrayList<>();
+        final it.unimi.dsi.fastutil.ints.IntList tints = new it.unimi.dsi.fastutil.ints.IntArrayList();
+        ItemTransform transform;
+    }
+
+    private static ResolvedItemGeometry resolveItemGeometry(net.minecraft.world.item.ItemStack stack,
+            ItemDisplayContext ctx) {
         try {
             if (stack == null || stack.isEmpty()) return null;
-            net.minecraft.resources.Identifier modelId =
-                    stack.get(net.minecraft.core.component.DataComponents.ITEM_MODEL);
-            if (modelId == null) return null;
-            return Minecraft.getInstance().getModelManager().getModelBakery().getModel(modelId);
-        } catch (Exception e) {
+            if (ctx == null) ctx = ItemDisplayContext.GUI;
+            Minecraft mc = Minecraft.getInstance();
+            net.minecraft.client.renderer.item.TrackingItemStackRenderState state =
+                    new net.minecraft.client.renderer.item.TrackingItemStackRenderState();
+            mc.getItemModelResolver().updateForTopItem(state, stack, ctx, mc.level, mc.player, 0);
+            ResolvedItemGeometry out = new ResolvedItemGeometry();
+            forEachLayer(state, layer -> {
+                try {
+                    java.util.List<net.minecraft.client.resources.model.geometry.BakedQuad> quads = layer.prepareQuadList();
+                    if (quads != null) out.quads.addAll(quads);
+                    it.unimi.dsi.fastutil.ints.IntList tl = layer.tintLayers();
+                    if (tl != null && !tl.isEmpty()) out.tints.addAll(tl);
+                    if (out.transform == null) {
+                        java.lang.reflect.Field f = net.minecraft.client.renderer.item.ItemStackRenderState.LayerRenderState.class
+                                .getDeclaredField("itemTransform");
+                        f.setAccessible(true);
+                        out.transform = (ItemTransform) f.get(layer);
+                    }
+                } catch (Throwable ignored) {
+                }
+            });
+            return out.quads.isEmpty() && out.transform == null ? null : out;
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -360,7 +392,7 @@ public class RenderAPI {
             try {
                 java.util.List<net.minecraft.client.resources.model.geometry.BakedQuad> quads = layer.prepareQuadList();
                 if (quads == null || quads.isEmpty()) return;
-                net.minecraft.util.IntList tints = layer.tintLayers();
+                it.unimi.dsi.fastutil.ints.IntList tints = layer.tintLayers();
                 for (net.minecraft.client.resources.model.geometry.BakedQuad quad : quads) {
                     net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo mi = quad.materialInfo();
                     if (mi == null || mi.itemRenderType() == null) continue;
@@ -420,12 +452,30 @@ public class RenderAPI {
 
     private static ItemTransform resolveDisplayTransform(net.minecraft.world.item.ItemStack stack,
             ItemDisplayContext ctx) {
+        // 26.1: ResolvedModel instances are not reachable at runtime (the bakery's
+        // getModel is on inner classes only). Instead resolve the stack through the
+        // item resolver into a scratch render state — the resolver applies the correct
+        // per-context ItemTransform to every layer — and read it back from layer 0.
         try {
-            ResolvedModel model = resolveItemModel(stack);
-            if (model == null) return null;
-            net.minecraft.client.resources.model.cuboid.ItemTransforms transforms = model.getTopTransforms();
-            return transforms != null ? transforms.getTransform(ctx) : null;
-        } catch (Exception e) {
+            Minecraft mc = Minecraft.getInstance();
+            LivingEntity entity = mc.player;
+            Level level = mc.level;
+            net.minecraft.client.renderer.item.TrackingItemStackRenderState state =
+                    new net.minecraft.client.renderer.item.TrackingItemStackRenderState();
+            mc.getItemModelResolver().updateForTopItem(state, stack, ctx, level, entity, 0);
+            final ItemTransform[] found = new ItemTransform[] { null };
+            forEachLayer(state, layer -> {
+                if (found[0] != null) return;
+                try {
+                    java.lang.reflect.Field f = net.minecraft.client.renderer.item.ItemStackRenderState.LayerRenderState.class
+                            .getDeclaredField("itemTransform");
+                    f.setAccessible(true);
+                    found[0] = (ItemTransform) f.get(layer);
+                } catch (Throwable ignored) {
+                }
+            });
+            return found[0];
+        } catch (Throwable e) {
             return null;
         }
     }
@@ -521,7 +571,7 @@ public class RenderAPI {
             if (glowing) {
                 light = LightCoordsUtil.FULL_BRIGHT;
             } else {
-                light = net.minecraft.client.renderer.LevelRenderer.getLightColor(level,
+                light = net.minecraft.client.renderer.LevelRenderer.getLightCoords(level,
                         net.minecraft.core.BlockPos.containing(x, y, z));
             }
         }
@@ -628,7 +678,8 @@ public class RenderAPI {
     // ── Texture ─────────────────────────────────────────────────────────────────
 
     public static void setTexture(net.minecraft.resources.Identifier texture) {
-        RenderSystem.setShaderTexture(0, texture);
+        // 26.1: global shader texture slots are gone; textures bind through the
+        // render pipeline / blit calls. Retained for API compatibility (no-op).
     }
 
 
@@ -644,10 +695,11 @@ public class RenderAPI {
         if (currentOverlayContext == null) return;
         enqueueOverlay(depth, () -> {
             GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
-            gui.pose().pushPose();
-            gui.pose().translate(0, 0, depth);
+            gui.pose().pushMatrix();
+            gui.pose().translate(0, 0); // no Z in the 2D pipeline; enqueueOverlay owns draw order
+
             gui.fill((int) x1, (int) y1, (int) x2, (int) y2, color);
-            gui.pose().popPose();
+            gui.pose().popMatrix();
         });
     }
 
@@ -715,31 +767,21 @@ public class RenderAPI {
                 case 8: ix -= drawW; iy -= drawH; break;
             }
 
-            gui.pose().pushPose();
-            gui.pose().translate(ix, iy, depth);
-            if (scale != 1f) gui.pose().scale(scale, scale, 1f);
+            gui.pose().pushMatrix();
+            gui.pose().translate(ix, iy);
+            if (scale != 1f) gui.pose().scale(scale, scale);
 
             if (angle != 0) {
-                gui.pose().translate(texW / 2.0, texH / 2.0, 0);
-                gui.pose().mulPose(Axis.ZP.rotationDegrees(angle));
-                gui.pose().translate(-texW / 2.0, -texH / 2.0, 0);
+                gui.pose().translate((float)(texW / 2.0), (float)(texH / 2.0));
+                gui.pose().rotate((float) Math.toRadians(angle));
+                gui.pose().translate((float)(-texW / 2.0), (float)(-texH / 2.0));
             }
 
-            if (color != 0xFFFFFFFF) {
-                float r = ((color >> 16) & 0xFF) / 255.0f;
-                float g = ((color >> 8) & 0xFF) / 255.0f;
-                float b = (color & 0xFF) / 255.0f;
-                float a = ((color >> 24) & 0xFF) / 255.0f;
-                com.mojang.blaze3d.systems.RenderSystem.setShaderColor(r, g, b, a);
-            }
+            int blitColor = (color == 0xFFFFFFFF) ? -1 : color;
+            gui.blit(com.mojang.blaze3d.pipeline.RenderPipelines.GUI_TEXTURED,
+                    rl, 0, 0, 0.0f, 0.0f, texW, texH, texW, texH, blitColor);
 
-            gui.blit(rl, 0, 0, 0, 0, texW, texH, texW, texH);
-
-            if (color != 0xFFFFFFFF) {
-                com.mojang.blaze3d.systems.RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-            }
-
-            gui.pose().popPose();
+            gui.pose().popMatrix();
         });
     }
 
@@ -777,23 +819,24 @@ public class RenderAPI {
                 case 8: ix -= scaledW; iy -= scaledH; break;
             }
 
-            gui.pose().pushPose();
-            gui.pose().translate(0, 0, depth);
-            gui.pose().translate(ix, iy, 0);
+            gui.pose().pushMatrix();
+            gui.pose().translate(0, 0); // no Z in the 2D pipeline; enqueueOverlay owns draw order
+
+            gui.pose().translate(ix, iy);
 
             if (scale != 1.0f) {
-                gui.pose().scale(scale, scale, 1);
+                gui.pose().scale(scale, scale);
             }
 
             if (angle != 0) {
-                gui.pose().translate(rawTextW / 2.0, rawTextH / 2.0, 0);
-                gui.pose().mulPose(Axis.ZP.rotationDegrees(angle));
-                gui.pose().translate(-rawTextW / 2.0, -rawTextH / 2.0, 0);
+                gui.pose().translate(rawTextW / 2.0f, rawTextH / 2.0f);
+                gui.pose().rotate((float) Math.toRadians(angle));
+                gui.pose().translate(-rawTextW / 2.0f, -rawTextH / 2.0f);
             }
 
-            gui.drawString(font, text, 0, 0, argbColor, false);
+            gui.text(font, text, 0, 0, argbColor, false);
 
-            gui.pose().popPose();
+            gui.pose().popMatrix();
         });
     }
 
@@ -801,27 +844,174 @@ public class RenderAPI {
             float yaw, float pitch, float roll,
             float xscale, float yscale, float zscale, int color) {
         if (currentOverlayContext == null || shape == null || shape.isEmpty()) return;
+        if (currentOverlayContext == null || shape == null || shape.isEmpty()) return;
         enqueueOverlay(depth, () -> {
             GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
-            PoseStack pose = gui.pose();
-            MultiBufferSource.BufferSource buffer = gui.bufferSource();
-
-            pose.pushPose();
-            pose.translate(x, y, depth);
-            if (yaw != 0) pose.mulPose(Axis.YP.rotationDegrees(yaw));
-            if (pitch != 0) pose.mulPose(Axis.XP.rotationDegrees(pitch));
-            if (roll != 0) pose.mulPose(Axis.ZP.rotationDegrees(roll));
-            if (xscale != 1 || yscale != 1 || zscale != 1) pose.scale(xscale, yscale, zscale);
-
-            shape.render(pose, buffer,
-                0, 0, 0,
-                0, 0, 0,
-                1, 1, 1,
-                color, net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT,
-                net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY);
-
-            pose.popPose();
+            // 26.1: the GUI pipeline is purely 2D (Matrix3x2f pose, no Z buffer),
+            // so 3D shapes are software-projected to screen space and emitted as
+            // a custom GuiElementRenderState via the flat-colored GUI pipeline.
+            // Rotation uses the old stack order (Y, then X, then Z).
+            float rad = (float) Math.PI / 180.0f;
+            float cy = (float) Math.cos(yaw * rad), sy = (float) Math.sin(yaw * rad);
+            float cp = (float) Math.cos(pitch * rad), sp = (float) Math.sin(pitch * rad);
+            float cr = (float) Math.cos(roll * rad), sr = (float) Math.sin(roll * rad);
+            java.util.List<Shape.VertexData> vs = shape.getVertices();
+            float[] px = new float[vs.size()], py = new float[vs.size()];
+            int[] pc = new int[vs.size()];
+            float minX = Float.MAX_VALUE, minY = Float.MAX_VALUE, maxX = -Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
+            final int tint;
+            if (color != -1 && color != 0xFFFFFFFF) {
+                int ta = (color >> 24) & 0xFF, tr = (color >> 16) & 0xFF, tg = (color >> 8) & 0xFF, tb = color & 0xFF;
+                tint = color;
+                // applied per-vertex below
+                for (int i = 0; i < vs.size(); i++) {
+                    Shape.VertexData v = vs.get(i);
+                    v.color = tintColor(v.color, ta, tr, tg, tb);
+                }
+            } else {
+                tint = -1;
+            }
+            if (tint == -2) return; // never
+            for (int i = 0; i < vs.size(); i++) {
+                Shape.VertexData v = vs.get(i);
+                float vx = v.x, vy = v.y, vz = v.z;
+                // yaw (Y)
+                float tx = cy * vx + sy * vz;
+                float tz = -sy * vx + cy * vz;
+                vx = tx; vz = tz;
+                // pitch (X)
+                float ty = cp * vy - sp * vz;
+                tz = sp * vy + cp * vz;
+                vy = ty; vz = tz;
+                // roll (Z)
+                tx = cr * vx - sr * vy;
+                ty = sr * vx + cr * vy;
+                vx = tx; vy = ty;
+                // orthographic projection into screen pixels (slight Y foreshortening for depth cue)
+                px[i] = x + vx * xscale;
+                py[i] = y + vy * yscale - vz * zscale * 0.35f;
+                pc[i] = v.color;
+                if (px[i] < minX) minX = px[i];
+                if (px[i] > maxX) maxX = px[i];
+                if (py[i] < minY) minY = py[i];
+                if (py[i] > maxY) maxY = py[i];
+            }
+            final float[] fx = px, fy = py;
+            final int[] fc = pc;
+            final int iw = Math.max(1, (int) Math.ceil(maxX - minX));
+            final int ih = Math.max(1, (int) Math.ceil(maxY - minY));
+            final int bx = (int) Math.floor(minX), by = (int) Math.floor(minY);
+            final org.joml.Matrix3x2f fpose = new org.joml.Matrix3x2f(gui.pose());
+            final Shape fshape = shape;
+            try {
+                java.lang.reflect.Field f = GuiGraphicsExtractor.class.getDeclaredField("guiRenderState");
+                f.setAccessible(true);
+                net.minecraft.client.renderer.state.gui.GuiRenderState grs =
+                        (net.minecraft.client.renderer.state.gui.GuiRenderState) f.get(gui);
+                grs.addGuiElement(new ProjectedShapeRenderState(fpose, fshape, fx, fy, fc,
+                        new net.minecraft.client.gui.navigation.ScreenRectangle(bx, by, iw, ih)));
+            } catch (Throwable ignored) {
+            }
         });
+    }
+
+    /**
+     * A GuiElementRenderState that emits a software-projected 3D shape as flat
+     * colored 2D triangles. QUADS are triangulated as (0,1,2)+(0,2,3); LINES
+     * are approximated with 1px thick quads (the GUI_LINES pipeline needs a
+     * different vertex layout with line widths, not worth a separate path).
+     */
+    private static final class ProjectedShapeRenderState
+            implements net.minecraft.client.renderer.state.gui.GuiElementRenderState {
+        private final org.joml.Matrix3x2f pose;
+        private final Shape shape;
+        private final float[] x, y;
+        private final int[] c;
+        private final net.minecraft.client.gui.navigation.ScreenRectangle bounds;
+
+        ProjectedShapeRenderState(org.joml.Matrix3x2f pose, Shape shape,
+                float[] x, float[] y, int[] c, net.minecraft.client.gui.navigation.ScreenRectangle bounds) {
+            this.pose = pose; this.shape = shape;
+            this.x = x; this.y = y; this.c = c;
+            this.bounds = bounds;
+        }
+
+        @Override public void buildVertices(com.mojang.blaze3d.vertex.VertexConsumer vc) {
+            int n = x.length;
+            switch (shape.getMode()) {
+                case QUADS -> {
+                    for (int i = 0; i + 3 < n; i += 4) {
+                        tri(vc, i, i + 1, i + 2);
+                        tri(vc, i, i + 2, i + 3);
+                    }
+                }
+                case TRIANGLES -> {
+                    for (int i = 0; i + 2 < n; i += 3) tri(vc, i, i + 1, i + 2);
+                }
+                case TRIANGLE_STRIP -> {
+                    for (int i = 0; i + 2 < n; i++) tri(vc, i, i + 1, i + 2);
+                }
+                case LINES, LINE_STRIP -> {
+                    int step = shape.getMode() == VertexFormat.Mode.LINES ? 2 : 1;
+                    for (int i = 0; i + 1 < n; i += step) {
+                        lineQuad(vc, i, i + 1);
+                    }
+                }
+                default -> {
+                    for (int i = 0; i + 2 < n; i += 3) tri(vc, i, i + 1, i + 2);
+                }
+            }
+        }
+
+        private void tri(com.mojang.blaze3d.vertex.VertexConsumer vc, int a, int b, int d) {
+            vc.addVertexWith2DPose(pose, x[a], y[a]).setColor(c[a]);
+            vc.addVertexWith2DPose(pose, x[b], y[b]).setColor(c[b]);
+            vc.addVertexWith2DPose(pose, x[d], y[d]).setColor(c[d]);
+        }
+
+        private void lineQuad(com.mojang.blaze3d.vertex.VertexConsumer vc, int a, int b) {
+            float dx = x[b] - x[a], dy = y[b] - y[a];
+            float len = (float) Math.sqrt(dx * dx + dy * dy);
+            if (len < 1.0E-4f) return;
+            float nx = -dy / len * 0.5f, ny = dx / len * 0.5f; // half-pixel thickness
+            int mid = avgColor(c[a], c[b]);
+            vc.addVertexWith2DPose(pose, x[a] + nx, y[a] + ny).setColor(c[a]);
+            vc.addVertexWith2DPose(pose, x[a] - nx, y[a] - ny).setColor(c[a]);
+            vc.addVertexWith2DPose(pose, x[b] - nx, y[b] - ny).setColor(mid);
+            vc.addVertexWith2DPose(pose, x[a] + nx, y[a] + ny).setColor(c[a]);
+            vc.addVertexWith2DPose(pose, x[b] - nx, y[b] - ny).setColor(mid);
+            vc.addVertexWith2DPose(pose, x[b] + nx, y[b] + ny).setColor(mid);
+        }
+
+        private static int tintColor(int c, int ta, int tr, int tg, int tb) {
+            int a = ((c >> 24) & 0xFF) * ta / 255;
+            int r = ((c >> 16) & 0xFF) * tr / 255;
+            int g = ((c >> 8) & 0xFF) * tg / 255;
+            int b = (c & 0xFF) * tb / 255;
+            return (a << 24) | (r << 16) | (g << 8) | b;
+        }
+
+        private static int avgColor(int c1, int c2) {
+            int a = (((c1 >> 24) & 0xFF) + ((c2 >> 24) & 0xFF)) / 2;
+            int r = (((c1 >> 16) & 0xFF) + ((c2 >> 16) & 0xFF)) / 2;
+            int g = (((c1 >> 8) & 0xFF) + ((c2 >> 8) & 0xFF)) / 2;
+            int b = ((c1 & 0xFF) + (c2 & 0xFF)) / 2;
+            return (a << 24) | (r << 16) | (g << 8) | b;
+        }
+
+        @Override public com.mojang.blaze3d.pipeline.RenderPipeline pipeline() {
+            return com.mojang.blaze3d.pipeline.RenderPipelines.GUI;
+        }
+
+        @Override public net.minecraft.client.gui.render.TextureSetup textureSetup() {
+            // textured overlay shapes fall back to flat colors: the 26.1 GUI
+            // pipeline binds textures as GpuTextureViews, not shader slots
+            return net.minecraft.client.gui.render.TextureSetup.noTexture();
+        }
+
+        @Override public net.minecraft.client.gui.navigation.ScreenRectangle scissorArea() { return null; }
+
+        @Override public net.minecraft.client.gui.navigation.ScreenRectangle bounds() { return bounds; }
     }
 
     // ── GL state ──────────────────────────────────────────────────────────────
@@ -3174,7 +3364,7 @@ public class RenderAPI {
             // forward each frame then snap back at the next tick (bone twitch).
             // Light is computed from the actual world position instead of full-bright
             // so ghosts aren't glowing at night / in dark areas.
-            int ghostLight = net.minecraft.client.renderer.LevelRenderer.getLightColor(
+            int ghostLight = net.minecraft.client.renderer.LevelRenderer.getLightCoords(
                     entity.level(), net.minecraft.core.BlockPos.containing(snap[0], snap[1], snap[2]));
             renderGhostWithPose(entity, snap, 0.0f, pose, renderer, flatBuffer, ghostLight);
 
@@ -6203,7 +6393,7 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
     public static int getActivePackedLight() {
         if (currentContext != null) return currentContext.getPackedLight();
         if (currentWorldContext != null) {
-            return net.minecraft.client.renderer.LevelRenderer.getLightColor(
+            return net.minecraft.client.renderer.LevelRenderer.getLightCoords(
                     currentWorldContext.getWorld(),
                     net.minecraft.core.BlockPos.containing(
                             currentWorldContext.getX(),
