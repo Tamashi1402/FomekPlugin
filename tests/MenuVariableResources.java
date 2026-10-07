@@ -11,7 +11,7 @@ class MenuVariableResources {
         if (args.length != 1) throw new IllegalArgumentException("Pass src/main/resources");
         var loader = new Load(LoadSettings.builder().build());
         for (var entry : Map.of("fomek_menuobject", "MenuObject", "fomek_menudata", "MenuData").entrySet()) {
-            var file = Path.of(args[0], "neoforge-1.21.1", "variables", entry.getKey() + ".yaml");
+            var file = Path.of(args[0], "neoforge-26.1.2", "variables", entry.getKey() + ".yaml");
             var source = Files.readString(file);
             var definition = (Map<?, ?>) loader.loadFromString(source);
             var type = "${package}.api.guisystems." + entry.getValue();

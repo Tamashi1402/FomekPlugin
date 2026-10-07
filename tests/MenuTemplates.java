@@ -19,7 +19,7 @@ public class MenuTemplates {
     public static void main(String[] args) throws Exception {
         Path resources=Path.of(args[0]),destination=Path.of(args[1]);
         Configuration cfg=new Configuration(Configuration.VERSION_2_3_33);
-        cfg.setDirectoryForTemplateLoading(resources.resolve("neoforge-1.21.1/procedures").toFile());
+        cfg.setDirectoryForTemplateLoading(resources.resolve("neoforge-26.1.2/procedures").toFile());
         cfg.setDefaultEncoding("UTF-8");cfg.setLogTemplateExceptions(false);
         StringBuilder java=new StringBuilder("public class GeneratedMenuTemplates {\n");int count=0;
         try(var stream=Files.list(resources.resolve("procedures"))){for(Path file:stream.filter(f->f.getFileName().toString().startsWith("fomekmenu_")).sorted().toList()){
@@ -29,7 +29,7 @@ public class MenuTemplates {
             Template template=cfg.getTemplate(type+".java.ftl");
             for(boolean rich:List.of(false,true)){
                 Map<String,Object> data=new HashMap<>();data.put("w",new Workspace());data.put("opt",new Opt());data.put("package","net.tamashi.fomekcore");
-                Matcher lists=Pattern.compile("input_list\\$[a-zA-Z0-9_]+").matcher(Files.readString(resources.resolve("neoforge-1.21.1/procedures/"+type+".java.ftl")));
+                Matcher lists=Pattern.compile("input_list\\$[a-zA-Z0-9_]+").matcher(Files.readString(resources.resolve("neoforge-26.1.2/procedures/"+type+".java.ftl")));
                 while(lists.find())data.put(lists.group(),List.of());
                 for(var entry:def.entrySet())if(entry.getKey().matches("args\\d+"))for(JsonElement arg:entry.getValue().getAsJsonArray()){
                     JsonObject a=arg.getAsJsonObject();String kind=a.get("type").getAsString(),name=a.get("name").getAsString();

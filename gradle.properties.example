@@ -1,6 +1,10 @@
 # Path to the extracted MCreator SOURCE CODE directory
-mcreator_path=E:/MCReator/MCreator-2026.1.14619
+# (source zip from https://github.com/MCreator/MCreator/releases -> 2026.2 -> Source code asset)
+mcreator_path=E:/MCReator/MCreator-2026.2.33518
 
-# Use the JDK bundled with your MCreator install to run Gradle
-org.gradle.java.home=E:/MCReator/MCreator20261/jdk
-org.gradle.jvmargs=-Xmx2048m
+# MCreator 2026.2 needs Java 25 + JCEF.
+# Easiest: run `gradlew downloadJDKWin64` (or downloadJDKLinux64 etc.) once inside
+# the extracted MCreator source — it downloads the JetBrains Runtime SDK with JCEF
+# into <mcreator source>/jdk/jbr25_win_64. Point this line at that JBR:
+org.gradle.java.home=E:/MCReator/MCreator-2026.2.33518/jdk/jbr25_win_64
+org.gradle.jvmargs=-Xmx3g

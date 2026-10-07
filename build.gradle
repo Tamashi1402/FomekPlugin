@@ -13,19 +13,26 @@ repositories {
 group = 'net.tamashi.fomek'
 version = new JsonSlurper().parse(file('src/main/resources/plugin.json'))['info']['version']
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 configurations {
     implementation.extendsFrom export
 }
 
+def mcreatorProject = project(':MCreator')
+
 dependencies {
-    implementation project(':MCreator')
-    project(':MCreator').afterEvaluate(() ->
-        project(":MCreator").configurations.named("implementation").get().dependencies.each {
-            implementation it
-        }
-    )
+    implementation mcreatorProject
+}
+
+// Gradle 9: project() inside dependencies{} returns a ProjectDependency, so the old
+// project(':MCreator').afterEvaluate(...) chain is gone. Hoist the Project instead.
+mcreatorProject.afterEvaluate {
+    def mcreatorImpl = mcreatorProject.configurations.getByName('implementation')
+    def pluginImpl = configurations.getByName('implementation')
+    mcreatorImpl.dependencies.each { dep ->
+        pluginImpl.dependencies.add(dep)
+    }
 }
 
 tasks.jar {

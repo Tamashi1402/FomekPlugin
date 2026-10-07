@@ -1,18 +1,17 @@
-# FomekPlugin v3.6.0
+# FomekPlugin (nf-26.1.2 port)
 
-All-in-one MCreator 2026.1 plugin (NeoForge 1.21.1 only). Merge of 16 plugins:
-FomekPlugin, FomekMenus, FomekRenderer, forge mixins, Nerdy's CEM, Player
-Animator, Inventory editor, MathUtils, file manager, Item tooltips, attribute
-modifiers, chunk manager, redwires, Minos Procedures Plus, ProceduresExtras,
-Snails (Better Animations stripped).
+All-in-one MCreator 2026.2 plugin (NeoForge 26.1.x generator). Port of the
+nf-1.21.1 branch (MCreator 2026.1, NeoForge 1.21.1).
 
 ## Build
-1. Set `mcreator_path` in `gradle.properties` to your extracted MCreator source.
-2. `gradlew jar` -> build/libs/fomek-plugin.zip
-3. Drop it into `<MCreator>/plugins/`, or run `gradlew runMCreatorWithPlugin`
-   to launch MCreator with the plugin preloaded.
+1. Extract the MCreator 2026.2 SOURCE zip and run `gradlew downloadJDKWin64`
+   inside it once (provides the Java 25 + JCEF toolchain).
+2. Set `mcreator_path` and `org.gradle.java.home` in `gradle.properties`
+   (see gradle.properties.example).
+3. `gradlew jar` -> build/libs/fomek-plugin.zip
+4. Drop it into `<MCreator>/plugins/`, or run `gradlew runMCreatorWithPlugin`.
 
-Java 21 toolchain (use the JDK bundled with MCreator via org.gradle.java.home).
+Java 25 toolchain (Gradle 9.6, required by MCreator 2026.2).
 
-Menu editor changes and usage: see MENU_STUDIO.txt. Regression checks are in tests/.
-
+Port status and remaining work: see PORT-PROGRESS.md.
+Menu editor changes and usage: see MENU_STUDIO.txt. Regression checks: tests/.

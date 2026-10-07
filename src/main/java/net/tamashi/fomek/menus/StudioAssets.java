@@ -49,7 +49,7 @@ public final class StudioAssets {
         var found=new ArrayList<Path>();String home=System.getProperty("user.home");
         for(Path root:List.of(Path.of(home,".gradle","caches"),Path.of(home,".mcreator","gradle","caches"))){
             if(!Files.isDirectory(root))continue;
-            try(var paths=Files.find(root,14,(p,a)->a.isRegularFile()&&p.toString().endsWith(".jar")&&p.toString().contains("1.21.1")&&(p.getFileName().toString().contains("minecraft")||p.getFileName().toString().contains("client"))&&!p.toString().contains("sources")&&!p.toString().contains("javadoc"))){found.addAll(paths.limit(32).toList());}
+            try(var paths=Files.find(root,14,(p,a)->a.isRegularFile()&&p.toString().endsWith(".jar")&&p.toString().contains("26.1")&&(p.getFileName().toString().contains("minecraft")||p.getFileName().toString().contains("client"))&&!p.toString().contains("sources")&&!p.toString().contains("javadoc"))){found.addAll(paths.limit(32).toList());}
             catch(IOException ignored){}
         }
         minecraftJars=List.copyOf(found);return minecraftJars;
