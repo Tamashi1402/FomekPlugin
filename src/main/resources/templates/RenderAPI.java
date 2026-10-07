@@ -778,7 +778,7 @@ public class RenderAPI {
             }
 
             int blitColor = (color == 0xFFFFFFFF) ? -1 : color;
-            gui.blit(com.mojang.blaze3d.pipeline.RenderPipelines.GUI_TEXTURED,
+            gui.blit(net.minecraft.client.renderer.RenderPipelines.GUI_TEXTURED,
                     rl, 0, 0, 0.0f, 0.0f, texW, texH, texW, texH, blitColor);
 
             gui.pose().popMatrix();
@@ -951,8 +951,11 @@ public class RenderAPI {
                 case TRIANGLE_STRIP -> {
                     for (int i = 0; i + 2 < n; i++) tri(vc, i, i + 1, i + 2);
                 }
-                case LINES, LINE_STRIP -> {
-                    int step = shape.getMode() == VertexFormat.Mode.LINES ? 2 : 1;
+                case LINES, DEBUG_LINES, DEBUG_LINE_STRIP -> {
+                    // 26.1: LINE_STRIP mode removed from VertexFormat.Mode.
+                    // DEBUG_LINE_STRIP keeps strip semantics (step 1); paired modes step 2.
+                    int step = (shape.getMode() == VertexFormat.Mode.LINES
+                            || shape.getMode() == VertexFormat.Mode.DEBUG_LINES) ? 2 : 1;
                     for (int i = 0; i + 1 < n; i += step) {
                         lineQuad(vc, i, i + 1);
                     }
@@ -1000,7 +1003,7 @@ public class RenderAPI {
         }
 
         @Override public com.mojang.blaze3d.pipeline.RenderPipeline pipeline() {
-            return com.mojang.blaze3d.pipeline.RenderPipelines.GUI;
+            return net.minecraft.client.renderer.RenderPipelines.GUI;
         }
 
         @Override public net.minecraft.client.gui.render.TextureSetup textureSetup() {
@@ -1174,7 +1177,7 @@ public class RenderAPI {
         if (currentContext == null) return false;
         if (!isHeldDisplayContext(currentContext.getDisplayContext())) return false;
         try {
-            Lighting.setupForFlatItems();
+            Minecraft.getInstance().gameRenderer.getLighting().setupFor(com.mojang.blaze3d.platform.Lighting.Entry.ITEMS_FLAT);
             return true;
         } catch (Exception e) {
             return false;
@@ -1191,7 +1194,7 @@ public class RenderAPI {
     private static void restoreLightingIfHeld(boolean wasApplied) {
         if (wasApplied) {
             try {
-                Lighting.setupFor3DItems();
+                Minecraft.getInstance().gameRenderer.getLighting().setupFor(com.mojang.blaze3d.platform.Lighting.Entry.ITEMS_3D);
             } catch (Exception ignored) {
             }
         }
@@ -2941,15 +2944,16 @@ public class RenderAPI {
     // No-op VertexConsumer that silently discards all vertex data.
     // Used to suppress armor layers, held items, capes, etc. in ghost copies.
     private static final VertexConsumer NO_OP_VC = new VertexConsumer() {
-        @Override public VertexConsumer addVertex(org.joml.Matrix4f m, float x, float y, float z) { return this; }
         @Override public VertexConsumer addVertex(float x, float y, float z) { return this; }
         @Override public VertexConsumer setColor(int r, int g, int b, int a) { return this; }
+        @Override public VertexConsumer setColor(int argb) { return this; }
         @Override public VertexConsumer setUv(float u, float v) { return this; }
         @Override public VertexConsumer setOverlay(int u) { return this; }
         @Override public VertexConsumer setLight(int u) { return this; }
         @Override public VertexConsumer setUv1(int u, int v) { return this; }
         @Override public VertexConsumer setUv2(int u, int v) { return this; }
         @Override public VertexConsumer setNormal(float x, float y, float z) { return this; }
+        @Override public VertexConsumer setLineWidth(float lineWidth) { return this; }
     };
 
     // Reflection fields for WalkAnimationState (private fields, need reflection to save/restore)
@@ -3052,7 +3056,7 @@ public class RenderAPI {
      */
     private static void renderGhostWithPose(net.minecraft.world.entity.Entity entity,
             float[] snap, float partialTick, PoseStack pose,
-            net.minecraft.client.renderer.entity.EntityRenderer<?> renderer,
+            net.minecraft.client.renderer.entity.EntityRenderer<?, ?> renderer,
             MultiBufferSource flatBuffer, int packedLight) {
 
         // Save current entity state
@@ -3298,7 +3302,7 @@ public class RenderAPI {
 
         net.minecraft.client.renderer.entity.EntityRenderDispatcher dispatcher =
                 Minecraft.getInstance().getEntityRenderDispatcher();
-        net.minecraft.client.renderer.entity.EntityRenderer<?> renderer;
+        net.minecraft.client.renderer.entity.EntityRenderer<?, ?> renderer;
         try {
             renderer = dispatcher.getRenderer(entity);
         } catch (Exception e) {
@@ -3603,7 +3607,7 @@ public class RenderAPI {
     }
 
     private static BEWRL.Model reconstructBakedModel(java.util.List<BakedQuad> allQuads, boolean itemModel) {
-        return reconstructBakedModel(bakedModel, itemModel, true); // always include back face
+        return reconstructBakedModel(allQuads, itemModel, true); // always include back face
     }
 
     /**
@@ -3647,7 +3651,7 @@ public class RenderAPI {
     private static BEWRL.Model reconstructBakedModel(java.util.List<BakedQuad> allQuads,
                                                            boolean itemModel,
                                                            boolean keepBackFace) {
-        return reconstructBakedModel(bakedModel, itemModel, keepBackFace, false);
+        return reconstructBakedModel(allQuads, itemModel, keepBackFace, false);
     }
 
     private static BEWRL.Model reconstructBakedModel(java.util.List<BakedQuad> allQuads,
