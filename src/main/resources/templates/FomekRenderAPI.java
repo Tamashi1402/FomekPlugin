@@ -639,7 +639,7 @@ public class FomekRenderAPI {
                 0, 0, 0,
                 0, 0, 0,
                 1, 1, 1,
-                color, net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT,
+                color, net.minecraft.util.LightCoordsUtil.FULL_BRIGHT,
                 net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY);
 
             pose.popPose();
@@ -2045,7 +2045,7 @@ public class FomekRenderAPI {
             GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
             MultiBufferSource.BufferSource buffer = gui.bufferSource();
 
-            net.minecraft.client.renderer.RenderType rt = FomekJavaModelRenderer.resolveRenderType(renderType, texture);
+            net.minecraft.client.renderer.rendertype.RenderType rt = FomekJavaModelRenderer.resolveRenderType(renderType, texture);
             com.mojang.blaze3d.vertex.VertexConsumer consumer = buffer.getBuffer(rt);
 
             float[] center = FomekJavaModelRenderer.calculateModelCenter(model);
@@ -3918,7 +3918,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
                             currentWorldContext.getY(),
                             currentWorldContext.getZ()));
         }
-        return net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT;
+        return net.minecraft.util.LightCoordsUtil.FULL_BRIGHT;
     }
 
     public static int getActivePackedOverlay() {

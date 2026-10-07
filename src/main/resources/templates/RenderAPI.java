@@ -4405,7 +4405,7 @@ public class RenderAPI {
             GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
             MultiBufferSource.BufferSource buffer = gui.bufferSource();
 
-            net.minecraft.client.renderer.RenderType rt = JavaModelRenderer.resolveRenderType(renderType, texture);
+            net.minecraft.client.renderer.rendertype.RenderType rt = JavaModelRenderer.resolveRenderType(renderType, texture);
             com.mojang.blaze3d.vertex.VertexConsumer consumer = buffer.getBuffer(rt);
 
             float[] center = JavaModelRenderer.calculateModelCenter(model);
@@ -6402,7 +6402,7 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
                             currentWorldContext.getY(),
                             currentWorldContext.getZ()));
         }
-        return net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT;
+        return net.minecraft.util.LightCoordsUtil.FULL_BRIGHT;
     }
 
     public static int getActivePackedOverlay() {

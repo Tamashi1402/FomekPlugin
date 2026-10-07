@@ -123,84 +123,26 @@ public class Shader {
     // ── Apply / Restore RenderSystem state ───────────────────────────────────
 
     public void apply() {
-        // CRITICAL: Save the current global shader color BEFORE rendering.
-        //
-        // RenderSystem.setShaderColor() is a GLOBAL state that is NOT managed
-        // by RenderType's setupRenderState() / clearRenderState(). It persists
-        // across ALL batch flushes and acts as a color multiplier on every
-        // vertex drawn.
-        //
-        // The entity renderer (LivingEntityRenderer) may set setShaderColor()
-        // for effects like the hurt flash. If we blindly reset it to (1,1,1,1)
-        // in restore(), we overwrite the entity renderer's value, and when
-        // the player's batch is flushed at end of frame, it uses OUR value
-        // instead of the entity renderer's value — causing visual contamination.
-        //
-        // All visual effects (color tint, transparency, glow boost) are baked
-        // per-vertex by applyColor() inside renderWithShader(). We do NOT use
-        // RenderSystem.setShaderColor() for the custom model's effects.
-        savedShaderColor = RenderSystem.getShaderColor();
+        // 26.1: RenderSystem.setShaderColor()/getShaderColor() no longer exist —
+        // there is no global shader color state anymore. All visual effects
+        // (color tint, transparency, glow boost) are baked per-vertex by
+        // applyColor() inside renderWithShader(), so apply() has nothing to do.
+        // Kept as a no-op so callers (BEWRL childShader, RenderAPI overlays)
+        // don't need changes.
     }
 
     public void applyUniforms() {
-        // Apply uniforms to the currently bound shader program.
-        // In 1.21.1, ShaderInstance.getUniform(name) returns a Uniform object (or null).
-        // Call uniform.set(...) on it — NOT shader.setUniform(name, value).
-        try {
-            net.minecraft.client.renderer.ShaderInstance shader = RenderSystem.getShader();
-            if (shader == null) return;
-
-            for (Map.Entry<String, Float> entry : floatUniforms.entrySet()) {
-                com.mojang.blaze3d.shaders.Uniform u = shader.getUniform(entry.getKey());
-                if (u != null) {
-                    u.set(entry.getValue());
-                }
-            }
-
-            for (Map.Entry<String, float[]> entry : vec3Uniforms.entrySet()) {
-                float[] v = entry.getValue();
-                com.mojang.blaze3d.shaders.Uniform u = shader.getUniform(entry.getKey());
-                if (u != null) {
-                    u.set(v[0], v[1], v[2]);
-                }
-            }
-
-            for (Map.Entry<String, float[]> entry : vec2Uniforms.entrySet()) {
-                float[] v = entry.getValue();
-                com.mojang.blaze3d.shaders.Uniform u = shader.getUniform(entry.getKey());
-                if (u != null) { u.set(v[0], v[1]); }
-            }
-
-            for (Map.Entry<String, float[]> entry : vec4Uniforms.entrySet()) {
-                float[] v = entry.getValue();
-                com.mojang.blaze3d.shaders.Uniform u = shader.getUniform(entry.getKey());
-                if (u != null) { u.set(v[0], v[1], v[2], v[3]); }
-            }
-
-            for (Map.Entry<String, Integer> entry : intUniforms.entrySet()) {
-                com.mojang.blaze3d.shaders.Uniform u = shader.getUniform(entry.getKey());
-                if (u != null) {
-                    u.set(entry.getValue());
-                }
-            }
-
-            for (Map.Entry<String, Boolean> entry : boolUniforms.entrySet()) {
-                com.mojang.blaze3d.shaders.Uniform u = shader.getUniform(entry.getKey());
-                if (u != null) { u.set(entry.getValue() ? 1 : 0); }
-            }
-        } catch (Exception e) {
-            // Uniforms may not exist on this shader — silently ignore
-        }
+        // 26.1: there is no "currently bound ShaderInstance" anymore — vanilla
+        // renders via RenderPass with per-pipeline uniform slots
+        // (renderPass.setUniform(name, buffer)), which user code cannot attach
+        // arbitrary named uniforms to. Custom GLSL uniforms still work through
+        // the raw-GL path in Shader.Manager (applyUniforms(programId, shader)),
+        // which uploads directly to our own compiled program. This instance
+        // method is kept as a no-op for API compatibility.
     }
 
     public void restore() {
-        // Restore the saved shader color — NOT a blind (1,1,1,1) reset.
-        // This ensures the entity renderer's setShaderColor() (e.g., hurt
-        // flash, freeze effect) is preserved for the player's batch at
-        // flush time.
-        RenderSystem.setShaderColor(
-            savedShaderColor[0], savedShaderColor[1],
-            savedShaderColor[2], savedShaderColor[3]);
+        // 26.1: nothing to restore — no global shader color state (see apply()).
     }
 
     // ── Light override ──────────────────────────────────────────────────────
@@ -453,26 +395,7 @@ public class Shader {
 
             // ── Reflection helpers ───────────────────────────────────────────────────
 
-            private static Object getShard(String fieldName) {
-                for (Class<?> c : new Class<?>[]{RenderStateShard.class, RenderType.class}) {
-                    try {
-                        Field f = c.getDeclaredField(fieldName);
-                        f.setAccessible(true);
-                        return f.get(null);
-                    } catch (Exception ignored) {}
-                }
-                return null;
-            }
-
-            private static void setBuilderShard(RenderType.CompositeState.CompositeStateBuilder builder,
-                                                 String shardName, String method, Class<?> shardClass) {
-                Object shard = getShard(shardName);
-                if (shard == null) return;
-                try {
-                    RenderType.CompositeState.CompositeStateBuilder.class
-                        .getMethod(method, shardClass)
-                        .invoke(builder, shard);
-                } catch (Exception ignored) {}
+    } catch (Exception ignored) {}
             }
 
     }

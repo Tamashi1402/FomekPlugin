@@ -374,7 +374,7 @@ public class BEWRL {
                         }
                         if (part.childShader != null) {
                             int childLight = part.childShader.isGlowing()
-                                    ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT
+                                    ? net.minecraft.util.LightCoordsUtil.FULL_BRIGHT
                                     : packedLight;
                             part.childShader.apply();
                             part.childModel.renderWithShader(poseStack, bufferSource,
@@ -667,7 +667,7 @@ public class BEWRL {
                         if (part.childShader != null) {
                             // Check child shader's glow flag — if glowing, use FULL_BRIGHT
                             int childLight = part.childShader.isGlowing()
-                                    ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT
+                                    ? net.minecraft.util.LightCoordsUtil.FULL_BRIGHT
                                     : packedLight;
                             part.childShader.apply();
                             part.childModel.renderWithShader(poseStack, bufferSource,
@@ -677,7 +677,7 @@ public class BEWRL {
                         } else {
                             // No child shader — use the parent shader
                             int parentLight = shader.isGlowing()
-                                    ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT
+                                    ? net.minecraft.util.LightCoordsUtil.FULL_BRIGHT
                                     : packedLight;
                             part.childModel.renderWithShader(poseStack, bufferSource,
                                 0, 0, 0, 0, 0, 0, 1,
@@ -694,7 +694,7 @@ public class BEWRL {
                         if (part.shape == null || part.shape.isEmpty()) continue;
                         // Override packedLight if this shader is glowing
                         int effectiveLight = shader.isGlowing()
-                                ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT
+                                ? net.minecraft.util.LightCoordsUtil.FULL_BRIGHT
                                 : packedLight;
                         String rt = (shader.getRenderType() != null && !shader.getRenderType().isEmpty())
                                 ? shader.getRenderType() : part.renderType;
@@ -722,7 +722,7 @@ public class BEWRL {
                             float zOff = part.lockTexture ? 0.0f : (RenderAPI.getRenderTime() * shader.getSwirlZSpeed()) % 1.0f;
                             net.minecraft.resources.Identifier swirlTex =
                                 net.minecraft.resources.Identifier.parse(tex != null ? tex : "minecraft:textures/misc/white.png");
-                            net.minecraft.client.renderer.RenderType customRt;
+                            net.minecraft.client.renderer.rendertype.RenderType customRt;
                             if ("swirl".equals(rt)) {
                                 // Resolve blend mode: shader's swirlBlendMode → global currentBlendMode → ADDITION
                                 RenderAPI.BlendMode blendMode = null;
@@ -734,7 +734,7 @@ public class BEWRL {
                                 customRt = RenderAPI.Shape.createSwirlRenderType(
                                     swirlTex, xOff, zOff, blendMode);
                             } else {
-                                customRt = net.minecraft.client.renderer.RenderType.energySwirl(swirlTex, xOff, zOff);
+                                customRt = net.minecraft.client.renderer.rendertype.RenderType.energySwirl(swirlTex, xOff, zOff);
                             }
                             renderPartWithRenderType(part.shape, poseStack, bufferSource,
                                     part.x, part.y, part.z,
@@ -1436,7 +1436,7 @@ public class BEWRL {
 
                 // Determine glow: part flag OR shader glowing flag
                 boolean isGlowing = part.itemGlowing || (shader != null && shader.isGlowing());
-                int light = isGlowing ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT : packedLight;
+                int light = isGlowing ? net.minecraft.util.LightCoordsUtil.FULL_BRIGHT : packedLight;
 
                 // Determine shader tint (color + transparency)
                 boolean hasTint = false;
@@ -1538,7 +1538,7 @@ public class BEWRL {
                 int pointCount = pts.length / 3;
                 if (pointCount < 2) return;
 
-                VertexConsumer consumer = bufferSource.getBuffer(net.minecraft.client.renderer.RenderType.LINES);
+                VertexConsumer consumer = bufferSource.getBuffer(net.minecraft.client.renderer.rendertype.RenderType.LINES);
                 Matrix4f matrix = poseStack.last().pose();
 
                 for (int i = 0; i < pointCount - 1; i++) {
@@ -1592,7 +1592,7 @@ public class BEWRL {
                     float yaw, float pitch, float roll,
                     float xscale, float yscale, float zscale,
                     int color,
-                    net.minecraft.client.renderer.RenderType renderType,
+                    net.minecraft.client.renderer.rendertype.RenderType renderType,
                     int packedLight, int packedOverlay) {
                 if (shape == null || shape.isEmpty() || bufferSource == null) return;
                 shape.renderWithRenderType(poseStack, bufferSource,
