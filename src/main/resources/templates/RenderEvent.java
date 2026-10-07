@@ -207,16 +207,17 @@ public class RenderEvent {
             // ── World ─────────────────────────────────────────────────────────────────
 
             @SubscribeEvent
-            public static void onRenderLevelStage(RenderLevelStageEvent event) {
-                if (event.getStage() != RenderLevelStageEvent.Stage.AFTER_PARTICLES) return;
-
+            public static void onRenderLevelStage(RenderLevelStageEvent.AfterTranslucentParticles event) {
+                // 26.1: stage enum is gone — subscribing to the sub-event that
+                // replaces AFTER_PARTICLES (fires after translucent particle
+                // features, inside the main level pass).
                 Minecraft mc = Minecraft.getInstance();
-                Camera camera = event.getCamera();
-                Entity entity = camera.getEntity();
+                Camera camera = mc.gameRenderer.getMainCamera();
+                Entity entity = camera.entity();
                 Level world = mc.level;
-                if (world == null) return;
+                if (world == null || entity == null) return;
 
-                DeltaTracker deltaTracker = event.getPartialTick();
+                DeltaTracker deltaTracker = mc.getDeltaTracker();
                 float tickFraction = deltaTracker.getGameTimeDeltaPartialTick(true);
 
                 // ── Slowmo support: use entity-specific partial tick when the
@@ -244,12 +245,15 @@ public class RenderEvent {
                 PoseStack poseStack = event.getPoseStack();
                 MultiBufferSource.BufferSource bufferSource = mc.renderBuffers().bufferSource();
 
-                // The RenderLevelStageEvent PoseStack has camera ROTATION but NOT
-                // camera translation. Subtract camera position so render methods
-                // can use raw WORLD coordinates without any camera math.
+                // 26.1: the stage-event pose stack is a fresh IDENTITY stack — vanilla
+                // applies camera rotation per-feature inside the submit system now.
+                // Rebuild the old world-space convention: camera VIEW rotation on the
+                // stack, then subtract camera position, so render methods can use
+                // raw WORLD coordinates without any camera math.
                 // push/pop ensures we don't leak this to other renderers.
                 poseStack.pushPose();
-                poseStack.translate(-camera.getPosition().x, -camera.getPosition().y, -camera.getPosition().z);
+                poseStack.mulPose(camera.rotation().conjugate(new org.joml.Quaternionf()));
+                poseStack.translate(-camera.position().x, -camera.position().y, -camera.position().z);
 
                 RenderEvent.World fomekEvent = new RenderEvent.World(
                     poseStack, bufferSource, camera, entity, world,

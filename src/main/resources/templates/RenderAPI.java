@@ -2137,16 +2137,22 @@ public class RenderAPI {
         float headPitch = net.minecraft.util.Mth.lerp(partialTick, entity.xRotO, entity.getXRot());
 
         // ── Pose the model ──
+        // 26.1: EntityModel no longer exposes attackTime/riding/young or the
+        // entity-based setupAnim. Animation is driven by the render state now,
+        // so we extract one and pose the model exactly like the renderer does.
+        net.minecraft.client.renderer.entity.state.LivingEntityRenderState flickerState = null;
         try {
-            entityModel.attackTime = living.attackAnim;
-            entityModel.riding = living.isPassenger();
-            entityModel.young = living.isBaby();
-            entityModel.prepareMobModel(living, limbSwing, limbSwingAmount, partialTick);
-            entityModel.setupAnim(living, limbSwing, limbSwingAmount, ageInTicks, headYaw, headPitch);
+            Object st = ((net.minecraft.client.renderer.entity.EntityRenderer) leRenderer)
+                    .createRenderState(living, partialTick);
+            if (st instanceof net.minecraft.client.renderer.entity.state.LivingEntityRenderState lst) {
+                flickerState = lst;
+                ((net.minecraft.client.model.EntityModel) entityModel).setupAnim(lst);
+            }
         } catch (Exception e) {
             if (debug) System.out.println("[FomekFlicker] setupAnim failed: " + e.getMessage());
             return null;
         }
+        if (flickerState == null) return null;
 
         // ── Get body part positions ──
         // Strategy 1: Try HierarchicalModel.root() via reflection (avoids instanceof issues)
