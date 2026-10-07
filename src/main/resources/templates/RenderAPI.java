@@ -39,6 +39,14 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import java.lang.reflect.Field;
 import org.lwjgl.opengl.GL11;
 import com.mojang.blaze3d.platform.NativeImage;
+import com.mojang.blaze3d.platform.SourceFactor;
+import com.mojang.blaze3d.platform.DestFactor;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.pipeline.ColorTargetState;
+import com.mojang.blaze3d.pipeline.BlendFunction;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.TextureTransform;
 import net.minecraft.server.packs.resources.Resource;
 import java.io.InputStream;
 import java.util.Optional;
@@ -866,7 +874,7 @@ public class RenderAPI {
                 // applied per-vertex below
                 for (int i = 0; i < vs.size(); i++) {
                     Shape.VertexData v = vs.get(i);
-                    v.color = tintColor(v.color, ta, tr, tg, tb);
+                    v.color = ProjectedShapeRenderState.tintColor(v.color, ta, tr, tg, tb);
                 }
             } else {
                 tint = -1;
@@ -1064,52 +1072,30 @@ public class RenderAPI {
 
     public static void enableBlending(BlendMode mode) {
         // Flush any pending vertices in the shared buffer BEFORE switching blend mode.
-        // Otherwise the base model (queued earlier) would draw AFTER the blended model
-        // (which flushes immediately via flushBufferWithBlend), covering the glow.
         flushActiveBuffer();
 
+        // 26.1: blend functions live in each RenderPipeline's ColorTargetState, so
+        // there is no global GL blend state to set here anymore. The active blend
+        // mode is consumed where render types are chosen (createSwirlRenderType
+        // derives a per-blend pipeline from ENERGY_SWIRL; JavaModelRenderer's
+        // resolveRenderType picks a blending-capable type), so the mode gets
+        // baked into the actual draw.
         currentBlendMode = mode;
-        RenderSystem.enableBlend();
-        switch (mode) {
-            case DEFAULT ->
-                RenderSystem.defaultBlendFunc();
-            case ADDITION ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE,
-                    GlStateManager.SourceFactor.ONE,     GlStateManager.DestFactor.ZERO);
-            case ALPHA ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE,     GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            case MULTIPLICATION ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.DST_COLOR,  GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE,      GlStateManager.DestFactor.ZERO);
-            case SCREEN ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            case SUBTRACTION ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            case OPAQUE ->
-                RenderSystem.blendFunc(
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        }
     }
 
     public static void disableBlending() {
         currentBlendMode = null;
-        RenderSystem.disableBlend();
-        RenderSystem.defaultBlendFunc();
     }
-    public static void enableDepthTest()  { RenderSystem.enableDepthTest(); }
-    public static void disableDepthTest() { RenderSystem.disableDepthTest(); }
-    public static void enableCulling()    { RenderSystem.enableCull(); }
-    public static void disableCulling()   { RenderSystem.disableCull(); }
-    public static void enableDepthMask()  { RenderSystem.depthMask(true); }
-    public static void disableDepthMask() { RenderSystem.depthMask(false); }
+    // 26.1: depth test, culling and depth-mask are pipeline states now — there is
+    // no global GL toggle left. These are kept as no-ops for API compatibility
+    // with existing procedures; shape/model rendering already expresses them
+    // through the render type (pipeline) in use.
+    public static void enableDepthTest()  { }
+    public static void disableDepthTest() { }
+    public static void enableCulling()    { }
+    public static void disableCulling()   { }
+    public static void enableDepthMask()  { }
+    public static void disableDepthMask() { }
 
         // ── Light helper ──────────────────────────────────────────────────────────────
 
@@ -5973,36 +5959,6 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
         buf.endBatch();
     }
 
-    /** Apply a blend mode's blend function to the current GL state. */
-    private static void applyBlendFunc(BlendMode mode) {
-        RenderSystem.enableBlend();
-        switch (mode) {
-            case SUBTRACTION ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            case ADDITION ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE,
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            case MULTIPLICATION ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            case ALPHA ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            case SCREEN ->
-                RenderSystem.blendFuncSeparate(
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            case OPAQUE ->
-                RenderSystem.blendFunc(
-                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            default -> RenderSystem.defaultBlendFunc();
-        }
-    }
 
     private static RenderEvent.Overlay currentOverlayContext;
 
@@ -6232,8 +6188,7 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
                     data.passiveFadeAlpha, data.lastFadesAmount, data.lastTextured);
         }
 
-        // renderModelTrailGhosts leaves blend enabled — clean it up
-        RenderSystem.disableBlend();
+        // 26.1: no global blend state to clean up (blend is pipeline state).
 
         if (didAnything) {
             // Flush any buffered vertices from the passive render
@@ -6569,18 +6524,46 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
              * Create a custom "swirl" RenderType — our own swirl system.
              *
              * Unlike vanilla energySwirl which has a FIXED additive blend baked into
-             * the RenderType, swirl lets you choose any blend mode (Addition,
-             * Alpha, Screen, Multiplication, etc.) while keeping the animated UV
-             * scrolling that makes the swirl effect work.
+             * its pipeline, swirl lets you choose any blend mode (Addition, Alpha,
+             * Screen, Multiplication, etc.) while keeping the animated UV scrolling
+             * that makes the swirl effect work.
+             *
+             * 26.1 approach: blend lives in the RenderPipeline's ColorTargetState.
+             * We derive a cached per-blend-mode pipeline from the vanilla
+             * ENERGY_SWIRL pipeline, and pair it with a RenderSetup whose
+             * TextureTransform carries the animated UV offsets — exactly the
+             * mechanism vanilla RenderTypes.energySwirl uses.
              *
              * The blend mode is picked up from:
              *   1. The explicit blendMode parameter (if non-null and non-DEFAULT)
              *   2. RenderAPI.currentBlendMode (set via enableBlending())
              *   3. Fallback: ADDITION (same as vanilla energySwirl)
-             *
-             * The UV offset (xOff, zOff) scrolls the texture coordinates over time,
-             * producing the swirl animation — same mechanism as energySwirl.
              */
+            private static final Map<BlendMode, RenderPipeline> SWIRL_PIPELINES = new HashMap<>();
+
+            private static BlendFunction swirlBlendFunction(BlendMode bm) {
+                return switch (bm) {
+                    case ADDITION -> new BlendFunction(
+                        SourceFactor.SRC_ALPHA, DestFactor.ONE,
+                        SourceFactor.ONE,      DestFactor.ZERO);
+                    case ALPHA -> new BlendFunction(
+                        SourceFactor.SRC_ALPHA, DestFactor.ONE_MINUS_SRC_ALPHA,
+                        SourceFactor.ONE,       DestFactor.ONE_MINUS_SRC_ALPHA);
+                    case MULTIPLICATION -> new BlendFunction(
+                        SourceFactor.DST_COLOR, DestFactor.ONE_MINUS_SRC_ALPHA,
+                        SourceFactor.ONE,       DestFactor.ZERO);
+                    case SCREEN -> new BlendFunction(
+                        SourceFactor.ONE, DestFactor.ONE_MINUS_SRC_COLOR,
+                        SourceFactor.ONE, DestFactor.ONE_MINUS_SRC_ALPHA);
+                    case SUBTRACTION -> new BlendFunction(
+                        SourceFactor.ZERO, DestFactor.ONE_MINUS_SRC_COLOR,
+                        SourceFactor.ONE,  DestFactor.ZERO);
+                    case OPAQUE -> new BlendFunction(
+                        SourceFactor.ONE, DestFactor.ZERO);
+                    default -> BlendFunction.ADDITIVE;
+                };
+            }
+
             public static RenderType createSwirlRenderType(
                     Identifier texture, float xOff, float zOff,
                     BlendMode blendMode) {
@@ -6591,109 +6574,19 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
                     effectiveBlend = (currentBlendMode != null) ? currentBlendMode : BlendMode.ADDITION;
                 }
 
-                // Custom transparency state shard with the chosen blend mode
-                final BlendMode bm = effectiveBlend;
-                RenderStateShard.TransparencyStateShard transparency =
-                    new RenderStateShard.TransparencyStateShard("swirl_blend",
-                        () -> {
-                            RenderSystem.enableBlend();
-                            switch (bm) {
-                                case ADDITION -> RenderSystem.blendFuncSeparate(
-                                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE,
-                                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-                                case ALPHA -> RenderSystem.blendFuncSeparate(
-                                    GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-                                case MULTIPLICATION -> RenderSystem.blendFuncSeparate(
-                                    GlStateManager.SourceFactor.DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA,
-                                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-                                case SCREEN -> RenderSystem.blendFuncSeparate(
-                                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-                                case SUBTRACTION -> RenderSystem.blendFuncSeparate(
-                                    GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR,
-                                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-                                case OPAQUE -> RenderSystem.blendFunc(
-                                    GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-                                default -> RenderSystem.defaultBlendFunc();
-                            }
-                        },
-                        () -> {
-                            RenderSystem.disableBlend();
-                            RenderSystem.defaultBlendFunc();
-                        });
+                RenderPipeline pipeline = SWIRL_PIPELINES.computeIfAbsent(effectiveBlend, bm ->
+                    RenderPipelines.ENERGY_SWIRL.toBuilder()
+                        .withLocation("fomek_swirl_" + bm.name().toLowerCase(java.util.Locale.ROOT))
+                        .withColorTargetState(new ColorTargetState(swirlBlendFunction(bm)))
+                        .build());
 
-                // Custom texturing state shard for UV scrolling.
-                // CRITICAL: Force GL_REPEAT wrapping so the % 1.0f modulo wrap is
-                // seamless. Without GL_REPEAT, the texture defaults to CLAMP_TO_EDGE
-                // and the UV offset snap from 0.99→0.0 is visible as a "jump".
-                // We save the previous wrap mode and restore it in cleanup.
-                final float _xOff = xOff;
-                final float _zOff = zOff;
-                final int[] prevWrap = new int[2]; // [prevWrapS, prevWrapT]
-                RenderStateShard.TexturingStateShard texturing =
-                    new RenderStateShard.TexturingStateShard("swirl_texturing",
-                        () -> {
-                            RenderSystem.setTextureMatrix(new Matrix4f().translation(_xOff, _zOff, 0.0f));
-                            // Force GL_REPEAT so UV scroll loops seamlessly
-                            prevWrap[0] = GL11.glGetTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S);
-                            prevWrap[1] = GL11.glGetTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T);
-                            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL11.GL_REPEAT);
-                            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL11.GL_REPEAT);
-                        },
-                        () -> {
-                            RenderSystem.resetTextureMatrix();
-                            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, prevWrap[0]);
-                            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, prevWrap[1]);
-                        });
-
-                // Get the shader state shard via reflection (private field in RenderType)
-                // CRITICAL: Must use the ENERGY_SWIRL shader, not ENTITY_TRANSLUCENT —
-                // only the energy swirl shader applies TextureMat to UV coordinates,
-                // which is what makes the UV scroll animation actually work.
-                // The entity translucent shader ignores TextureMat → no animation.
-                RenderStateShard.ShaderStateShard shaderShard = getShaderStateShard("RENDERTYPE_ENERGY_SWIRL_SHADER");
-                if (shaderShard == null) shaderShard = getShaderStateShard("ENERGY_SWIRL_SHADER");
-                if (shaderShard == null) shaderShard = getShaderStateShard("RENDERTYPE_ENTITY_TRANSLUCENT_CULL_SHADER");
-                if (shaderShard == null) shaderShard = getShaderStateShard("ENTITY_TRANSLUCENT_CULL_SHADER");
-                if (shaderShard == null) shaderShard = getShaderStateShard("ITEM_ENTITY_TRANSLUCENT_CULL_SHADER");
-                if (shaderShard == null) {
-                    shaderShard = new RenderStateShard.ShaderStateShard(() -> null);
-                }
-
-                return RenderType.create("swirl",
-                    DefaultVertexFormat.NEW_ENTITY,
-                    VertexFormat.Mode.QUADS,
-                    1536,
-                    RenderType.CompositeState.builder()
-                        .setLightmapState(new RenderStateShard.LightmapStateShard(true))
-                        .setTextureState(new RenderStateShard.TextureStateShard(texture, false, false))
-                        .setTexturingState(texturing)
-                        .setTransparencyState(transparency)
-                        .setCullState(RenderStateShard.NO_CULL)
-                        .setShaderState(shaderShard)
-                        .createCompositeState(true));
-            }
-
-            /**
-             * Get a private static ShaderStateShard from RenderType by field name.
-             * Uses reflection since these fields are package-private in vanilla MC.
-             */
-            private static RenderStateShard.ShaderStateShard getShaderStateShard(String fieldName) {
-                try {
-                    Field f = RenderType.class.getDeclaredField(fieldName);
-                    f.setAccessible(true);
-                    Object val = f.get(null);
-                    if (val instanceof RenderStateShard.ShaderStateShard sss) return sss;
-                } catch (Exception ignored) {}
-                // Also try RenderStateShard class
-                try {
-                    Field f = RenderStateShard.class.getDeclaredField(fieldName);
-                    f.setAccessible(true);
-                    Object val = f.get(null);
-                    if (val instanceof RenderStateShard.ShaderStateShard sss) return sss;
-                } catch (Exception ignored) {}
-                return null;
+                return RenderType.create("fomek_swirl",
+                    RenderSetup.builder(pipeline)
+                        .withTexture("Sampler0", texture)
+                        .setTextureTransform(new TextureTransform.OffsetTextureTransform(xOff, zOff))
+                        .useLightmap()
+                        .useOverlay()
+                        .createRenderSetup());
             }
 
             public static RenderType resolveRenderType(String renderTypeName, Identifier texture) {
@@ -6731,7 +6624,9 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
                                 RenderAPI.getRenderTime() % 1.0f);
                     // energySwirlCustom handled via resolveRenderType(name, tex, xSpeed, zSpeed)
                     case "dragonExplosionAlpha":
-                        return RenderType.dragonExplosionAlpha(texture);
+                        // 26.1: dragonExplosionAlpha is gone; dragonRays is the
+                        // closest successor (same translucent dragon-explosion look).
+                        return RenderTypes.dragonRays();
                     // ── Portal / special render types ──────────────────────────────
                     // These don't take a texture parameter — they use their own
                     // built-in textures and shaders.
@@ -6749,7 +6644,7 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
                         return RenderTypes.waterMask();
                     // These take a texture parameter
                     case "entityGlintDirect":
-                        return RenderType.entityGlintDirect();
+                        return RenderTypes.entityGlint();
                     case "armorGlint":
                         return RenderTypes.armorEntityGlint();
                     case "outline":
