@@ -1,7 +1,7 @@
 package net.tamashi.fomekcore.api.guisystems;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.network.protocol.common.ServerboundCustomPayloadPacket;
 import net.neoforged.api.distmarker.Dist;
@@ -28,7 +28,7 @@ import java.lang.reflect.Method;
  * overlay blocks work natively inside the Menu System trigger.
  * Also updates MenuRenderHelper so native FomekMenu render blocks work.
  */
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class MenuEventHandler {
 
     // ── FomekRenderer context setup (reflection, soft dependency) ───────────────
@@ -36,7 +36,7 @@ public class MenuEventHandler {
     private static boolean fomekRendererChecked = false;
     private static Method fomekRendererSetup = null;
 
-    private static void setupFomekRendererContext(GuiGraphics guiGraphics) {
+    private static void setupFomekRendererContext(GuiGraphicsExtractor guiGraphics) {
         if (!fomekRendererChecked) {
             fomekRendererChecked = true;
             try {
@@ -48,7 +48,7 @@ public class MenuEventHandler {
                         "beginRender", "setOverlayGuiGraphics"
                 }) {
                     try {
-                        fomekRendererSetup = renderAPI.getMethod(methodName, GuiGraphics.class);
+                        fomekRendererSetup = renderAPI.getMethod(methodName, GuiGraphicsExtractor.class);
                         break;
                     } catch (NoSuchMethodException ignored) {}
                 }
@@ -142,7 +142,7 @@ public class MenuEventHandler {
 
     @SubscribeEvent
     public static void onScreenRenderPost(ScreenEvent.Render.Post event) {
-        GuiGraphics guiGraphics = event.getGuiGraphics();
+        GuiGraphicsExtractor guiGraphics = event.getGuiGraphics();
         int mouseX = event.getMouseX();
         int mouseY = event.getMouseY();
         float partialTick = event.getPartialTick();
@@ -189,11 +189,12 @@ public class MenuEventHandler {
 
     // ── Network packet registration ──────────────────────────────────────────────
 
-    @EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber(value = Dist.CLIENT)
     public static class ModBus {
         @SubscribeEvent
-        public static void onReloadListeners(net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent event) {
-            event.registerReloadListener((net.minecraft.server.packs.resources.ResourceManagerReloadListener) manager -> Minecraft.getInstance().execute(MenuText::clear));
+        public static void onReloadListeners(net.neoforged.neoforge.client.event.AddClientReloadListenersEvent event) {
+            event.addListener(net.minecraft.resources.Identifier.fromNamespaceAndPath("${modid}", "menu_text_clear"),
+                (net.minecraft.server.packs.resources.ResourceManagerReloadListener) manager -> Minecraft.getInstance().execute(MenuText::clear));
         }
         @SubscribeEvent
         public static void onRegisterPayload(RegisterPayloadHandlersEvent event) {

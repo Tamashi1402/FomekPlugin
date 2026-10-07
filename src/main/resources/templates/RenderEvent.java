@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
@@ -94,7 +94,7 @@ public class RenderEvent {
 
     public static class Overlay extends Event {
 
-        private final GuiGraphics guiGraphics;
+        private final GuiGraphicsExtractor guiGraphics;
             private final Player player;
             private final int mouseX;
             private final int mouseY;
@@ -102,7 +102,7 @@ public class RenderEvent {
             private final int height;
             private final float partialTick;
 
-            public Overlay(GuiGraphics guiGraphics, Player player,
+            public Overlay(GuiGraphicsExtractor guiGraphics, Player player,
                     int mouseX, int mouseY, int width, int height, float partialTick) {
                 this.guiGraphics  = guiGraphics;
                 this.player       = player;
@@ -113,7 +113,7 @@ public class RenderEvent {
                 this.partialTick  = partialTick;
             }
 
-            public GuiGraphics getGuiGraphics()  { return guiGraphics; }
+            public GuiGraphicsExtractor getGuiGraphics()  { return guiGraphics; }
             public Player      getPlayer()        { return player; }
             public int         getMouseX()        { return mouseX; }
             public int         getMouseY()        { return mouseY; }
@@ -183,7 +183,7 @@ public class RenderEvent {
                 Player player = mc.player;
                 if (player == null) return;
 
-                GuiGraphics guiGraphics = event.getGuiGraphics();
+                GuiGraphicsExtractor guiGraphics = event.getGuiGraphics();
                 DeltaTracker deltaTracker = event.getPartialTick();
                 float partialTick = mc.level.getGameTime() + deltaTracker.getGameTimeDeltaPartialTick(true);
 

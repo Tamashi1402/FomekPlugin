@@ -1,9 +1,9 @@
 package net.tamashi.fomekcore.api.guisystems;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -357,7 +357,7 @@ public class MenuObject {
      * Uses the current parent render offset (VirtualGui.getCurrentParentRenderX/Y)
      * so it works correctly inside panels and scroll views.
      */
-    public void render(float screenX, float screenY, String pivot, GuiGraphics gui) {
+    public void render(float screenX, float screenY, String pivot, GuiGraphicsExtractor gui) {
         if (elements.isEmpty()) return;
 
         float[] bb = getBoundingBox();
@@ -412,7 +412,7 @@ public class MenuObject {
 
                 case "texture":
                     if (el.texturePath != null && !el.texturePath.isEmpty()) {
-                        ResourceLocation texture = ResourceLocation.parse(style != null && !style.texture().isEmpty() ? style.texture() : el.texturePath);
+                        Identifier texture = Identifier.parse(style != null && !style.texture().isEmpty() ? style.texture() : el.texturePath);
                         gui.blit(texture, elX, elY, 0, 0, elW, elH);
                     }
                     break;
@@ -468,7 +468,7 @@ public class MenuObject {
      * Unlike render(), this does NOT add the parent render offset — the
      * originX/originY are already absolute screen coordinates.
      */
-    public void renderAt(int originX, int originY, float scaleX, float scaleY, GuiGraphics gui) {
+    public void renderAt(int originX, int originY, float scaleX, float scaleY, GuiGraphicsExtractor gui) {
         if (elements.isEmpty()) return;
 
         float[] bb = getBoundingBox();
@@ -495,7 +495,7 @@ public class MenuObject {
 
                 case "texture":
                     if (el.texturePath != null && !el.texturePath.isEmpty() && elW > 0 && elH > 0) {
-                        ResourceLocation texture = ResourceLocation.parse(style != null && !style.texture().isEmpty() ? style.texture() : el.texturePath);
+                        Identifier texture = Identifier.parse(style != null && !style.texture().isEmpty() ? style.texture() : el.texturePath);
                         gui.blit(texture, elX, elY, 0, 0, elW, elH);
                     }
                     break;

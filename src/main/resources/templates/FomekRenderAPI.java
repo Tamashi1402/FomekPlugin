@@ -1,15 +1,15 @@
 package __RENDERAPI_PACKAGE__;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.util.LightCoordsUtil;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.geometry.BakedQuad;
+import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -17,11 +17,11 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
-import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.opengl.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.ByteBufferBuilder;
-import net.minecraft.client.renderer.block.model.ItemTransform;
+import net.minecraft.client.resources.model.cuboid.ItemTransform;
 import com.mojang.math.Axis;
 
 import org.joml.Matrix4f;
@@ -32,8 +32,8 @@ import java.util.HashSet;
 import java.util.Set;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderStateShard;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import java.lang.reflect.Field;
 import org.lwjgl.opengl.GL11;
@@ -81,7 +81,7 @@ public class FomekRenderAPI {
      * Register a BEWRL model. Uses the mod id from the current registration event.
      * Must be called inside a "Register BEWRL Models" trigger procedure.
      *
-     * @param path    ResourceLocation path, e.g. "__MODID__:bewrlmodels/sword.json"
+     * @param path    Identifier path, e.g. "__MODID__:bewrlmodels/sword.json"
      * @param modelId Short id, e.g. "fire_sword" — stored as "modid:fire_sword"
      */
     public static void registerBEWRLModel(String path, String modelId) {
@@ -176,9 +176,9 @@ public class FomekRenderAPI {
         LivingEntity entity = currentContext.getEntity();
 
         try {
-            BakedModel model = Minecraft.getInstance().getItemRenderer()
+            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
                     .getModel(stack, level, entity, 0);
-            ItemTransform transform = model.getTransforms().getTransform(ctx);
+            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 // rotation is a Vector3f in degrees: x=pitch, y=yaw, z=roll
                 return transform.rotation.y();
@@ -203,9 +203,9 @@ public class FomekRenderAPI {
         LivingEntity entity = currentContext.getEntity();
 
         try {
-            BakedModel model = Minecraft.getInstance().getItemRenderer()
+            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
                     .getModel(stack, level, entity, 0);
-            ItemTransform transform = model.getTransforms().getTransform(ctx);
+            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 // rotation is a Vector3f in degrees: x=pitch, y=yaw, z=roll
                 return transform.rotation.x();
@@ -230,9 +230,9 @@ public class FomekRenderAPI {
         LivingEntity entity = currentContext.getEntity();
 
         try {
-            BakedModel model = Minecraft.getInstance().getItemRenderer()
+            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
                     .getModel(stack, level, entity, 0);
-            ItemTransform transform = model.getTransforms().getTransform(ctx);
+            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 return transform.rotation.z();
             }
@@ -270,9 +270,9 @@ public class FomekRenderAPI {
         LivingEntity entity = currentContext.getEntity();
 
         try {
-            BakedModel model = Minecraft.getInstance().getItemRenderer()
+            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
                     .getModel(stack, level, entity, 0);
-            ItemTransform transform = model.getTransforms().getTransform(ctx);
+            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 // ItemTransform stores rotation as Vector3f(x=pitch, y=yaw, z=roll) in degrees.
                 // The apply() method uses rotationZYX(z, y, x), which via mulPose
@@ -301,12 +301,12 @@ public class FomekRenderAPI {
             final ItemStack _stack = stack;
             enqueueOverlay(_z, () -> {
                 Minecraft mc = Minecraft.getInstance();
-                GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+                GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
                 PoseStack pose = gui.pose();
                 MultiBufferSource.BufferSource buffer = gui.bufferSource();
                 Level level = mc.level;
                 LivingEntity entity = currentOverlayContext.getPlayer();
-                int light = LightTexture.FULL_BRIGHT;
+                int light = LightCoordsUtil.FULL_BRIGHT;
 
                 pose.pushPose();
                 pose.translate(x + 8, y + 8, _z);
@@ -344,7 +344,7 @@ public class FomekRenderAPI {
             buffer = currentContext.getBufferSource();
             entity = currentContext.getEntity();
             level = currentContext.getWorld();
-            light = glowing ? LightTexture.FULL_BRIGHT : currentContext.getPackedLight();
+            light = glowing ? LightCoordsUtil.FULL_BRIGHT : currentContext.getPackedLight();
         } else {
             // World context — the event handler already translates the PoseStack
             // by -cameraPosition, so we pass raw world coordinates directly.
@@ -353,7 +353,7 @@ public class FomekRenderAPI {
             entity = null;
             level = currentWorldContext.getWorld();
             if (glowing) {
-                light = LightTexture.FULL_BRIGHT;
+                light = LightCoordsUtil.FULL_BRIGHT;
             } else {
                 light = net.minecraft.client.renderer.LevelRenderer.getLightColor(level,
                         net.minecraft.core.BlockPos.containing(x, y, z));
@@ -396,12 +396,12 @@ public class FomekRenderAPI {
         final float _depth = depth, _yaw = yaw, _pitch = pitch, _roll = roll, _scale = scale;
         enqueueOverlay(_depth, () -> {
             Minecraft mc = Minecraft.getInstance();
-            GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+            GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
             PoseStack pose = gui.pose();
             MultiBufferSource.BufferSource buffer = gui.bufferSource();
             Level level = mc.level;
             LivingEntity entity = currentOverlayContext.getPlayer();
-            int light = LightTexture.FULL_BRIGHT;
+            int light = LightCoordsUtil.FULL_BRIGHT;
 
             pose.pushPose();
             pose.translate(x + 8, y + 8, _depth);
@@ -481,13 +481,13 @@ public class FomekRenderAPI {
 
     // ── Texture ─────────────────────────────────────────────────────────────────
 
-    public static void setTexture(net.minecraft.resources.ResourceLocation texture) {
+    public static void setTexture(net.minecraft.resources.Identifier texture) {
         RenderSystem.setShaderTexture(0, texture);
     }
 
 
     // ── Overlay 2D rendering ───────────────────────────────────────────────
-    // These methods use GuiGraphics for flat 2D rendering on the HUD/overlay.
+    // These methods use GuiGraphicsExtractor for flat 2D rendering on the HUD/overlay.
     // They only work when an overlay context is active.
 
     /**
@@ -497,7 +497,7 @@ public class FomekRenderAPI {
     public static void renderRectangle(float x1, float y1, float x2, float y2, float depth, int color) {
         if (currentOverlayContext == null) return;
         enqueueOverlay(depth, () -> {
-            GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+            GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
             gui.pose().pushPose();
             gui.pose().translate(0, 0, depth);
             gui.fill((int) x1, (int) y1, (int) x2, (int) y2, color);
@@ -507,16 +507,16 @@ public class FomekRenderAPI {
 
     /**
      * Render a texture on the overlay at screen coordinates.
-     * texturePath is a ResourceLocation string like "minecraft:textures/block/stone.png".
+     * texturePath is a Identifier string like "minecraft:textures/block/stone.png".
      */
     public static void renderTexture(String texturePath, float x, float y, float depth,
             float angle, float scale, int color, int alignment) {
         if (currentOverlayContext == null) return;
         enqueueOverlay(depth, () -> {
-            GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+            GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
 
-            net.minecraft.resources.ResourceLocation rl;
-            try { rl = net.minecraft.resources.ResourceLocation.parse(texturePath); }
+            net.minecraft.resources.Identifier rl;
+            try { rl = net.minecraft.resources.Identifier.parse(texturePath); }
             catch (Exception e) { return; }
 
             final int texNative = 16;
@@ -569,7 +569,7 @@ public class FomekRenderAPI {
             float angle, float scale, int color, int alignment) {
         if (currentOverlayContext == null) return;
         enqueueOverlay(depth, () -> {
-            GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+            GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
             net.minecraft.client.Minecraft mc = net.minecraft.client.Minecraft.getInstance();
             net.minecraft.client.gui.Font font = mc.font;
 
@@ -624,7 +624,7 @@ public class FomekRenderAPI {
             float xscale, float yscale, float zscale, int color) {
         if (currentOverlayContext == null || shape == null || shape.isEmpty()) return;
         enqueueOverlay(depth, () -> {
-            GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+            GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
             PoseStack pose = gui.pose();
             MultiBufferSource.BufferSource buffer = gui.bufferSource();
 
@@ -639,7 +639,7 @@ public class FomekRenderAPI {
                 0, 0, 0,
                 0, 0, 0,
                 1, 1, 1,
-                color, net.minecraft.client.renderer.LightTexture.FULL_BRIGHT,
+                color, net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT,
                 net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY);
 
             pose.popPose();
@@ -751,14 +751,14 @@ public class FomekRenderAPI {
     public static int getGuiAwareLight() {
         if (currentContext == null) {
             // In overlay/world render context, always use full bright
-            return LightTexture.FULL_BRIGHT;
+            return LightCoordsUtil.FULL_BRIGHT;
         }
         switch (currentContext.getDisplayContext()) {
             case GUI:
             case FIXED:
             case GROUND:
             case NONE:
-                return LightTexture.FULL_BRIGHT;
+                return LightCoordsUtil.FULL_BRIGHT;
             default:
                 return currentContext.getPackedLight();
         }
@@ -773,7 +773,7 @@ public class FomekRenderAPI {
         currentBEWRL = new FomekBEWRL.Model();
     }
 
-    public static void addBEWRLPart(Shape shape, net.minecraft.resources.ResourceLocation texture,
+    public static void addBEWRLPart(Shape shape, net.minecraft.resources.Identifier texture,
             float x, float y, float z, float yaw, float pitch, float roll,
             float xscale, float yscale, float zscale, int color, String renderType) {
         if (currentBEWRL == null || shape == null) return;
@@ -786,7 +786,7 @@ public class FomekRenderAPI {
      * The model is baked by name from FomekJavaModelRenderer's registry.
      * Orientation fix (180° X rotation) is applied automatically in item render context.
      */
-    public static void addBEWRLJavaPart(String javaModelName, net.minecraft.resources.ResourceLocation texture,
+    public static void addBEWRLJavaPart(String javaModelName, net.minecraft.resources.Identifier texture,
             float x, float y, float z, float yaw, float pitch, float roll,
             float xscale, float yscale, float zscale, int color, String renderType) {
         if (currentBEWRL == null || javaModelName == null) return;
@@ -823,7 +823,7 @@ public class FomekRenderAPI {
             final FomekBEWRL.Model _model = model;
             final BlendMode _blend = currentBlendMode;
             enqueueOverlay(_z, () -> {
-                GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+                GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
                 PoseStack _pose = gui.pose();
                 MultiBufferSource.BufferSource _buf = gui.bufferSource();
                 BlendMode _savedBlend = currentBlendMode;
@@ -993,7 +993,7 @@ public class FomekRenderAPI {
 
     // ── BEWRL Vec3-accepting overloads ──────────────────────────────────────────
 
-    public static void addBEWRLPart(FomekRenderAPI.Shape shape, net.minecraft.resources.ResourceLocation texture,
+    public static void addBEWRLPart(FomekRenderAPI.Shape shape, net.minecraft.resources.Identifier texture,
             FomekBEWRLVars.Vec3 pos, FomekBEWRLVars.Vec3 rot, FomekBEWRLVars.Vec3 scale,
             int color, String renderType) {
         if (currentBEWRL == null || shape == null) return;
@@ -1002,7 +1002,7 @@ public class FomekRenderAPI {
             scale.x, scale.y, scale.z, color, renderType);
     }
 
-    public static void addBEWRLJavaPart(String javaModelName, net.minecraft.resources.ResourceLocation texture,
+    public static void addBEWRLJavaPart(String javaModelName, net.minecraft.resources.Identifier texture,
             FomekBEWRLVars.Vec3 pos, FomekBEWRLVars.Vec3 rot, FomekBEWRLVars.Vec3 scale,
             int color, String renderType) {
         if (currentBEWRL == null || javaModelName == null) return;
@@ -1118,7 +1118,7 @@ public class FomekRenderAPI {
 
     /**
      * Reconstruct a vanilla item model as a BEWRL Model with shape parts.
-     * Uses the item's BakedModel quads, extracting position, UV, and color.
+     * Uses the item's ResolvedModel quads, extracting position, UV, and color.
      * Texture is set to the block atlas (where item textures are baked).
      *
      * @param itemStack The item to reconstruct
@@ -1142,7 +1142,7 @@ public class FomekRenderAPI {
         LivingEntity entity = getEntity();
         Level level = getWorld();
         try {
-            BakedModel bakedModel = Minecraft.getInstance().getItemRenderer()
+            ResolvedModel bakedModel = Minecraft.getInstance().getItemRenderer()
                     .getModel(itemStack, level, entity, 0);
             FomekBEWRL.Model _result = reconstructBakedModel(bakedModel, true, true, rimOnly);
             _result.sourceItemStack = itemStack;
@@ -1172,7 +1172,7 @@ public class FomekRenderAPI {
             if (pose == null) return false;
 
             // GUI context: the display transform (rotation + scale) is ALREADY
-            // applied by the caller (GuiGraphics.renderItem) before the mixin
+            // applied by the caller (GuiGraphicsExtractor.renderItem) before the mixin
             // fires at HEAD of ItemRenderer.render(). We only need the -0.5
             // centering offset that render() would have applied.
             if (ctx == ItemDisplayContext.GUI) {
@@ -1187,9 +1187,9 @@ public class FomekRenderAPI {
             // display transform AND the -0.5 centering offset.
             LivingEntity entity = getEntity();
             Level level = getWorld();
-            BakedModel bakedModel = Minecraft.getInstance().getItemRenderer()
+            ResolvedModel bakedModel = Minecraft.getInstance().getItemRenderer()
                     .getModel(stack, level, entity, 0);
-            ItemTransform transform = bakedModel.getTransforms().getTransform(ctx);
+            ItemTransform transform = bakedModel.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 pose.pushPose();
                 transform.apply(false, pose);
@@ -1214,7 +1214,7 @@ public class FomekRenderAPI {
 
     /**
      * Reconstruct a vanilla block model as a BEWRL Model with shape parts.
-     * Uses the block's BakedModel quads, extracting position, UV, and color.
+     * Uses the block's ResolvedModel quads, extracting position, UV, and color.
      * Texture is set to the block atlas.
      *
      * @param blockState The block state to reconstruct
@@ -1223,7 +1223,7 @@ public class FomekRenderAPI {
     public static FomekBEWRL.Model reconstructBlockAsBEWRL(BlockState blockState) {
         if (blockState == null) return new FomekBEWRL.Model();
         try {
-            BakedModel bakedModel = Minecraft.getInstance().getBlockRenderer()
+            ResolvedModel bakedModel = Minecraft.getInstance().getBlockRenderer()
                     .getBlockModel(blockState);
             return reconstructBakedModel(bakedModel);
         } catch (Exception e) {
@@ -1232,14 +1232,14 @@ public class FomekRenderAPI {
     }
 
     /**
-     * Internal: extract quads from a BakedModel and convert to BEWRL shape parts.
+     * Internal: extract quads from a ResolvedModel and convert to BEWRL shape parts.
      * Handles both null-direction (general) and per-face quads.
      */
-    private static FomekBEWRL.Model reconstructBakedModel(BakedModel bakedModel) {
+    private static FomekBEWRL.Model reconstructBakedModel(ResolvedModel bakedModel) {
         return reconstructBakedModel(bakedModel, false);
     }
 
-    private static FomekBEWRL.Model reconstructBakedModel(BakedModel bakedModel, boolean itemModel) {
+    private static FomekBEWRL.Model reconstructBakedModel(ResolvedModel bakedModel, boolean itemModel) {
         return reconstructBakedModel(bakedModel, itemModel, true); // always include back face
     }
 
@@ -1271,7 +1271,7 @@ public class FomekRenderAPI {
     }
 
     /**
-     * Internal: extract quads from a BakedModel and convert to BEWRL shape parts.
+     * Internal: extract quads from a ResolvedModel and convert to BEWRL shape parts.
      *
      * For ITEM MODELS: face quads (SOUTH/NORTH) are SUBDIVIDED into per-pixel
      * 1x1 quads (spriteW x spriteH grid, skipping transparent pixels), so the
@@ -1281,13 +1281,13 @@ public class FomekRenderAPI {
      *
      * For BLOCK MODELS (itemModel=false): all quads go into the single shape as-is.
      */
-    private static FomekBEWRL.Model reconstructBakedModel(BakedModel bakedModel,
+    private static FomekBEWRL.Model reconstructBakedModel(ResolvedModel bakedModel,
                                                            boolean itemModel,
                                                            boolean keepBackFace) {
         return reconstructBakedModel(bakedModel, itemModel, keepBackFace, false);
     }
 
-    private static FomekBEWRL.Model reconstructBakedModel(BakedModel bakedModel,
+    private static FomekBEWRL.Model reconstructBakedModel(ResolvedModel bakedModel,
                                                            boolean itemModel,
                                                            boolean keepBackFace,
                                                            boolean rimOnly) {
@@ -1842,9 +1842,9 @@ public class FomekRenderAPI {
         if (ctx == null) ctx = ItemDisplayContext.NONE;
 
         try {
-            BakedModel model = Minecraft.getInstance().getItemRenderer()
+            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
                     .getModel(itemStack, level, entity, 0);
-            ItemTransform transform = model.getTransforms().getTransform(ctx);
+            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 pose.pushPose();
                 transform.apply(false, pose);
@@ -1871,13 +1871,13 @@ public class FomekRenderAPI {
         LivingEntity entity = getEntity();
         Level level = getWorld();
         try {
-            BakedModel bakedModel = Minecraft.getInstance().getItemRenderer()
+            ResolvedModel bakedModel = Minecraft.getInstance().getItemRenderer()
                     .getModel(itemStack, level, entity, 0);
 
             ItemDisplayContext ctx = getCurrentDisplayContext();
             if (ctx == null) ctx = ItemDisplayContext.GUI;
 
-            ItemTransform transform = bakedModel.getTransforms().getTransform(ctx);
+            ItemTransform transform = bakedModel.wrapped().transforms().getTransform(ctx);
             if (transform == null || transform == ItemTransform.NO_TRANSFORM) {
                 return reconstructBakedModel(bakedModel);
             }
@@ -1975,7 +1975,7 @@ public class FomekRenderAPI {
         renderBEWRL(model, shader, pos.x, pos.y, pos.z, rot.x, rot.y, rot.z, scale.x, scale.y, scale.z);
     }
 
-    public static void renderJavaModel(String name, net.minecraft.resources.ResourceLocation texture, String renderType,
+    public static void renderJavaModel(String name, net.minecraft.resources.Identifier texture, String renderType,
             float x, float y, float z,
             float yaw, float pitch, float roll,
             float scale) {
@@ -2032,7 +2032,7 @@ public class FomekRenderAPI {
      * scale = size in pixels (think of it as: 1 unit = 1 pixel, model is ~8 units tall)
      * yaw/pitch/roll = rotation degrees
      */
-    private static void renderJavaModelOnOverlay(String name, net.minecraft.resources.ResourceLocation texture, String renderType,
+    private static void renderJavaModelOnOverlay(String name, net.minecraft.resources.Identifier texture, String renderType,
             float x, float y, float z,
             float yaw, float pitch, float roll,
             float scale) {
@@ -2042,7 +2042,7 @@ public class FomekRenderAPI {
         if (model == null) return;
 
         enqueueOverlay(z, () -> {
-            GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+            GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
             MultiBufferSource.BufferSource buffer = gui.bufferSource();
 
             net.minecraft.client.renderer.RenderType rt = FomekJavaModelRenderer.resolveRenderType(renderType, texture);
@@ -2074,7 +2074,7 @@ public class FomekRenderAPI {
             final BlendMode _blend = currentBlendMode;
             BlendMode _savedBlend = currentBlendMode;
             currentBlendMode = _blend;
-            model.render(pose, consumer, LightTexture.FULL_BRIGHT,
+            model.render(pose, consumer, LightCoordsUtil.FULL_BRIGHT,
                 net.minecraft.client.renderer.texture.OverlayTexture.NO_OVERLAY);
             currentBlendMode = _savedBlend;
             pose.popPose();
@@ -2156,7 +2156,7 @@ public class FomekRenderAPI {
             final FomekBEWRL.Model _model = model;
             final FomekShader _shader = shader;
             enqueueOverlay(_z, () -> {
-                GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+                GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
                 PoseStack _pose = gui.pose();
                 _pose.pushPose();
                 _pose.translate(x, y, _z);
@@ -2165,7 +2165,7 @@ public class FomekRenderAPI {
                 if (_pitch != 0) _pose.mulPose(com.mojang.math.Axis.XP.rotationDegrees(_pitch));
                 if (_roll  != 0) _pose.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(_roll));
                 int _packedLight = (_shader != null && _shader.isGlowing())
-                        ? LightTexture.FULL_BRIGHT : getGuiAwareLight();
+                        ? LightCoordsUtil.FULL_BRIGHT : getGuiAwareLight();
                 if (_shader != null) {
                     _shader.apply();
                     _model.renderWithShader(_pose, gui.bufferSource(),
@@ -2184,7 +2184,7 @@ public class FomekRenderAPI {
         MultiBufferSource renderBuf = activeBuf;
 
         int packedLight = (shader != null && shader.isGlowing())
-                ? LightTexture.FULL_BRIGHT
+                ? LightCoordsUtil.FULL_BRIGHT
                 : getGuiAwareLight();
 
         // Auto-apply item display transform (centering + rotation) — same as
@@ -2276,7 +2276,7 @@ public class FomekRenderAPI {
             final FomekBEWRL.Model _model = model;
             final FomekShader _shader = shader;
             enqueueOverlay(_z, () -> {
-                GuiGraphics gui = currentOverlayContext.getGuiGraphics();
+                GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
                 PoseStack _pose = gui.pose();
                 _pose.pushPose();
                 _pose.translate(x, y, _z);
@@ -2285,7 +2285,7 @@ public class FomekRenderAPI {
                 if (_pitch != 0) _pose.mulPose(com.mojang.math.Axis.XP.rotationDegrees(_pitch));
                 if (_roll  != 0) _pose.mulPose(com.mojang.math.Axis.ZP.rotationDegrees(_roll));
                 int _packedLight = (_shader != null && _shader.isGlowing())
-                        ? LightTexture.FULL_BRIGHT : getGuiAwareLight();
+                        ? LightCoordsUtil.FULL_BRIGHT : getGuiAwareLight();
                 if (_shader != null) {
                     _shader.apply();
                     _model.renderWithShader(_pose, gui.bufferSource(),
@@ -2303,7 +2303,7 @@ public class FomekRenderAPI {
         }
 
         int packedLight = (shader != null && shader.isGlowing())
-                ? LightTexture.FULL_BRIGHT : getGuiAwareLight();
+                ? LightCoordsUtil.FULL_BRIGHT : getGuiAwareLight();
 
         // Auto-apply item display transform for centering.
         // For GUI: only translate(-0.5) (display transform already applied by caller).
@@ -2454,7 +2454,7 @@ public class FomekRenderAPI {
         if (model == null || model.isEmpty() || activePose == null) return;
 
         int packedLight = (shader != null && shader.isGlowing())
-                ? LightTexture.FULL_BRIGHT
+                ? LightCoordsUtil.FULL_BRIGHT
                 : getGuiAwareLight();
 
         if (shader != null) {
@@ -3553,7 +3553,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
 
         // Build BEWRL model
         beginBEWRL();
-        addBEWRLPart(shape, net.minecraft.resources.ResourceLocation.parse("minecraft:textures/block/dirt.png"),
+        addBEWRLPart(shape, net.minecraft.resources.Identifier.parse("minecraft:textures/block/dirt.png"),
             0, 0, 0, 0, 0, 0, 1, 1, 1, -1, "entityTranslucent");
         endBEWRL();
 
@@ -3577,7 +3577,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
 
     private static final List<OverlayRenderCommand> overlayQueue = new ArrayList<>();
     // Saved context for the queue — survives clearCurrentOverlayContext() so
-    // flushOverlayQueue() can still access GuiGraphics even if user procedures
+    // flushOverlayQueue() can still access GuiGraphicsExtractor even if user procedures
     // (e.g. MCreator-generated) clear the context before the handler flushes.
     private static FomekRenderEvent.Overlay overlayQueueContext;
 
@@ -3615,7 +3615,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
             currentOverlayContext = overlayQueueContext;
         }
 
-        GuiGraphics gui = currentOverlayContext != null ? currentOverlayContext.getGuiGraphics() : null;
+        GuiGraphicsExtractor gui = currentOverlayContext != null ? currentOverlayContext.getGuiGraphics() : null;
         MultiBufferSource.BufferSource buffer = gui != null ? gui.bufferSource() : null;
 
         for (OverlayRenderCommand cmd : overlayQueue) {
@@ -3880,7 +3880,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
     public static com.mojang.blaze3d.vertex.PoseStack getActivePoseStack() {
         if (currentContext       != null) return currentContext.getPoseStack();
         if (currentWorldContext  != null) return currentWorldContext.getPoseStack();
-        // Overlay: GuiGraphics owns the PoseStack
+        // Overlay: GuiGraphicsExtractor owns the PoseStack
         if (currentOverlayContext != null) return currentOverlayContext.getGuiGraphics().pose();
         return null;
     }
@@ -3918,7 +3918,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
                             currentWorldContext.getY(),
                             currentWorldContext.getZ()));
         }
-        return net.minecraft.client.renderer.LightTexture.FULL_BRIGHT;
+        return net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT;
     }
 
     public static int getActivePackedOverlay() {
@@ -4170,7 +4170,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
              * gets translated into a real Minecraft RenderType.
              *
              * IMPORTANT: entityTranslucentEmissive now maps to the REAL vanilla
-             * RenderType.entityTranslucentEmissive(texture) method added in 1.21.1.
+             * RenderTypes.entityTranslucentEmissive(texture) method added in 1.21.1.
              * Previously this was incorrectly mapped to entityTranslucent() which
              * shared the same shader as the player skin, or eyes() which used
              * NO_DEPTH_TEST and drew on top of everything.
@@ -4195,7 +4195,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
              * producing the swirl animation — same mechanism as energySwirl.
              */
             public static RenderType createFomekSwirlRenderType(
-                    ResourceLocation texture, float xOff, float zOff,
+                    Identifier texture, float xOff, float zOff,
                     BlendMode blendMode) {
 
                 // Resolve blend mode: explicit param → global currentBlendMode → ADDITION default
@@ -4309,7 +4309,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
                 return null;
             }
 
-            public static RenderType resolveRenderType(String renderTypeName, ResourceLocation texture) {
+            public static RenderType resolveRenderType(String renderTypeName, Identifier texture) {
                 if (renderTypeName == null || renderTypeName.isEmpty()) {
                     renderTypeName = "entityCutoutNoCull";
                 }
@@ -4319,27 +4319,27 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
                 // the blend function. entityCutoutNoCull disables blend entirely.
                 BlendMode bm = FomekRenderAPI.currentBlendMode;
                 if (bm != null && bm != BlendMode.DEFAULT) {
-                    return RenderType.entityTranslucent(texture);
+                    return RenderTypes.entityTranslucent(texture);
                 }
 
                 switch (renderTypeName) {
                     case "entityCutout":
-                        return RenderType.entityCutout(texture);
+                        return RenderTypes.entityCutout(texture);
                     case "entityCutoutNoCull":
-                        return RenderType.entityCutoutNoCull(texture);
+                        return RenderTypes.entityCutout(texture);
                     case "entityTranslucent":
-                        return RenderType.entityTranslucent(texture);
+                        return RenderTypes.entityTranslucent(texture);
                     case "entityTranslucentEmissive":
-                        return RenderType.entityTranslucentEmissive(texture);
+                        return RenderTypes.entityTranslucentEmissive(texture);
                     case "eyes":
-                        return RenderType.eyes(texture);
+                        return RenderTypes.eyes(texture);
                     case "fomekSwirl":
                         return createFomekSwirlRenderType(texture,
                                 FomekRenderAPI.getRenderTime() % 1.0f,
                                 FomekRenderAPI.getRenderTime() % 1.0f,
                                 currentBlendMode);
                     case "energySwirl":
-                        return RenderType.energySwirl(texture,
+                        return RenderTypes.energySwirl(texture,
                                 FomekRenderAPI.getRenderTime() % 1.0f,
                                 FomekRenderAPI.getRenderTime() % 1.0f);
                     // energySwirlCustom handled via resolveRenderType(name, tex, xSpeed, zSpeed)
@@ -4349,26 +4349,26 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
                     // These don't take a texture parameter — they use their own
                     // built-in textures and shaders.
                     case "endPortal":
-                        return RenderType.endPortal();
+                        return RenderTypes.endPortal();
                     case "endGateway":
-                        return RenderType.endGateway();
+                        return RenderTypes.endGateway();
                     case "lightning":
-                        return RenderType.lightning();
+                        return RenderTypes.lightning();
                     case "glint":
-                        return RenderType.glint();
+                        return RenderTypes.glint();
                     case "glintTranslucent":
-                        return RenderType.glintTranslucent();
+                        return RenderTypes.glintTranslucent();
                     case "waterMask":
-                        return RenderType.waterMask();
+                        return RenderTypes.waterMask();
                     // These take a texture parameter
                     case "entityGlintDirect":
                         return RenderType.entityGlintDirect();
                     case "armorGlint":
-                        return RenderType.armorEntityGlint();
+                        return RenderTypes.armorEntityGlint();
                     case "outline":
-                        return RenderType.outline(texture);
+                        return RenderTypes.outline(texture);
                     default:
-                        return RenderType.entityCutoutNoCull(texture);
+                        return RenderTypes.entityCutout(texture);
                 }
             }
 
@@ -4378,7 +4378,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
              * to animate the UV offsets.  Falls back to resolveRenderType(name, tex)
              * for all other types.
              */
-            public static RenderType resolveRenderType(String renderTypeName, ResourceLocation texture,
+            public static RenderType resolveRenderType(String renderTypeName, Identifier texture,
                     float swirlXSpeed, float swirlZSpeed) {
                 if ("fomekSwirl".equals(renderTypeName)) {
                     float t = FomekRenderAPI.getRenderTime();
@@ -4389,7 +4389,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
                 }
                 if ("energySwirl".equals(renderTypeName)) {
                     float t = FomekRenderAPI.getRenderTime();
-                    return RenderType.energySwirl(texture,
+                    return RenderTypes.energySwirl(texture,
                             (t * swirlXSpeed) % 1.0f,
                             (t * swirlZSpeed) % 1.0f);
                 }
@@ -4409,11 +4409,11 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
                     int color, int packedLight, int packedOverlay) {
                 // Fallback: use white texture.  For the manual path (set_texture + render_shape),
                 // the texture is already bound via RenderSystem.setShaderTexture, but we can't
-                // read it back as a ResourceLocation (getShaderTexture returns int in 1.21.1).
+                // read it back as a Identifier (getShaderTexture returns int in 1.21.1).
                 // So we use a neutral white texture as the default.
                 render(poseStack, bufferSource, x, y, z, yaw, pitch, roll,
                        xscale, yscale, zscale, color, packedLight, packedOverlay,
-                       ResourceLocation.parse("minecraft:textures/misc/white.png"), "entityCutoutNoCull");
+                       Identifier.parse("minecraft:textures/misc/white.png"), "entityCutoutNoCull");
             }
 
             /**
@@ -4426,7 +4426,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
                     float yaw, float pitch, float roll,
                     float xscale, float yscale, float zscale,
                     int color, int packedLight, int packedOverlay,
-                    ResourceLocation texture, String renderTypeName) {
+                    Identifier texture, String renderTypeName) {
 
                 if (vertices.isEmpty() || bufferSource == null || !ended) return;
 

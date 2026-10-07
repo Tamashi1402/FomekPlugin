@@ -17,7 +17,7 @@ import net.neoforged.neoforge.client.event.InputEvent;
  * Regardless of whether a scroll view consumed it, the delta is always fed
  * to InputManager so scroll-based actions (e.g. zoom, weapon switch) work.
  */
-@EventBusSubscriber(value = Dist.CLIENT, bus = EventBusSubscriber.Bus.GAME)
+@EventBusSubscriber(value = Dist.CLIENT)
 public class ScrollEventHandler {
 
     @SubscribeEvent

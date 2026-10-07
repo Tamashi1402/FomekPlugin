@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -326,9 +326,9 @@ public class Animation {
             private final List<PartAnimation> parts = new ArrayList<>();
             private final List<TempShape> tempShapes = new ArrayList<>();
 
-            private static final Map<ResourceLocation, File> cache = new HashMap<>();
+            private static final Map<Identifier, File> cache = new HashMap<>();
 
-            public static File load(ResourceLocation path) {
+            public static File load(Identifier path) {
                 if (cache.containsKey(path)) return cache.get(path);
 
                 File file = new File();

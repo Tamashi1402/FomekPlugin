@@ -1,20 +1,20 @@
 package net.tamashi.fomekcore.api.guisystems;
 
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 /**
  * MenuRenderHelper — Native rendering for FomekMenus.
  *
- * Stores the current GuiGraphics from the render event so procedure blocks
+ * Stores the current GuiGraphicsExtractor from the render event so procedure blocks
  * can render text, rectangles, textures, and items without needing a
  * guigraphics dependency input.
  *
@@ -37,17 +37,17 @@ import net.minecraft.world.item.ItemStack;
  */
 public class MenuRenderHelper {
 
-    private static GuiGraphics currentGuiGraphics;
+    private static GuiGraphicsExtractor currentGuiGraphics;
 
     // ── Context management ──────────────────────────────────────────────────────
 
-    public static void setGuiGraphics(GuiGraphics gui) { currentGuiGraphics = gui; }
-    public static GuiGraphics getGuiGraphics() { return currentGuiGraphics; }
+    public static void setGuiGraphics(GuiGraphicsExtractor gui) { currentGuiGraphics = gui; }
+    public static GuiGraphicsExtractor getGuiGraphics() { return currentGuiGraphics; }
     public static void clear() { currentGuiGraphics = null; }
 
-    public static GuiGraphics getOrThrow() {
+    public static GuiGraphicsExtractor getOrThrow() {
         if (currentGuiGraphics == null) {
-            throw new IllegalStateException("MenuRenderHelper: no GuiGraphics context. " +
+            throw new IllegalStateException("MenuRenderHelper: no GuiGraphicsExtractor context. " +
                 "Render blocks can only be called inside the Menu System trigger.");
         }
         return currentGuiGraphics;
@@ -179,7 +179,7 @@ public class MenuRenderHelper {
         float csy = VirtualGui.getCurrentContentScaleY();
         x1 = (int)(x1 * csx) + offX; y1 = y1 + offY;
         x2 = (int)(x2 * csx) + offX; y2 = y2 + offY;
-        GuiGraphics gui = getOrThrow();
+        GuiGraphicsExtractor gui = getOrThrow();
         gui.fill(x1, y1, x2, y1 + 1, color);          // top
         gui.fill(x1, y2 - 1, x2, y2, color);            // bottom
         gui.fill(x1, y1, x1 + 1, y2, color);            // left
@@ -232,7 +232,7 @@ public class MenuRenderHelper {
         float csy = VirtualGui.getCurrentContentScaleY();
         int x1 = (int)(box.x1() * csx) + offX, y1 = (int)(box.y1() * csy) + offY;
         int x2 = (int)(box.x2() * csx) + offX, y2 = (int)(box.y2() * csy) + offY;
-        GuiGraphics gui = getOrThrow();
+        GuiGraphicsExtractor gui = getOrThrow();
         gui.fill(x1, y1, x2, y1 + 1, color);
         gui.fill(x1, y2 - 1, x2, y2, color);
         gui.fill(x1, y1, x1 + 1, y2, color);
@@ -315,7 +315,7 @@ public class MenuRenderHelper {
             float csy = VirtualGui.getCurrentContentScaleY();
             int x1 = (int)(drawX1 * csx) + offX, y1 = (int)(drawY1 * csy) + offY;
             int x2 = (int)(drawX2 * csx) + offX, y2 = (int)(drawY2 * csy) + offY;
-            GuiGraphics gui = getOrThrow();
+            GuiGraphicsExtractor gui = getOrThrow();
             gui.fill(x1, y1, x2, y1 + 1, color);
             gui.fill(x1, y2 - 1, x2, y2, color);
             gui.fill(x1, y1, x1 + 1, y2, color);
@@ -337,11 +337,11 @@ public class MenuRenderHelper {
 
     public static void renderTexture(String texturePath, int x, int y, int width, int height, boolean stick, boolean collision) {
         VirtualGuiElement renderEl = VirtualGui.getCurrentRenderElement();
-        GuiGraphics gui = getOrThrow();
+        GuiGraphicsExtractor gui = getOrThrow();
         if (renderEl != null) {
             renderEl.setLastTexturePath(texturePath);
         } else {
-            ResourceLocation texture = ResourceLocation.parse(texturePath);
+            Identifier texture = Identifier.parse(texturePath);
             if (collision) VirtualGui.registerSolidBox(x, y, x + width, y + height);
             int offX = VirtualGui.getCurrentParentRenderX();
             int offY = VirtualGui.getCurrentParentRenderY();
@@ -362,7 +362,7 @@ public class MenuRenderHelper {
         float csx = VirtualGui.getCurrentContentScaleX();
 
         float csy = VirtualGui.getCurrentContentScaleY();
-        ResourceLocation texture = ResourceLocation.parse(texturePath);
+        Identifier texture = Identifier.parse(texturePath);
         getOrThrow().blit(texture, (int)(x * csx) + offX, y + offY, u, v, width, height, textureWidth, textureHeight);
     }
 
@@ -394,7 +394,7 @@ public class MenuRenderHelper {
 
     public static void renderItem(String itemRef, int x, int y, boolean stick, boolean collision) {
         VirtualGuiElement renderEl = VirtualGui.getCurrentRenderElement();
-        GuiGraphics gui = getOrThrow();
+        GuiGraphicsExtractor gui = getOrThrow();
         if (renderEl != null) {
             renderEl.setLastItemRef(itemRef);
         } else {
@@ -437,7 +437,7 @@ public class MenuRenderHelper {
         if (ref.startsWith("Blocks.") || ref.startsWith("Items.")) {
             String fieldName = ref.substring(ref.indexOf('.') + 1);
             String registryPath = fieldName.toLowerCase();
-            ResourceLocation rl = ResourceLocation.tryParse("minecraft:" + registryPath);
+            Identifier rl = Identifier.tryParse("minecraft:" + registryPath);
             if (rl != null) {
                 Item item = BuiltInRegistries.ITEM.get(rl);
                 return new ItemStack(item);
@@ -446,7 +446,7 @@ public class MenuRenderHelper {
         }
 
         // Try as a resource location (e.g., "minecraft:stick")
-        ResourceLocation rl = ResourceLocation.tryParse(ref);
+        Identifier rl = Identifier.tryParse(ref);
         if (rl != null) {
             Item item = BuiltInRegistries.ITEM.get(rl);
             return new ItemStack(item);

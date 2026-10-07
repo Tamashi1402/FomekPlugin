@@ -1,6 +1,6 @@
 package net.tamashi.fomekcore.api.guisystems;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.Event;
@@ -136,11 +136,11 @@ public class GuiState {
 
     /**
      * Fired on the NeoForge GAME event bus during Screen.render() when
-     * a virtual GUI is open. Provides GuiGraphics so FomekRenderer
+     * a virtual GUI is open. Provides GuiGraphicsExtractor so FomekRenderer
      * overlay blocks work natively inside this event.
      */
     public static class RenderEvent extends Event {
-        private final GuiGraphics guiGraphics;
+        private final GuiGraphicsExtractor guiGraphics;
         private final Player player;
         private final int mouseX;
         private final int mouseY;
@@ -148,7 +148,7 @@ public class GuiState {
         private final int screenHeight;
         private final float partialTick;
 
-        public RenderEvent(GuiGraphics guiGraphics, Player player,
+        public RenderEvent(GuiGraphicsExtractor guiGraphics, Player player,
                            int mouseX, int mouseY,
                            int screenWidth, int screenHeight, float partialTick) {
             this.guiGraphics = guiGraphics;
@@ -160,7 +160,7 @@ public class GuiState {
             this.partialTick = partialTick;
         }
 
-        public GuiGraphics getGuiGraphics() { return guiGraphics; }
+        public GuiGraphicsExtractor getGuiGraphics() { return guiGraphics; }
         public Player getPlayer() { return player; }
         public int getMouseX() { return mouseX; }
         public int getMouseY() { return mouseY; }
@@ -182,7 +182,7 @@ public class GuiState {
      * drag/drop and shared state work across parts naturally.
      */
     public static class MenuPartEvent extends Event {
-        private final GuiGraphics guiGraphics;
+        private final GuiGraphicsExtractor guiGraphics;
         private final Player player;
         private final int mouseX;
         private final int mouseY;
@@ -191,7 +191,7 @@ public class GuiState {
         private final float partialTick;
         private final String partId;
 
-        public MenuPartEvent(GuiGraphics guiGraphics, Player player,
+        public MenuPartEvent(GuiGraphicsExtractor guiGraphics, Player player,
                              int mouseX, int mouseY,
                              int screenWidth, int screenHeight, float partialTick,
                              String partId) {
@@ -205,7 +205,7 @@ public class GuiState {
             this.partId = partId;
         }
 
-        public GuiGraphics getGuiGraphics() { return guiGraphics; }
+        public GuiGraphicsExtractor getGuiGraphics() { return guiGraphics; }
         public Player getPlayer() { return player; }
         public int getMouseX() { return mouseX; }
         public int getMouseY() { return mouseY; }

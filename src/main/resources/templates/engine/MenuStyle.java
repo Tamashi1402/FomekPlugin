@@ -1,10 +1,10 @@
 package net.tamashi.fomekcore.api.guisystems;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 /** Complete visual state; missing hover/held states inherit the normal state. */
@@ -32,13 +32,13 @@ public record MenuStyle(int background, int border, int textColor, String text, 
         return literal(content);
     }
     public Component literal(String content) {
-        ResourceLocation id = ResourceLocation.tryParse(font == null ? "minecraft:default" : font);
-        return Component.literal(content == null ? "" : content).withStyle(Style.EMPTY.withFont(id == null ? ResourceLocation.withDefaultNamespace("default") : id));
+        Identifier id = Identifier.tryParse(font == null ? "minecraft:default" : font);
+        return Component.literal(content == null ? "" : content).withStyle(Style.EMPTY.withFont(id == null ? Identifier.withDefaultNamespace("default") : id));
     }
-    public void background(GuiGraphics gui, int x, int y, int w, int h) {
+    public void background(GuiGraphicsExtractor gui, int x, int y, int w, int h) {
         if (!"none".equals(buttonStyle) && !"outline".equals(buttonStyle)) gui.fill(x,y,x+w,y+h,background);
         if (texture != null && !texture.isBlank()) {
-            ResourceLocation id=ResourceLocation.tryParse(texture);
+            Identifier id=Identifier.tryParse(texture);
             if (id != null) gui.blit(id,x,y,0,0,w,h,w,h);
         }
         if (!"none".equals(buttonStyle)) {
@@ -48,14 +48,14 @@ public record MenuStyle(int background, int border, int textColor, String text, 
             if ("raised".equals(buttonStyle)) {gui.fill(x+1,y+1,x+w-1,y+2,0x55ffffff);gui.fill(x+1,y+h-2,x+w-1,y+h-1,0x55000000);}
         }
     }
-    public void text(GuiGraphics gui, String fallback, float x, float y, boolean shadow) {
+    public void text(GuiGraphicsExtractor gui, String fallback, float x, float y, boolean shadow) {
         MenuStyle s=part("text");if (!s.hasText) return;
         MenuText.draw(gui,s.component(fallback),x,y,Math.max(.05f,s.size/9f),s.textColor,shadow||s.shadow,s.smooth);
     }
-    public void valueText(GuiGraphics gui, String value, float x, float y) {
+    public void valueText(GuiGraphicsExtractor gui, String value, float x, float y) {
         if (hasText) MenuText.draw(gui,literal(value),x,y,Math.max(.05f,size/9f),textColor,shadow,smooth);
     }
-    public void label(GuiGraphics gui,String fallback,int x,int y,int w,int h){
+    public void label(GuiGraphicsExtractor gui,String fallback,int x,int y,int w,int h){
         MenuStyle s=part("text");float width=Minecraft.getInstance().font.width(s.component(fallback))*Math.max(.05f,s.size/9f);
         float px="center".equals(s.align)?x+(w-width)/2:"right".equals(s.align)?x+w-width-s.paddingX:x+s.paddingX;
         s.text(gui,fallback,px,y+s.paddingY,s.shadow);

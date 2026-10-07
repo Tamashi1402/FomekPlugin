@@ -2,7 +2,7 @@ package net.tamashi.fomekcore.api.guisystems;
 
 import java.util.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
@@ -34,7 +34,7 @@ public final class MenuControls {
             widget=new MenuTextInput(this,width,height);
             widget.setFocused(focus==this);
         }
-        public void render(GuiGraphics gui,int x,int y,int w,int h,int mx,int my,float partial,String key){
+        public void render(GuiGraphicsExtractor gui,int x,int y,int w,int h,int mx,int my,float partial,String key){
             this.x=x;this.y=y;this.w=w;this.h=h;this.key=key;seen=System.currentTimeMillis();
             MenuStyle style=StudioRuntime.style(key);if(style==null)style=MenuStyle.DEFAULT;
             style.background(gui,x,y,w,h);
@@ -80,7 +80,7 @@ public final class MenuControls {
     public static boolean scroll(double x,double y,double dx,double dy){if(focus==null)return false;if(focus.open){focus.first=Math.max(0,Math.min(Math.max(0,focus.items.size()-focus.rows),focus.first-(int)Math.signum(dy)));return true;}return focus.widget!=null&&focus.widget.mouseScrolled(x,y,dx,dy);}
     private static int rowHeight(Control c){MenuStyle style=StudioRuntime.style(c.key);return Math.max(14,(int)Math.ceil(style==null?9:style.part("list").size())+5);}
     private static int listY(Control c){int height=Math.min(c.rows,c.items.size())*rowHeight(c);return c.y+c.h+height>Minecraft.getInstance().getWindow().getGuiScaledHeight()?Math.max(0,c.y-height):c.y+c.h;}
-    public static void renderDropdown(GuiGraphics gui){if(focus==null||!focus.open)return;Control c=focus;if(System.currentTimeMillis()-c.seen>500){focus(null);return;}MenuStyle style=StudioRuntime.style(c.key);if(style==null)style=MenuStyle.DEFAULT;style=style.part("list");int y=listY(c);gui.pose().pushPose();gui.pose().translate(0,0,400);
+    public static void renderDropdown(GuiGraphicsExtractor gui){if(focus==null||!focus.open)return;Control c=focus;if(System.currentTimeMillis()-c.seen>500){focus(null);return;}MenuStyle style=StudioRuntime.style(c.key);if(style==null)style=MenuStyle.DEFAULT;style=style.part("list");int y=listY(c);gui.pose().pushPose();gui.pose().translate(0,0,400);
         for(int row=0;row<c.rows&&row+c.first<c.items.size();row++){style.background(gui,c.x,y+row*rowHeight(c),c.w,rowHeight(c));style.valueText(gui,c.items.get(row+c.first),c.x+style.paddingX(),y+row*rowHeight(c)+style.paddingY());}gui.pose().popPose();gui.flush();}
     public static void clear(){controls.clear();focus=null;}
 }

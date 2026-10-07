@@ -10,9 +10,9 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL30;
 
@@ -42,7 +42,7 @@ import org.lwjgl.opengl.GL30;
  * Injected automatically into this package by the FomekMenus Java plugin
  * (see .fomekmenus_pageflip_stamp). Generated menu render triggers call
  * beginRender/endRender around your procedure, so update() knows which
- * GuiGraphics to draw on. Page flip blocks therefore only need to be
+ * GuiGraphicsExtractor to draw on. Page flip blocks therefore only need to be
  * placed inside menu render procedures (menu system / menu part).
  */
 public final class PageFlip {
@@ -119,7 +119,7 @@ public final class PageFlip {
      * (brown part) is never displayed. Mirroring is handled by
      * drawQuadUV as usual — the same crop works for both halves.
      */
-    private static void drawQuadSpined(GuiGraphics g, String texture,
+    private static void drawQuadSpined(GuiGraphicsExtractor g, String texture,
                                        float x, float y, float w, float h, boolean mirrored) {
         int[] size = pngSize(texture);
         float u0 = size[0] > 0 ? spineCrop(size[0]) / (float) size[0] : 0f;
@@ -243,9 +243,9 @@ public final class PageFlip {
     private static String lastLeftFace = null;
     private static String lastRightFace = null;
 
-    // The GuiGraphics of the menu render event currently being drawn
+    // The GuiGraphicsExtractor of the menu render event currently being drawn
     // (set by the generated triggers via beginRender/endRender).
-    private static GuiGraphics currentGui = null;
+    private static GuiGraphicsExtractor currentGui = null;
 
     // Mouse position of the current menu render event (GUI-scaled px),
     // set by the generated triggers via beginRender(gui, mx, my).
@@ -464,7 +464,7 @@ public final class PageFlip {
      * active -> captures the new state once, then draws the flip on top.
      *
      * Only does something while a menu render event is active (the
-     * FomekMenus triggers register their GuiGraphics automatically).
+     * FomekMenus triggers register their GuiGraphicsExtractor automatically).
      *
      * @param x         left edge of the whole two-page panel (screen px)
      * @param y         top edge of the panel
@@ -511,7 +511,7 @@ public final class PageFlip {
     public static void update(float x, float y, int pageWidth, int height, float slide,
                               Look oldLeft, Look oldRight, Look newLeft, Look newRight,
                               boolean flatSheet) {
-        GuiGraphics gui = currentGui;
+        GuiGraphicsExtractor gui = currentGui;
         if (gui == null) {
             debug("update IGNORED — no menu render event active (beginRender was not "
                     + "called). Is the Book/Update block inside a menu render procedure?");
@@ -533,7 +533,7 @@ public final class PageFlip {
     }
 
     public static void update(float x, float y, int pageWidth, int height, float slide) {
-        GuiGraphics gui = currentGui;
+        GuiGraphicsExtractor gui = currentGui;
         if (gui == null) {
             // Deduped: the same geometry prints once, not every frame.
             debug("update IGNORED — no menu render event active (beginRender was not "
@@ -553,17 +553,17 @@ public final class PageFlip {
 
     /**
      * Called by generated FomekMenus triggers before user render code —
-     * registers the menu render event's GuiGraphics and mouse position.
+     * registers the menu render event's GuiGraphicsExtractor and mouse position.
      * Do not call from Blockly.
      */
-    public static void beginRender(GuiGraphics gui, double mx, double my) {
+    public static void beginRender(GuiGraphicsExtractor gui, double mx, double my) {
         currentGui = gui;
         mouseX = mx;
         mouseY = my;
     }
 
     /** Backwards-compatible overload (mouse position unknown). */
-    public static void beginRender(GuiGraphics gui) {
+    public static void beginRender(GuiGraphicsExtractor gui) {
         beginRender(gui, 0.0, 0.0);
     }
 
@@ -830,7 +830,7 @@ public final class PageFlip {
         return true;
     }
 
-    private static void runUpdate(GuiGraphics g, float x, float y, int pageWidth, int height,
+    private static void runUpdate(GuiGraphicsExtractor g, float x, float y, int pageWidth, int height,
                                   float slide, Look oldLeft, Look oldRight, Look newLeft, Look newRight,
                                   boolean flatSheet) {
         final boolean bookLooks = oldLeft != null || oldRight != null
@@ -907,7 +907,7 @@ public final class PageFlip {
      * Then the flipping sheet (paper-only strips) is drawn on top.
      * Nothing from book.png is ever drawn ON TOP of the paper.
      */
-    private static void drawBookFlip(GuiGraphics g, float left, float top, int pageWidth, int height,
+    private static void drawBookFlip(GuiGraphicsExtractor g, float left, float top, int pageWidth, int height,
                                      float progress, float slide,
                                      Look oldLeft, Look oldRight,
                                      Look newLeft, Look newRight, boolean flatSheet) {
@@ -1000,7 +1000,7 @@ public final class PageFlip {
      * The frame is never drawn on top of the paper — transparent
      * corners of page.png show the live frame from below.
      */
-    private static void drawHalfLook(GuiGraphics g, float x, float top, int pageWidth, int height,
+    private static void drawHalfLook(GuiGraphicsExtractor g, float x, float top, int pageWidth, int height,
                                      Look look, TextureTarget paper, boolean mirrored, float sampleOffset) {
         float w = (float) pageWidth;
         float h = (float) height;
@@ -1016,9 +1016,9 @@ public final class PageFlip {
     /**
      * One untextured, solid, opaque quad in ARGB color — immediate mode,
      * so it always layers with the other immediate draws regardless of
-     * what is still sitting in the GuiGraphics batch.
+     * what is still sitting in the GuiGraphicsExtractor batch.
      */
-    private static void drawSolidQuad(GuiGraphics g, float x, float y, float w, float h, int argb) {
+    private static void drawSolidQuad(GuiGraphicsExtractor g, float x, float y, float w, float h, int argb) {
         if (w <= 0f || h <= 0f) return;
         float a = (argb >>> 24 & 0xFF) / 255f;
         float r = (argb >>> 16 & 0xFF) / 255f;
@@ -1043,7 +1043,7 @@ public final class PageFlip {
      * (0 = old page lying flat, 0.5 = page vertical at the spine,
      * 1 = new page lying flat).
      */
-    private static void drawFlip(GuiGraphics g, float left, float top, int pageWidth, int height,
+    private static void drawFlip(GuiGraphicsExtractor g, float left, float top, int pageWidth, int height,
                                 float progress) {
         if (previous == null || next == null || pageWidth <= 0 || height <= 0) return;
         progress = clamp(progress, 0f, 1f);
@@ -1109,7 +1109,7 @@ public final class PageFlip {
      * Coordinates are in GUI-scaled pixels; snapshot UVs are computed with
      * the GUI scale factor.
      */
-    private static void drawStrip(GuiGraphics g, TextureTarget texture,
+    private static void drawStrip(GuiGraphicsExtractor g, TextureTarget texture,
                                   float x0, float x1, float top0, float top1,
                                   float bottom0, float bottom1,
                                   float sourceX0, float sourceX1,
@@ -1158,7 +1158,7 @@ public final class PageFlip {
     public static void drawCoverTexture(String texture, float x, float y,
                                         float w, float h, boolean mirrored) {
         if (mirrored) lastLeftFace = texture; else lastRightFace = texture;
-        GuiGraphics g = currentGui;
+        GuiGraphicsExtractor g = currentGui;
         if (g == null || texture == null || w <= 0f || h <= 0f) return;
         // v2.10.22: covers fill the half with the texture AS-IS. No brown
         // backing quad (that showed as leather corners behind rounded
@@ -1170,7 +1170,7 @@ public final class PageFlip {
     /** Draw the static book layer beneath a page face and its controls. */
     public static void drawPageBacking(String bookTexture,
                                        float x, float y, float w, float h, boolean mirrored) {
-        GuiGraphics g = currentGui;
+        GuiGraphicsExtractor g = currentGui;
         if (g == null || bookTexture == null || w <= 0f || h <= 0f) return;
         // v2.10.22: never paint the brown leather quad. The backing is
         // the cover interior texture itself.
@@ -1192,7 +1192,7 @@ public final class PageFlip {
         // runUpdate() can check the right texture(s) are registered
         // before capturing "next" (see facesReadyForCapture()).
         if (mirrored) lastLeftFace = faceTexture; else lastRightFace = faceTexture;
-        GuiGraphics g = currentGui;
+        GuiGraphicsExtractor g = currentGui;
         if (g == null || w <= 0f || h <= 0f) return;
         if (faceTexture == null) {
             // No page texture set: the book art fills the page (it then
@@ -1263,12 +1263,12 @@ public final class PageFlip {
      * them at flip time (the live game, or the static frame drawn
      * after update()) instead of a frozen pixel.
      */
-    private static void stampAlpha(GuiGraphics g, String texture,
+    private static void stampAlpha(GuiGraphicsExtractor g, String texture,
                                    float x, float y, float w, float h, boolean mirrored) {
         if (w <= 0f || h <= 0f) return;
-        ResourceLocation loc;
+        Identifier loc;
         try {
-            loc = ResourceLocation.parse(texture);
+            loc = Identifier.parse(texture);
         } catch (Exception invalidLocation) {
             return; // nothing touched yet, safe to just bail
         }
@@ -1322,7 +1322,7 @@ public final class PageFlip {
                                        String leftBg, String rightBg,
                                        String leftFace, String rightFace,
                                        boolean leftSheet, boolean rightSheet) {
-        GuiGraphics g = currentGui;
+        GuiGraphicsExtractor g = currentGui;
         if (g == null || pageWidth <= 0 || height <= 0) return;
         drawHalfOverlay(g, leftBg, leftFace, leftSheet,
                 x, y, (float) pageWidth, (float) height, true);
@@ -1364,7 +1364,7 @@ public final class PageFlip {
                                            String leftBg, String rightBg,
                                            boolean leftSheet, boolean rightSheet,
                                            boolean hideLeft, boolean hideRight) {
-        GuiGraphics g = currentGui;
+        GuiGraphicsExtractor g = currentGui;
         if (g == null || pageWidth <= 0 || height <= 0) return;
         if (!leftSheet && !hideLeft) drawHalfOverlay(g, leftBg, null, false,
                 x, y, (float) pageWidth, (float) height, true);
@@ -1419,7 +1419,7 @@ public final class PageFlip {
     }
 
     /** Clear only framebuffer alpha in a rectangle; leave its RGB untouched. */
-    private static void clearAlpha(GuiGraphics g, float x, float y, float w, float h) {
+    private static void clearAlpha(GuiGraphicsExtractor g, float x, float y, float w, float h) {
         if (g == null || w <= 0f || h <= 0f) return;
         try {
             RenderSystem.disableBlend();
@@ -1441,7 +1441,7 @@ public final class PageFlip {
         }
     }
 
-    private static void drawHalfOverlay(GuiGraphics g, String bg, String face,
+    private static void drawHalfOverlay(GuiGraphicsExtractor g, String bg, String face,
                                        boolean sheet, float x, float y,
                                        float w, float h, boolean mirrored) {
         if (bg == null) return;
@@ -1530,20 +1530,20 @@ public final class PageFlip {
     }
 
     /** One textured quad (optionally mirrored horizontally). */
-    private static void drawQuad(GuiGraphics g, String texture,
+    private static void drawQuad(GuiGraphicsExtractor g, String texture,
                                  float x, float y, float w, float h, boolean mirrored) {
         drawQuadUV(g, texture, x, y, w, h, 0f, 0f, 1f, 1f, mirrored);
     }
 
     /** One textured quad sampling a sub-rectangle (u/v in 0..1). */
-    private static void drawQuadUV(GuiGraphics g, String texture,
+    private static void drawQuadUV(GuiGraphicsExtractor g, String texture,
                                    float x, float y, float w, float h,
                                    float u0, float v0, float u1, float v1,
                                    boolean mirrored) {
         if (w <= 0f || h <= 0f) return;
-        ResourceLocation loc;
+        Identifier loc;
         try {
-            loc = ResourceLocation.parse(texture);
+            loc = Identifier.parse(texture);
         } catch (Exception invalidLocation) {
             return;
         }
@@ -1571,7 +1571,7 @@ public final class PageFlip {
         if (cached != null) return cached;
         int[] size = new int[]{-1, -1};
         try {
-            ResourceLocation loc = ResourceLocation.parse(texture);
+            Identifier loc = Identifier.parse(texture);
             var resource = Minecraft.getInstance().getResourceManager().getResource(loc);
             if (resource.isPresent()) {
                 try (var in = resource.get().open()) {

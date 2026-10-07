@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * GuiStatePayload — Client→Server synchronization packet.
@@ -16,7 +16,7 @@ import net.minecraft.resources.ResourceLocation;
 public class GuiStatePayload implements CustomPacketPayload {
 
     public static final CustomPacketPayload.Type<GuiStatePayload> TYPE =
-        new CustomPacketPayload.Type<>(ResourceLocation.parse("@FOMEK_MODID@:gui_state_sync"));
+        new CustomPacketPayload.Type<>(Identifier.parse("@FOMEK_MODID@:gui_state_sync"));
 
     @SuppressWarnings("unchecked")
     public static final StreamCodec<RegistryFriendlyByteBuf, GuiStatePayload> STREAM_CODEC =

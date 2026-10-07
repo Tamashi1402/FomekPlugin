@@ -1,7 +1,7 @@
 package net.tamashi.fomekcore.api.guisystems;
 
 import java.util.*;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 /** Per-menu event and style state. Actions execute inline in the generated procedure. */
 public final class StudioRuntime {

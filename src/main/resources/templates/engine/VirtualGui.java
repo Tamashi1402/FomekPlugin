@@ -2,7 +2,7 @@ package net.tamashi.fomekcore.api.guisystems;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.neoforged.neoforge.common.NeoForge;
 
 import java.util.*;
@@ -98,7 +98,7 @@ public class VirtualGui {
     // Mouse position during render phase (for beginPanel decoration rendering)
     private static float renderMouseX, renderMouseY;
     private static float lastPartialTick;
-    private static GuiGraphics lastGuiGraphics;
+    private static GuiGraphicsExtractor lastGuiGraphics;
     private static String currentPartId = null;
 
     /** Current mouse X from the last render frame (for scroll event handler). */
@@ -598,7 +598,7 @@ public class VirtualGui {
         String svProcedureParent = sv.getParentId(); // actual parent (may differ from procedure nesting)
         boolean svReparented = !java.util.Objects.equals(svProcedureParent, 
             panelStack.isEmpty() ? null : panelStack.peek().getId());
-        GuiGraphics gui = MenuRenderHelper.getGuiGraphics();
+        GuiGraphicsExtractor gui = MenuRenderHelper.getGuiGraphics();
         sv.clearPendingFills();
         if (gui != null) {
             // Background is now rendered during renderElements (in render())
@@ -858,7 +858,7 @@ public class VirtualGui {
         if (current == null || currentParentId == null) return;
         VirtualGuiElement panel = current.elements.get(currentParentId);
         if (panel == null) return;
-        GuiGraphics gui = MenuRenderHelper.getGuiGraphics();
+        GuiGraphicsExtractor gui = MenuRenderHelper.getGuiGraphics();
         if (gui == null) return;
         int sx = panel.getRenderX(current);
         int sy = panel.getRenderY(current);
@@ -919,7 +919,7 @@ public class VirtualGui {
         panel.setLastDeclaredFrame(declFrame);
         panelStack.push(panel);
         currentParentId = panelId;
-        GuiGraphics gui = MenuRenderHelper.getGuiGraphics();
+        GuiGraphicsExtractor gui = MenuRenderHelper.getGuiGraphics();
         if (gui != null) {
             int sx = panel.getRenderX(current);
             int sy = panel.getRenderY(current);
@@ -1050,7 +1050,7 @@ public class VirtualGui {
             panelStack.push(existing);
             currentParentId = panelId;
 
-            GuiGraphics gui = MenuRenderHelper.getGuiGraphics();
+            GuiGraphicsExtractor gui = MenuRenderHelper.getGuiGraphics();
             // Detect if this panel has been reparented away from the procedure's
             // nesting. The procedure always calls beginPanel("panelB") inside
             // beginPanel("panelA"), but panelB might have been dragged out and
@@ -1124,7 +1124,7 @@ public class VirtualGui {
         currentParentId = panelId;
 
         // Render background + enable scissor for new panels too.
-        GuiGraphics gui = MenuRenderHelper.getGuiGraphics();
+        GuiGraphicsExtractor gui = MenuRenderHelper.getGuiGraphics();
         // New panels are never reparented (just created), but compute for
         // consistency with endPanel's scissor re-enable logic.
         boolean reparented = !java.util.Objects.equals(procedureParentId, panel.getParentId());
@@ -1176,7 +1176,7 @@ public class VirtualGui {
         // Only disable if the scissor was actually enabled for this panel level
         // (drag-out panels skip scissor). Must happen BEFORE popping the stack
         // so the scissor region matches the panel that enabled it.
-        GuiGraphics gui = MenuRenderHelper.getGuiGraphics();
+        GuiGraphicsExtractor gui = MenuRenderHelper.getGuiGraphics();
         boolean wasReparented = !reparentedScissorStack.isEmpty() && reparentedScissorStack.pop();
         if (!scissorStack.isEmpty()) {
             boolean wasEnabled = scissorStack.pop();
@@ -3665,7 +3665,7 @@ public class VirtualGui {
         if (id == null || id.isEmpty()) return;
         // Need an active menu and render context
         if (current == null) return;
-        GuiGraphics gui = lastGuiGraphics;
+        GuiGraphicsExtractor gui = lastGuiGraphics;
         if (gui == null) gui = MenuRenderHelper.getGuiGraphics();
         if (gui == null) return;
         Minecraft mc = Minecraft.getInstance();
@@ -3697,7 +3697,7 @@ public class VirtualGui {
         return currentPartId;
     }
 
-    public static void onScreenRender(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+    public static void onScreenRender(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
         StudioRuntime.beginFrame();
         // Poll InputManager (frame + second frequencies) before user procedures run
         InputManager.updateAll();
@@ -3838,7 +3838,7 @@ public class VirtualGui {
         resizeJustHappened = false;
     }
 
-    public static void renderElements(GuiGraphics gui, int mouseX, int mouseY, float partialTick) {
+    public static void renderElements(GuiGraphicsExtractor gui, int mouseX, int mouseY, float partialTick) {
         if (current == null) return;
         // Reset background + decoration render flags so elements re-render both
         // in z-order (elementOrder). Backgrounds are now rendered in render()
@@ -3858,7 +3858,7 @@ public class VirtualGui {
         // otherwise render after it and cover the dragged item.
         //
         // IMPORTANT: gui.flush() is called after EACH top-level element's
-        // render() call. GuiGraphics buffers drawString() calls separately
+        // render() call. GuiGraphicsExtractor buffers drawString() calls separately
         // from fill() calls — fill() draws immediately in call order, but
         // text glyphs get queued and can end up rendered in one big batch at
         // the end of the frame, AFTER all fills, regardless of when they were

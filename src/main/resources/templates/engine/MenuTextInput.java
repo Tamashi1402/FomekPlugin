@@ -2,7 +2,7 @@ package net.tamashi.fomekcore.api.guisystems;
 
 import java.util.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.MultilineTextField;
 import net.minecraft.client.gui.components.Whence;
@@ -63,7 +63,7 @@ public final class MenuTextInput extends AbstractWidget {
         else{scrollY=0;if(x<scrollX)scrollX=x;if(x+2>scrollX+width)scrollX=x+2-width;}
         scrollX=Math.max(0,scrollX);scrollY=Math.max(0,Math.min(scrollY,Math.max(0,lines.size()*lineHeight()-height)));
     }
-    @Override protected void renderWidget(GuiGraphics gui,int mx,int my,float partial){
+    @Override protected void renderWidget(GuiGraphicsExtractor gui,int mx,int my,float partial){
         layout();MenuStyle s=style();MenuStyle outer=StudioRuntime.style(owner.key);if(model.value().isEmpty() && outer!=null)s=outer.part("placeholder");if(!s.hasText())return;
         gui.enableScissor(getX(),getY(),getX()+width,getY()+height);
         try{

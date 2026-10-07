@@ -1,13 +1,13 @@
 package __RENDERAPI_PACKAGE__;
 
-import net.minecraft.client.renderer.LightTexture;
+import net.minecraft.util.LightCoordsUtil;
 import com.mojang.blaze3d.systems.RenderSystem;
 
 import java.util.HashMap;
 import java.util.Map;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import org.joml.Matrix4f;
@@ -206,7 +206,7 @@ public class FomekShader {
     // ── Light override ──────────────────────────────────────────────────────
 
     public int getPackedLight(int defaultLight) {
-        return glowing ? LightTexture.FULL_BRIGHT : defaultLight;
+        return glowing ? LightCoordsUtil.FULL_BRIGHT : defaultLight;
     }
 
     // ── Color override ──────────────────────────────────────────────────────

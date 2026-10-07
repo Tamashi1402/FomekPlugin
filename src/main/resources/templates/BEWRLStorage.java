@@ -8,7 +8,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -477,7 +477,7 @@ public class BEWRLStorage {
     // Server lifecycle: load SavedData on start, re-sync players on login
     // ═══════════════════════════════════════════════════════════════════════════
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.GAME)
+    @EventBusSubscriber
     public static class GameEvents {
         @SubscribeEvent
         public static void onServerStarted(ServerStartedEvent event) {
@@ -503,7 +503,7 @@ public class BEWRLStorage {
             implements CustomPacketPayload {
 
         public static final Type<BEWRLModelPayload> TYPE =
-                new Type<>(ResourceLocation.fromNamespaceAndPath("__MODID__", "bewrl_model"));
+                new Type<>(Identifier.fromNamespaceAndPath("__MODID__", "bewrl_model"));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, BEWRLModelPayload> STREAM_CODEC =
                 StreamCodec.of(
@@ -535,7 +535,7 @@ public class BEWRLStorage {
             implements CustomPacketPayload {
 
         public static final Type<BEWRLEntityMapPayload> TYPE =
-                new Type<>(ResourceLocation.fromNamespaceAndPath("__MODID__", "bewrl_entity_map"));
+                new Type<>(Identifier.fromNamespaceAndPath("__MODID__", "bewrl_entity_map"));
 
         public static final StreamCodec<RegistryFriendlyByteBuf, BEWRLEntityMapPayload> STREAM_CODEC =
                 StreamCodec.of(
@@ -568,7 +568,7 @@ public class BEWRLStorage {
     // Network Registration
     // ═══════════════════════════════════════════════════════════════════════════
 
-    @EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+    @EventBusSubscriber
     public static class ModEvents {
         @SubscribeEvent
         public static void registerPayloads(RegisterPayloadHandlersEvent event) {

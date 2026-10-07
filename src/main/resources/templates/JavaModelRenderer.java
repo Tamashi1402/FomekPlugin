@@ -7,8 +7,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.geom.ModelLayerLocation;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.api.distmarker.OnlyIn;
 import com.mojang.logging.LogUtils;
@@ -121,13 +122,13 @@ public class JavaModelRenderer {
         }
 
         // 4. Guess ModelLayerLocation
-        ResourceLocation[] guesses = {
-            ResourceLocation.fromNamespaceAndPath("minecraft", key),
-            ResourceLocation.fromNamespaceAndPath("__MODID__", key),
-            ResourceLocation.fromNamespaceAndPath("__MODID__", "model_" + key),
-            ResourceLocation.fromNamespaceAndPath("minecraft", "model_" + key),
+        Identifier[] guesses = {
+            Identifier.fromNamespaceAndPath("minecraft", key),
+            Identifier.fromNamespaceAndPath("__MODID__", key),
+            Identifier.fromNamespaceAndPath("__MODID__", "model_" + key),
+            Identifier.fromNamespaceAndPath("minecraft", "model_" + key),
         };
-        for (ResourceLocation guess : guesses) {
+        for (Identifier guess : guesses) {
             ModelLayerLocation guessLayer = new ModelLayerLocation(guess, "main");
             ModelPart model = bakeLayerSafe(guessLayer);
             if (model != null && !isEmptyModel(model)) {
@@ -316,7 +317,7 @@ public class JavaModelRenderer {
      * Legacy overload — defaults to non-GUI context (third person / world).
      */
     public static void renderJavaModel(
-            String name, ResourceLocation texture, String renderType,
+            String name, Identifier texture, String renderType,
             float x, float y, float z,
             float yaw, float pitch, float roll,
             float scale,
@@ -346,7 +347,7 @@ public class JavaModelRenderer {
      *     → ModelPart's /16 gives correct block-space size. No scale needed.
      *   - GUI: PoseStack is in SCREEN PIXEL SPACE (Y goes DOWN, no Y flip applied yet
      *     because the display transform that would handle it is cancelled)
-     *     → Need scale(16) to convert block→pixel (match BakedModel's 0-16 range)
+     *     → Need scale(16) to convert block→pixel (match ResolvedModel's 0-16 range)
      *     → Need Z 180° to flip Y from up→down (screen Y is down, model Y is up)
      *
      * The transform chain (PoseStack order — outermost first, innermost applied
@@ -363,7 +364,7 @@ public class JavaModelRenderer {
      *                     Y goes down), false for world/hand contexts (block space, Y up)
      */
     public static void renderJavaModel(
-            String name, ResourceLocation texture, String renderType,
+            String name, Identifier texture, String renderType,
             float x, float y, float z,
             float yaw, float pitch, float roll,
             float scale,
@@ -375,7 +376,7 @@ public class JavaModelRenderer {
     }
 
     public static void renderJavaModel(
-            String name, ResourceLocation texture, String renderType,
+            String name, Identifier texture, String renderType,
             float x, float y, float z,
             float yaw, float pitch, float roll,
             float scale,
@@ -441,28 +442,28 @@ public class JavaModelRenderer {
         pose.popPose();
     }
 
-    public static RenderType resolveRenderType(String renderType, ResourceLocation texture) {
-        if (texture == null) return RenderType.entityCutout(
-            ResourceLocation.fromNamespaceAndPath("minecraft", "textures/misc/white.png"));
+    public static RenderType resolveRenderType(String renderType, Identifier texture) {
+        if (texture == null) return RenderTypes.entityCutout(
+            Identifier.fromNamespaceAndPath("minecraft", "textures/misc/white.png"));
         if (renderType == null || renderType.isEmpty()) renderType = "entityCutoutNoCull";
 
         // If a custom blend mode is active, use entityTranslucent (which enables blend)
         // so the manual flush in flushBufferWithBlend can override the blend function.
         RenderAPI.BlendMode bm = RenderAPI.getCurrentBlendMode();
         if (bm != null && bm != RenderAPI.BlendMode.DEFAULT) {
-            return RenderType.entityTranslucent(texture);
+            return RenderTypes.entityTranslucent(texture);
         }
 
         return switch (renderType) {
-            case "entityCutoutNoCull"        -> RenderType.entityCutoutNoCull(texture);
-            case "entityTranslucent"         -> RenderType.entityTranslucent(texture);
-            case "entityTranslucentEmissive" -> RenderType.entityTranslucentEmissive(texture);
-            case "eyes"                      -> RenderType.eyes(texture);
-            case "energySwirl"               -> RenderType.energySwirl(texture,
+            case "entityCutoutNoCull"        -> RenderTypes.entityCutout(texture);
+            case "entityTranslucent"         -> RenderTypes.entityTranslucent(texture);
+            case "entityTranslucentEmissive" -> RenderTypes.entityTranslucentEmissive(texture);
+            case "eyes"                      -> RenderTypes.eyes(texture);
+            case "energySwirl"               -> RenderTypes.energySwirl(texture,
                                             RenderAPI.getRenderTime() % 1.0f,
                                             RenderAPI.getRenderTime() % 1.0f);
             case "dragonExplosionAlpha"      -> RenderType.dragonExplosionAlpha(texture);
-            default                          -> RenderType.entityCutout(texture);
+            default                          -> RenderTypes.entityCutout(texture);
         };
     }
 }

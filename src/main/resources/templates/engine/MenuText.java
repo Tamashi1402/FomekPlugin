@@ -2,7 +2,7 @@ package net.tamashi.fomekcore.api.guisystems;
 
 import java.util.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import com.mojang.blaze3d.pipeline.TextureTarget;
@@ -20,7 +20,7 @@ public final class MenuText {
     private static final LinkedHashMap<Key,Layer> cache=new LinkedHashMap<>(16,.75f,true);
     private MenuText() {}
     public static void clear(){for(Layer l:cache.values())l.target.destroyBuffers();cache.clear();}
-    public static void draw(GuiGraphics gui,Component text,float x,float y,float scale,int color,boolean shadow,boolean smooth){
+    public static void draw(GuiGraphicsExtractor gui,Component text,float x,float y,float scale,int color,boolean shadow,boolean smooth){
         if(text.getString().isEmpty()||scale<=0)return;
         float fogStart=RenderSystem.getShaderFogStart(),fogEnd=RenderSystem.getShaderFogEnd();
         gui.flush();RenderSystem.setShaderFogStart(1e20f);RenderSystem.setShaderFogEnd(2e20f);
@@ -55,7 +55,7 @@ public final class MenuText {
             target=new TextureTarget(width*samples,height*samples,true,Minecraft.ON_OSX);target.setFilterMode(GL11.GL_LINEAR);target.setClearColor(0,0,0,0);target.clear(Minecraft.ON_OSX);target.bindWrite(true);
             modelView.identity();RenderSystem.applyModelViewMatrix();
             RenderSystem.setProjectionMatrix(new Matrix4f().setOrtho(0,width*samples,height*samples,0,1000,21000),VertexSorting.ORTHOGRAPHIC_Z);
-            GuiGraphics surface=new GuiGraphics(mc,mc.renderBuffers().bufferSource());surface.pose().translate(0,0,-11000);surface.pose().scale(samples,samples,1);
+            GuiGraphicsExtractor surface=new GuiGraphicsExtractor(mc,mc.renderBuffers().bufferSource());surface.pose().translate(0,0,-11000);surface.pose().scale(samples,samples,1);
             surface.drawString(mc.font,text,1,1,color,shadow);surface.flush();
             return new Layer(target,width,height);
         }catch(RuntimeException e){if(target!=null)target.destroyBuffers();throw e;}

@@ -19,12 +19,13 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.renderer.block.model.ItemTransform;
-import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.cuboid.ItemTransform;
+import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.Resource;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.Event;
@@ -329,7 +330,7 @@ public class FomekBEWRL {
                         }
                         if (part.childShader != null) {
                             int childLight = part.childShader.isGlowing()
-                                    ? net.minecraft.client.renderer.LightTexture.FULL_BRIGHT
+                                    ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT
                                     : packedLight;
                             part.childShader.apply();
                             part.childModel.renderWithShader(poseStack, bufferSource,
@@ -390,7 +391,7 @@ public class FomekBEWRL {
                 FomekAnimation.File animFile = null;
                 float animTime = 0;
                 try {
-                    ResourceLocation animPath = ResourceLocation.parse(controller.getCurrentAnimation());
+                    Identifier animPath = Identifier.parse(controller.getCurrentAnimation());
                     animFile = FomekAnimation.File.load(animPath);
                     animTime = controller.getAnimationProgress((long) gameTime, partialTick);
                 } catch (Exception e) {
@@ -620,7 +621,7 @@ public class FomekBEWRL {
                         if (part.childShader != null) {
                             // Check child shader's glow flag — if glowing, use FULL_BRIGHT
                             int childLight = part.childShader.isGlowing()
-                                    ? net.minecraft.client.renderer.LightTexture.FULL_BRIGHT
+                                    ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT
                                     : packedLight;
                             part.childShader.apply();
                             part.childModel.renderWithShader(poseStack, bufferSource,
@@ -630,7 +631,7 @@ public class FomekBEWRL {
                         } else {
                             // No child shader — use the parent shader
                             int parentLight = shader.isGlowing()
-                                    ? net.minecraft.client.renderer.LightTexture.FULL_BRIGHT
+                                    ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT
                                     : packedLight;
                             part.childModel.renderWithShader(poseStack, bufferSource,
                                 0, 0, 0, 0, 0, 0, 1,
@@ -647,7 +648,7 @@ public class FomekBEWRL {
                         if (part.shape == null || part.shape.isEmpty()) continue;
                         // Override packedLight if this shader is glowing
                         int effectiveLight = shader.isGlowing()
-                                ? net.minecraft.client.renderer.LightTexture.FULL_BRIGHT
+                                ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT
                                 : packedLight;
                         String rt = (shader.getRenderType() != null && !shader.getRenderType().isEmpty())
                                 ? shader.getRenderType() : part.renderType;
@@ -673,8 +674,8 @@ public class FomekBEWRL {
                             // lockTexture=false → shader-overridable part.  UV offsets animate.
                             float xOff = part.lockTexture ? 0.0f : (FomekRenderAPI.getRenderTime() * shader.getSwirlXSpeed()) % 1.0f;
                             float zOff = part.lockTexture ? 0.0f : (FomekRenderAPI.getRenderTime() * shader.getSwirlZSpeed()) % 1.0f;
-                            net.minecraft.resources.ResourceLocation swirlTex =
-                                net.minecraft.resources.ResourceLocation.parse(tex != null ? tex : "minecraft:textures/misc/white.png");
+                            net.minecraft.resources.Identifier swirlTex =
+                                net.minecraft.resources.Identifier.parse(tex != null ? tex : "minecraft:textures/misc/white.png");
                             net.minecraft.client.renderer.RenderType customRt;
                             if ("fomekSwirl".equals(rt)) {
                                 // Resolve blend mode: shader's swirlBlendMode → global currentBlendMode → ADDITION
@@ -968,7 +969,7 @@ public class FomekBEWRL {
                 FomekAnimation.File animFile = null;
                 float animTime = 0;
                 try {
-                    ResourceLocation animPath = ResourceLocation.parse(controller.getCurrentAnimation());
+                    Identifier animPath = Identifier.parse(controller.getCurrentAnimation());
                     animFile = FomekAnimation.File.load(animPath);
                     animTime = controller.getAnimationProgress((long) gameTime, partialTick);
                 } catch (Exception e) {
@@ -1143,8 +1144,8 @@ public class FomekBEWRL {
                 ModelPart model = FomekJavaModelRenderer.getBakedModel(part.javaModelName);
                 if (model == null) return;
 
-                ResourceLocation texture = safeRL(textureStr);
-                if (texture == null) texture = ResourceLocation.parse("minecraft:textures/misc/white.png");
+                Identifier texture = safeRL(textureStr);
+                if (texture == null) texture = Identifier.parse("minecraft:textures/misc/white.png");
                 if (renderTypeName == null || renderTypeName.isEmpty()) renderTypeName = "entityCutoutNoCull";
 
                 RenderType rt = FomekJavaModelRenderer.resolveRenderType(renderTypeName, texture);
@@ -1237,7 +1238,7 @@ public class FomekBEWRL {
 
                 // Determine glow: part flag OR shader glowing flag
                 boolean isGlowing = part.itemGlowing || (shader != null && shader.isGlowing());
-                int light = isGlowing ? net.minecraft.client.renderer.LightTexture.FULL_BRIGHT : packedLight;
+                int light = isGlowing ? net.minecraft.client.renderer.LightCoordsUtil.FULL_BRIGHT : packedLight;
 
                 // Determine shader tint (color + transparency)
                 boolean hasTint = false;
@@ -1274,9 +1275,9 @@ public class FomekBEWRL {
                 if (xscale != 1 || yscale != 1 || zscale != 1) {
                     float cx = 0, cy = 0, cz = 0;
                     try {
-                        BakedModel bakedModel = Minecraft.getInstance().getItemRenderer()
+                        ResolvedModel bakedModel = Minecraft.getInstance().getItemRenderer()
                                 .getModel(part.itemStack, level, entity, 0);
-                        ItemTransform itemTransform = bakedModel.getTransforms().getTransform(displayCtx);
+                        ItemTransform itemTransform = bakedModel.wrapped().transforms().getTransform(displayCtx);
                         if (itemTransform != null && itemTransform != ItemTransform.NO_TRANSFORM) {
                             cx = itemTransform.translation.x();
                             cy = itemTransform.translation.y();
@@ -1327,8 +1328,8 @@ public class FomekBEWRL {
                     int color, String textureStr, String renderTypeName,
                     int packedLight, int packedOverlay) {
 
-                ResourceLocation texture = safeRL(textureStr);
-                if (texture == null) texture = ResourceLocation.parse("minecraft:textures/misc/white.png");
+                Identifier texture = safeRL(textureStr);
+                if (texture == null) texture = Identifier.parse("minecraft:textures/misc/white.png");
                 if (renderTypeName == null || renderTypeName.isEmpty()) renderTypeName = "entityCutoutNoCull";
 
                 shape.render(poseStack, bufferSource,
@@ -1359,9 +1360,9 @@ public class FomekBEWRL {
                         color, packedLight, packedOverlay, renderType);
             }
 
-            private static ResourceLocation safeRL(String s) {
+            private static Identifier safeRL(String s) {
                 if (s == null || s.isEmpty()) return null;
-                try { return ResourceLocation.parse(s); }
+                try { return Identifier.parse(s); }
                 catch (Exception e) { return null; }
             }
     }
@@ -1370,7 +1371,7 @@ public class FomekBEWRL {
 
         public static final Registry INSTANCE = new Registry();
 
-            private final Map<String, ResourceLocation> registeredPaths = new ConcurrentHashMap<>();
+            private final Map<String, Identifier> registeredPaths = new ConcurrentHashMap<>();
             private final Map<String, Model> loadedModels = new ConcurrentHashMap<>();
             private final Map<String, FomekAnimation.Controller> controllers = new ConcurrentHashMap<>();
 
@@ -1399,10 +1400,10 @@ public class FomekBEWRL {
             // ── Registration ──────────────────────────────────────────────────────────
 
             void register(String fullId, String path) {
-                register(fullId, ResourceLocation.parse(path));
+                register(fullId, Identifier.parse(path));
             }
 
-            void register(String fullId, ResourceLocation path) {
+            void register(String fullId, Identifier path) {
                 registeredPaths.put(fullId, path);
                 loadedModels.remove(fullId);
             }
@@ -1416,7 +1417,7 @@ public class FomekBEWRL {
                 Model cached = loadedModels.get(fullId);
                 if (cached != null) return cached;
 
-                ResourceLocation path = registeredPaths.get(fullId);
+                Identifier path = registeredPaths.get(fullId);
                 if (path == null) {
                     LOGGER.warn("BEWRL model not registered: " + fullId);
                     return null;
@@ -1456,7 +1457,7 @@ public class FomekBEWRL {
              * Load a model JSON file from Minecraft's resource system.
              * Matches the format exported by Fomek Builder.
              */
-            private Model loadModel(ResourceLocation path) {
+            private Model loadModel(Identifier path) {
                 try {
                     Minecraft mc = Minecraft.getInstance();
                     Resource resource = mc.getResourceManager().getResource(path).orElse(null);
@@ -1611,7 +1612,7 @@ public class FomekBEWRL {
             /**
              * Register a BEWRL model.
              *
-             * @param path     ResourceLocation path to the .fmodel JSON, e.g. "__MODID__:bewrlmodels/sword.json"
+             * @param path     Identifier path to the .fmodel JSON, e.g. "__MODID__:bewrlmodels/sword.json"
              * @param modelId  Short id, e.g. "fire_sword" — stored as "modid:fire_sword"
              */
             public void register(String path, String modelId) {
@@ -1628,7 +1629,7 @@ public class FomekBEWRL {
             }
     }
 
-    @net.neoforged.fml.common.EventBusSubscriber(value = net.neoforged.api.distmarker.Dist.CLIENT, bus = net.neoforged.fml.common.EventBusSubscriber.Bus.MOD)
+    @net.neoforged.fml.common.EventBusSubscriber(value = net.neoforged.api.distmarker.Dist.CLIENT)
     public static class RegistrationHandler {
 
         @SubscribeEvent

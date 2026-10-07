@@ -1,104 +1,60 @@
-# FomekPlugin port: 2026.1 → 2026.2 (nf-26.1.2 branch)
+# Render-runtime port: MCreator 2026.1 → 2026.2 / NeoForge 26.1.2
 
-**This file is the hand-off document.** Update it at the end of every work chunk
-and commit it together with the chunk. The next agent (or the next session)
-reads this first. GitHub pushes are currently broken (see "Known issues"), so
-local commits + the bundle backup are the source of truth.
+## Status
+- Workspace-build harness (pluginWorkspaceTest) WORKS: creates real neoforge-26.1.2
+  workspace, injects fomek render runtime, runs full Gradle build.
+  Log: repo/build/workspace-test-build.log; run:
+  `env JAVA_HOME=mcreator-src/jdk/jbr25_linux_64 ./gradlew pluginWorkspaceTest --no-daemon`
+  (must run with workingDir=mcreator_path so ./plugins/ built-ins are found;
+  FOMEK_TEST_DIR env passes repo dir for outputs; test resources on classpath via
+  mcreator_src/src/test/resources — has /empty.nbt the workspace filler needs).
+- Pass 1 (mechanical renames) applied to 12 template files (RenderAPI + Fomek twin,
+  RenderEvent, BEWRL, Animation, Shader, BEWRLStorage ×2 each).
+- Errors before pass 1: ~300 javac errors (RenderAPI 74, BEWRL 18, RenderEvent 8,
+  Shader 10, Animation 6 + 2× "wrong number of type arguments; required 2").
 
-## Goal
+## Verified MC 26.1 → 1.21.1 symbol map (from minecraft-patched-26.1.2.95-sources.jar)
+| old (1.21.1) | new (26.1) |
+|---|---|
+| net.minecraft.resources.ResourceLocation | net.minecraft.resources.Identifier (fromNamespaceAndPath/parse/tryParse/withDefaultNamespace; NO public ctor) |
+| net.minecraft.client.gui.GuiGraphics | net.minecraft.client.gui.GuiGraphicsExtractor (has all drawing: fill, fillGradient, text(=drawString), centeredText, textWithWordWrap, blit, blitSprite, item(=renderItem), itemDecorations, setTooltipForNextFrame, entity, pose()) |
+| blit(RenderType, RL, x,y,u,v,w,h,tw,th) | blit(RenderPipeline, Identifier, x,y,u,v,w,h,tw,th[,color]) — pipeline usually RenderPipelines.GUI_TEXTURED |
+| gui.pose() : PoseStack | gui.pose() : org.joml.Matrix3x2fStack (2D! pushMatrix/popMatrix/translate(x,y)/scale(x,y)/rotate(rad); NO z. Depth = gui.nextStratum()) |
+| net.minecraft.client.renderer.RenderType | net.minecraft.client.renderer.rendertype.RenderType |
+| RenderType.entityCutout/static factories | RenderTypes.entityCutout etc. (same package). MISSING: entityCutoutNoCull→entityCutout, entityGlintDirect→entityGlint, dragonExplosionAlpha→dragonRays (VISUAL VERIFY) |
+| RenderStateShard | GONE → RenderSetup.builder(RenderPipeline) + RenderType.create(name, setup) |
+| net.minecraft.client.renderer.LightTexture.FULL_BRIGHT | net.minecraft.util.LightCoordsUtil.FULL_BRIGHT (=15728880) |
+| net.minecraft.client.resources.model.BakedModel | net.minecraft.client.resources.model.ResolvedModel (interface; transforms via model.wrapped().transforms() → ItemTransforms record, may be null) |
+| BakedModel.getTransforms() | resolvedModel.wrapped().transforms() (nullable) |
+| net.minecraft.client.renderer.block.model.BakedQuad | net.minecraft.client.resources.model.geometry.BakedQuad — now a RECORD (Vector3fc positions, packed UV longs, MaterialInfo) — construction/consumption API fully changed |
+| net.minecraft.client.renderer.block.model.ItemTransform | net.minecraft.client.resources.model.cuboid.ItemTransform (record: rotation/translation/scale :Vector3fc) |
+| com.mojang.blaze3d.platform.GlStateManager | com.mojang.blaze3d.opengl.GlStateManager; SourceFactor/DestFactor enums GONE |
+| RenderSystem.setShaderTexture/setShaderColor/blendFunc(Separate)/defaultBlendFunc/enableBlend/depth | GONE from RenderSystem — blend+color state now baked per-RenderPipeline; custom blend = build own RenderPipeline (see vanilla RenderPipelines class pattern) |
+| BufferUploader | GONE (blaze3d GpuDevice/MeshRenderer API) |
+| EntityRenderer<T> | EntityRenderer<T, S extends EntityRenderState> (2 type args; extractRenderState + submit) |
+| ItemRenderer.getModel(stack,lvl,ent,seed) | UNRESOLVED — no client ItemRenderer.getModel found; render-state pipeline (TrackingItemStackRenderState / GuiItemRenderState) — investigate Minecraft.getItemRenderer replacement |
+| neoforge RenderGuiEvent.getGuiGraphics() | same name, returns GuiGraphicsExtractor (OK) |
+| RenderLevelStageEvent | now (LevelRenderer, LevelRenderState, PoseStack, Matrix4fc, sections) — pose/modelview accessors still there |
+| RegisterClientReloadListenersEvent | NOT FOUND in neoforge universal jar — check client jar / rename |
 
-Port FomekPlugin (MCreator plugin) from MCreator 2026.1 / generator
-`neoforge-1.21.1` to MCreator **2026.2** / generator **`neoforge-26.1.2`**
-(NeoForge 26.1.x for Minecraft 26.1), so the plugin compiles, loads and its
-generated workspaces build against the new APIs.
+## Known deep-work items after pass 1
+1. RenderAPI blend-mode subsystem (enableBlending / flushBufferWithBlend /
+   resolveRenderType custom blend path, ~lines 760-840 + 5780+): immediate-mode
+   blend hacks are impossible now. Port = custom RenderPipelines per BlendMode
+   (copy RenderPipelines.java builder pattern), RenderSetup.builder per texture.
+2. Item display-transform access (getItemDisplayYaw/Pitch/Roll + applyTransform):
+   needs new model-resolution path (item 1 in table above).
+3. Shape custom RenderType / swirl animation (energySwirl had UV-offset params in
+   old API — check RenderTypes.energySwirl signature: (Identifier, Identifier, x, z)).
+4. BEWRL: BakedQuad record port (quad consumers in reconstructResolvedModel),
+   ItemTransform record fields (was public Vector3f fields, now record accessors —
+   .rotation.y() still works).
+5. Shader.java: RenderStateShard import was removed; class still references
+   shard API for custom types — needs RenderSetup port; check GL20/LWJGL usage compiles headless.
+6. "wrong number of type arguments" — EntityRenderer<?> → EntityRenderer<?,?> at RenderAPI.java:2788.
 
-Source history: branch `nf-1.21.1` was copied into branch `nf-26.1.2`.
-Strategy per owner: work piece by piece, commit each chunk, verify compile
-errors headlessly so the owner does not have to run MCreator himself.
-
-## Repo layout (what is what)
-
-- `src/main/resources/plugin.json` — `supportedversions` bumped to 2026002.
-- `src/main/resources/neoforge-26.1.2/` — the fomek generator (renamed from
-  `neoforge-1.21.1/`; `generator.yaml` status/check relevant keys updated).
-- `src/main/resources/templates/` — runtime templates injected into user
-  workspaces (`RenderAPI.java`, `FomekRenderAPI.java`, `VirtualGui.java`,
-  engine/…). These are the BIGGEST port surface: they compile against raw
-  Minecraft/NeoForge 26.1 APIs inside the generated workspace.
-- `src/main/java/net/tamashi/fomek/` — plugin Java code. Builds OK against
-  MCreator 2026.2 APIs.
-- `tests-load/` — headless harness (see below).
-- MCreator 2026.2 sources live OUTSIDE the repo at the path in
-  `gradle.properties` (`mcreator_path`), plus JDK 25 (JBR with JCEF) under
-  `mcreator-src/jdk/jbr25_linux_64`. `gradle.properties` is gitignored.
-
-## Done so far (in commit order)
-
-1. **Foundation** (26c5501): plugin compiles under MCreator 2026.2 (Gradle 9.6,
-   Java 25). Fixed the Gradle-9 `afterEvaluate`/ProjectDependency crash the
-   owner hit on Windows. Generator folder renamed `neoforge-1.21.1` →
-   `neoforge-26.1.2`, `supportedversions: 2026002`, jar-detection + unit test
-   updated.
-2. **Headless load test** (1c48af6): `gradlew pluginLoadTest` boots MCreator
-   2026.2 with `fomek-plugin.zip` via `MCREATOR_PLUGINS_FOLDER`, asserts
-   FomekPlugin instantiated and `neoforge-26.1.2` generator usable. Result:
-   **loads clean**. Only issues: ~274 missing en_US translations (fomek
-   blockly categories/blocks — cosmetic, same on 2026.1) + one pre-existing
-   warning: generator `variables/fomek_animator.yaml` has no matching
-   `resources/variables/fomek_animator.json` type declaration (GeneratorVariableTypes
-   skips it). Pre-existing on the old branch, NOT a port regression; decide
-   later whether to add the json or drop the yaml.
-   Also: `.gitignore` added; build/ .gradle/ artifacts untracked.
-3. **Headless workspace-build harness** (db5d31c): `gradlew pluginWorkspaceTest`:
-   creates a `neoforge-26.1.2` test workspace (MCreator's own
-   `TestWorkspaceDataProvider.createTestWorkspace`), injects the fomek runtime
-   (`FomekPlugin.injectRuntimeHeadless` = renderer + menus injection, same
-   code path as MCreatorLoadedEvent), then runs the full Gradle `build` of the
-   workspace and dumps every javac error to `build/workspace-test-build.log`.
-   This is the compile-error surfacing loop for the template port.
-   Test classpath wiring (build.gradle): MCreator test classes attached as
-   file collections (`mcreator-src/build/classes/java/test`), since :MCreator
-   exposes no consumable test variant; MCreator's implementation deps are
-   copied into our implementation config via afterEvaluate (Gradle 9: filter
-   ProjectDependency, else duplicate project dep).
-
-## In progress
-
-- First `pluginWorkspaceTest` run (downloads NeoForge 26.1 toolchain on first
-  run). Expect the injected runtime templates (`RenderAPI.java`,
-  `VirtualGui.java`, …) to produce compile errors against 26.1 APIs — those
-  errors are the work queue for the next chunks.
-
-## Next steps (ordered)
-
-1. Collect `build/workspace-test-build.log` javac errors, fix the injected
-   runtime templates chunk by chunk (commit per subsystem: RenderAPI,
-   VirtualGui, engine/, menus).
-2. Extend WorkspaceBuildTest to also generate fomek mod elements / procedures
-   using every fomek blockly block (like MCreator's GTProcedureBlocks) so the
-   ~1033 procedure ftl templates get exercised too. Most fomek procedure
-   blocks only call fomek's own runtime API (stable), but MC-API-touching ones
-   must be ported.
-3. FomekCore mod (owner-attached FomekCore-newest-net.zip): verify against
-  NeoForge 26.1.2 once the workspace builds.
-4. Re-check the fomek_animator variable type warning.
-5. Push to GitHub when it works again; keep `git bundle create` backups +
-   upload them (last bundle: base44 upload `a04afd9fc_fomek-backup.bundle`).
-
-## Known issues / gotchas
-
-- **GitHub push broken (server-side)**: any `git push` to Tamashi1402/FomekPlugin
-  (even an empty commit, any branch) and the Contents API return HTTP 500
-  "Internal Server Error"; reads work fine. Fresh connector token did not
-  help. Owner should check the repo on github.com / support. Until fixed:
-  local commits + `git bundle create ../fomek-backup.bundle --all` after each
-  chunk, uploaded via Base44 public storage.
-- MCreator 2026.2 builds with **Java 25** (JBR 25 with JCEF);
-  `flatDir mcreator_path/lib` provides the bundled jars.
-- `generator.yaml` of the plugin defines the merged generator; its status
-  was left at whatever 2026.1 had unless compile demanded otherwise.
-- 99% of the plugin's 1033 procedure templates are fomek-custom (only 3 match
-  core MCreator blocks by name), so the "diff against core generator" strategy
-  barely applies — port via workspace compile errors instead.
-- Missing translations: all `blockly.category.fomek_*` / block keys for
-  en_US; keys exist in other locales (texts_*.properties). Optional polish.
+## Harness notes
+- deobf sources: repo/build/workspace-test/build/moddev/artifacts/minecraft-patched-26.1.2.95-sources.jar
+- neoforge universal jar: /root/.mcreator/gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.1.2.95/b2c6a32bb07fe4e8f919bfb76cf1645be0a17b48/neoforge-26.1.2.95-universal.jar
+- MCreator 2026.2 generator 26.1 templates are the idiomatic reference:
+  mcreator-src/plugins/generator-26.1.x/neoforge-26.1.2/templates (blockentity_renderer.java.ftl = new render-state architecture)

@@ -1,7 +1,7 @@
 package net.tamashi.fomekcore.api.guisystems;
 
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 
 import com.mojang.blaze3d.systems.RenderSystem;
@@ -668,7 +668,7 @@ public class VirtualGuiElement {
      * calls (renderRect, renderItem, etc.) appear ON TOP of the panel
      * background, not buried underneath it.
      */
-    public void renderBackgroundOnly(GuiGraphics gui, VirtualGui virtualGui) {
+    public void renderBackgroundOnly(GuiGraphicsExtractor gui, VirtualGui virtualGui) {
         if (!visible) return;
         int ix = getRenderX(virtualGui);
         int iy = getRenderY(virtualGui);
@@ -693,7 +693,7 @@ public class VirtualGuiElement {
      * This puts decorations UNDER the procedure content (items, rects, text),
      * so drag/resize highlights don't cover user-drawn content.
      */
-    public void renderDecorations(GuiGraphics gui, VirtualGui virtualGui, float mouseX, float mouseY) {
+    public void renderDecorations(GuiGraphicsExtractor gui, VirtualGui virtualGui, float mouseX, float mouseY) {
         if (!visible) return;
 
         int ix = getRenderX(virtualGui);
@@ -1342,7 +1342,7 @@ public class VirtualGuiElement {
         return new float[]{minX, minY, maxX, maxY};
     }
 
-    public void render(GuiGraphics gui, VirtualGui virtualGui, int mouseX, int mouseY, float partialTick) {
+    public void render(GuiGraphicsExtractor gui, VirtualGui virtualGui, int mouseX, int mouseY, float partialTick) {
         if (!visible || isCulled(virtualGui)) return;
 
         int ix = getRenderX(virtualGui);
@@ -1457,7 +1457,7 @@ public class VirtualGuiElement {
         }
         // Render texture for render_texture elements (deferred from procedure phase).
         if ("render_texture".equals(type) && lastTexturePath != null) {
-            ResourceLocation texture = ResourceLocation.parse(studioStyle != null && !studioStyle.texture().isEmpty() ? studioStyle.texture() : lastTexturePath);
+            Identifier texture = Identifier.parse(studioStyle != null && !studioStyle.texture().isEmpty() ? studioStyle.texture() : lastTexturePath);
             gui.blit(texture, ix, iy, 0, 0, iw, ih);
         }
 
