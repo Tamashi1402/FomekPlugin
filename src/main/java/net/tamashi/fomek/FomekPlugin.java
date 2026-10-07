@@ -53,8 +53,11 @@ public class FomekPlugin extends JavaPlugin {
     private final RendererRuntime rendererRuntime = new RendererRuntime();
     private final MenusRuntime menusRuntime = new MenusRuntime();
 
+    public static volatile boolean LOADED = false;
+
     public FomekPlugin(Plugin plugin) {
         super(plugin);
+        LOADED = true;
 
         // ── Mod element type registrations (all in one pre-generators pass) ──
         addListener(PreGeneratorsLoadingEvent.class, event -> {

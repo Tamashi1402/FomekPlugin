@@ -48,3 +48,21 @@ tasks.register('runMCreatorWithPlugin', JavaExec) {
     main = 'net.mcreator.Launcher'
     workingDir = mcreator_path
 }
+
+sourceSets {
+    loadtest {
+        java.srcDirs = ['tests-load']
+        compileClasspath += sourceSets.main.output + sourceSets.main.compileClasspath
+        runtimeClasspath += sourceSets.main.runtimeClasspath
+    }
+}
+
+tasks.register('pluginLoadTest', JavaExec) {
+    dependsOn jar, compileLoadtestJava
+    description = 'Headless load of fomek-plugin.zip inside MCreator 2026.2 (no GUI needed)'
+    environment("MCREATOR_PLUGINS_FOLDER", layout.buildDirectory.dir("libs").get().asFile.absolutePath)
+    classpath = sourceSets.loadtest.runtimeClasspath
+    mainClass = 'net.tamashi.fomek.test.PluginLoadTest'
+    jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED', '--enable-native-access=ALL-UNNAMED,jcef'
+    workingDir = mcreator_path
+}
