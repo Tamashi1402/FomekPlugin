@@ -1,0 +1,2 @@
+# FomekPlugin
+Plugin for MCReator
