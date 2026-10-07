@@ -30,7 +30,7 @@ public class WorkspaceBuildTest {
 		if (FomekTestBoot.ISSUES.stream().anyMatch(i -> i.level().equals("ERROR")))
 			LOG.warn("Boot completed with {} ERROR-level issue(s) — continuing", FomekTestBoot.ISSUES.size());
 
-		File workspaceDir = new File("build/workspace-test").getAbsoluteFile();
+		File workspaceDir = new File(System.getenv("FOMEK_TEST_DIR"), "build/workspace-test");
 		Workspace workspace = FomekTestBoot.createWorkspace(workspaceDir, "neoforge-26.1.2");
 		LOG.info("Workspace created at {}", workspaceDir);
 
@@ -61,7 +61,7 @@ public class WorkspaceBuildTest {
 			}
 			System.exit(0);
 		} catch (GradleConnectionException | IllegalStateException e) {
-			Files.writeString(new File("build/workspace-test-build.log").getAbsoluteFile().toPath(),
+			Files.writeString(new File(System.getenv("FOMEK_TEST_DIR"), "build/workspace-test-build.log").toPath(),
 					sb.toString());
 			LOG.error("Gradle build FAILED — full javac output in build/workspace-test-build.log:\n{}", sb, e);
 			System.out.println("\n=== WORKSPACE BUILD: FAILED (see build/workspace-test-build.log) ===");

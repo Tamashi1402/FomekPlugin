@@ -1,0 +1,16 @@
+2026-10-07-17:07:59 [main/INFO] [Fomek boot] MCreator version under test: 2026.2.41317 - 202600241317
+2026-10-07-17:08:00 [main/DEBUG] [Preferences Manager] Loading preferences from core
+2026-10-07-17:08:00 [main/INFO] [Fomek boot] Loading plugins (fomek-plugin.zip via MCREATOR_PLUGINS_FOLDER)...
+2026-10-07-17:08:00 [main/DEBUG] [Plugin Loader] Searching for plugins in: ./plugins
+2026-10-07-17:08:00 [main/DEBUG] [Plugin Loader] Searching for plugins in: /root/.mcreator/plugins
+2026-10-07-17:08:00 [main/DEBUG] [Plugin Loader] Searching for plugins in: /app/conversations/6ac67395b0d6a207ce952bd8/repo/build/libs
+2026-10-07-17:08:00 [main/WARN] [Plugin Loader] Trying to load duplicate plugin: fomekplugin from: /app/conversations/6ac67395b0d6a207ce952bd8/repo/build/libs/fomek-plugin-3.6.2.jar
+2026-10-07-17:08:00 [main/INFO] [Plugin Loader] Loading plugin: fomekplugin from /app/conversations/6ac67395b0d6a207ce952bd8/repo/build/libs/fomek-plugin.zip, weight: 5000
+2026-10-07-17:08:00 [main/INFO] [Fomek Plugin] FomekPlugin merged build loaded (phases 2-5: resources, renderer/menus runtimes mixins/CEM/player-animator/inventory-editor subsystems; better animations stripped
+2026-10-07-17:08:00 [main/DEBUG] [Theme Loader] Loading UI themes
+2026-10-07-17:08:00 [main/ERROR] [Exception] Uncaught exception in main
+java.lang.RuntimeException: No themes present in MCreator
+	at net.mcreator.ui.laf.themes.ThemeManager.getTheme(ThemeManager.java:135)
+	at net.mcreator.ui.laf.themes.ThemeManager.loadThemes(ThemeManager.java:114)
+	at net.tamashi.fomek.test.FomekTestBoot.boot(FomekTestBoot.java:93)
+	at net.tamashi.fomek.test.WorkspaceBuildTest.main(WorkspaceBuildTest.java:28)
