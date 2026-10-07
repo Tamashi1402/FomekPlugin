@@ -245,9 +245,7 @@ public class RenderAPI {
         LivingEntity entity = currentContext.getEntity();
 
         try {
-            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
-                    .getModel(stack, level, entity, 0);
-            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
+            ItemTransform transform = resolveDisplayTransform(stack, ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 // rotation is a Vector3f in degrees: x=pitch, y=yaw, z=roll
                 return transform.rotation().y();
@@ -272,9 +270,7 @@ public class RenderAPI {
         LivingEntity entity = currentContext.getEntity();
 
         try {
-            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
-                    .getModel(stack, level, entity, 0);
-            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
+            ItemTransform transform = resolveDisplayTransform(stack, ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 // rotation is a Vector3f in degrees: x=pitch, y=yaw, z=roll
                 return transform.rotation().x();
@@ -299,15 +295,42 @@ public class RenderAPI {
         LivingEntity entity = currentContext.getEntity();
 
         try {
-            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
-                    .getModel(stack, level, entity, 0);
-            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
+            ItemTransform transform = resolveDisplayTransform(stack, ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 return transform.rotation().z();
             }
         } catch (Exception ignored) {
         }
         return 0f;
+    }
+
+    // ── 26.1 model resolution ──────────────────────────────────────────────────
+    // ItemRenderer.getModel(stack, level, entity, seed) is gone in 26.1.
+    // The stack's model is its ITEM_MODEL component id, resolvable via the
+    // ModelManager's bakery. (display transforms: ResolvedModel.getTopTransforms)
+
+    private static ResolvedModel resolveItemModel(net.minecraft.world.item.ItemStack stack) {
+        try {
+            if (stack == null || stack.isEmpty()) return null;
+            net.minecraft.resources.Identifier modelId =
+                    stack.get(net.minecraft.core.component.DataComponents.ITEM_MODEL);
+            if (modelId == null) return null;
+            return Minecraft.getInstance().getModelManager().getModelBakery().getModel(modelId);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    private static ItemTransform resolveDisplayTransform(net.minecraft.world.item.ItemStack stack,
+            ItemDisplayContext ctx) {
+        try {
+            ResolvedModel model = resolveItemModel(stack);
+            if (model == null) return null;
+            net.minecraft.client.resources.model.cuboid.ItemTransforms transforms = model.getTopTransforms();
+            return transforms != null ? transforms.getTransform(ctx) : null;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     // ── Item display transform ─────────────────────────────────────────────────
@@ -339,9 +362,7 @@ public class RenderAPI {
         LivingEntity entity = currentContext.getEntity();
 
         try {
-            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
-                    .getModel(stack, level, entity, 0);
-            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
+            ItemTransform transform = resolveDisplayTransform(stack, ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 // ItemTransform stores rotation as Vector3f(x=pitch, y=yaw, z=roll) in degrees.
                 // The apply() method uses rotationZYX(z, y, x), which via mulPose
@@ -3208,8 +3229,8 @@ public class RenderAPI {
         LivingEntity entity = getEntity();
         Level level = getWorld();
         try {
-            ResolvedModel bakedModel = Minecraft.getInstance().getItemRenderer()
-                    .getModel(itemStack, level, entity, 0);
+            ResolvedModel bakedModel = resolveItemModel(itemStack);
+            if (bakedModel == null) return new BEWRL.Model();
             BEWRL.Model _result = reconstructBakedModel(bakedModel, true, true, rimOnly);
             _result.sourceItemStack = itemStack;
             return _result;
@@ -3251,12 +3272,10 @@ public class RenderAPI {
             // display transform AND the -0.5 centering offset.
             LivingEntity entity = getEntity();
             Level level = getWorld();
-            ResolvedModel bakedModel = Minecraft.getInstance().getItemRenderer()
-                    .getModel(stack, level, entity, 0);
-            ItemTransform transform = bakedModel.wrapped().transforms().getTransform(ctx);
+            ItemTransform transform = resolveDisplayTransform(stack, ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 pose.pushPose();
-                transform.apply(false, pose);
+                transform.apply(false, pose.last());
                 pose.translate(-0.5f, -0.5f, -0.5f);
                 return true;
             } else {
@@ -3906,12 +3925,10 @@ public class RenderAPI {
         if (ctx == null) ctx = ItemDisplayContext.NONE;
 
         try {
-            ResolvedModel model = Minecraft.getInstance().getItemRenderer()
-                    .getModel(itemStack, level, entity, 0);
-            ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
+            ItemTransform transform = resolveDisplayTransform(itemStack, ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 pose.pushPose();
-                transform.apply(false, pose);
+                transform.apply(false, pose.last());
             } else {
                 pose.pushPose(); // still push so pop is always safe
             }
