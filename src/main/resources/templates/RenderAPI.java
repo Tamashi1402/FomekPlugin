@@ -3046,10 +3046,152 @@ public class RenderAPI {
      * Temporarily swap entity animation state with snapshot values,
      * render the ghost, then restore the original state.
      */
+    /**
+     * 26.1 render-graph shim for entity ghost rendering (renderModelTrail).
+     *
+     * The old 1.21.x flow wrapped the MultiBufferSource so the FIRST getBuffer()
+     * call (the main model) used a translucent render type and all later calls
+     * (armor, items, capes) hit a no-op consumer. In 26.1 the entity renderer
+     * emits submissions through a SubmitNodeCollector instead of writing
+     * vertices, so this shim plays that role: the first submitModel() per ghost
+     * is forwarded to a translucent render type (so alpha fade works even for
+     * models that request cutout pipelines), everything else is dropped.
+     *
+     * Ghost color/alpha are baked into the per-vertex color via
+     * {@code Model.renderToBuffer(pose, vc, light, overlay, color)} — the color
+     * is written verbatim per vertex, which replaces the old
+     * {@code RenderSystem.setShaderColor()} multiply.
+     */
+    private static final class GhostBufferCollector implements net.minecraft.client.renderer.SubmitNodeCollector {
+        private final MultiBufferSource buffer;
+        private final net.minecraft.client.renderer.entity.EntityRenderer<?, ?> renderer;
+        private final boolean textured;
+        private final RenderType flatType;
+        private RenderType texturedType;
+        private int tint = -1;
+        private boolean mainModelDone;
+
+        GhostBufferCollector(MultiBufferSource buffer,
+                net.minecraft.client.renderer.entity.EntityRenderer<?, ?> renderer,
+                boolean textured, RenderType flatType) {
+            this.buffer = buffer;
+            this.renderer = renderer;
+            this.textured = textured;
+            this.flatType = flatType;
+        }
+
+        /** Arm the collector for the next ghost: reset the main-model latch and set the ARGB tint. */
+        void begin(int tint) {
+            this.tint = tint;
+            this.mainModelDone = false;
+        }
+
+        @Override
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        public <S> void submitModel(net.minecraft.client.model.Model<? super S> model, S state,
+                PoseStack poseStack, RenderType renderType,
+                int lightCoords, int overlayCoords, int tintedColor,
+                net.minecraft.client.renderer.texture.TextureAtlasSprite sprite,
+                int outlineColor,
+                net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
+            if (mainModelDone) return; // armor / worn items / capes / later body passes
+            mainModelDone = true;
+            RenderType type = flatType;
+            if (textured) {
+                // Resolve the entity's own texture lazily — it needs a render
+                // state, which only exists once the first ghost is being built.
+                if (texturedType == null) {
+                    try {
+                        texturedType = RenderTypes.entityTranslucent(
+                                (net.minecraft.resources.Identifier)
+                                        ((net.minecraft.client.renderer.entity.EntityRenderer) renderer).getTextureLocation(state));
+                    } catch (Throwable t) {
+                        texturedType = flatType;
+                    }
+                }
+                type = texturedType;
+            }
+            int color = (tintedColor == -1) ? tint : net.minecraft.util.ARGB.multiply(tint, tintedColor);
+            ((net.minecraft.client.model.Model) model).renderToBuffer(poseStack,
+                    buffer.getBuffer(type), lightCoords, overlayCoords, color);
+        }
+
+        // ── Everything below is suppressed: ghosts show the bare body model only. ──
+
+        @Override
+        public net.minecraft.client.renderer.OrderedSubmitNodeCollector order(int order) {
+            return this;
+        }
+
+        @Override
+        public void submitShadow(PoseStack poseStack, float radius,
+                java.util.List<net.minecraft.client.renderer.entity.state.EntityRenderState.ShadowPiece> pieces) {}
+
+        @Override
+        public void submitNameTag(PoseStack poseStack, net.minecraft.world.phys.Vec3 nameTagAttachment,
+                int offset, net.minecraft.network.chat.Component name, boolean seeThrough,
+                int lightCoords, double distanceToCameraSq,
+                net.minecraft.client.renderer.state.level.CameraRenderState camera) {}
+
+        @Override
+        public void submitText(PoseStack poseStack, float x, float y,
+                net.minecraft.util.FormattedCharSequence string, boolean dropShadow,
+                net.minecraft.client.gui.Font.DisplayMode displayMode, int lightCoords,
+                int color, int backgroundColor, int outlineColor) {}
+
+        @Override
+        public void submitFlame(PoseStack poseStack,
+                net.minecraft.client.renderer.entity.state.EntityRenderState renderState,
+                org.joml.Quaternionf rotation) {}
+
+        @Override
+        public void submitLeash(PoseStack poseStack,
+                net.minecraft.client.renderer.entity.state.EntityRenderState.LeashState leashState) {}
+
+        @Override
+        public void submitModelPart(net.minecraft.client.model.geom.ModelPart modelPart,
+                PoseStack poseStack, RenderType renderType, int lightCoords, int overlayCoords,
+                net.minecraft.client.renderer.texture.TextureAtlasSprite sprite,
+                boolean sheeted, boolean hasFoil, int tintedColor,
+                net.minecraft.client.renderer.feature.ModelFeatureRenderer.CrumblingOverlay crumblingOverlay,
+                int outlineColor) {}
+
+        @Override
+        public void submitMovingBlock(PoseStack poseStack,
+                net.minecraft.client.renderer.block.MovingBlockRenderState movingBlockRenderState) {}
+
+        @Override
+        public void submitBlockModel(PoseStack poseStack, RenderType renderType,
+                java.util.List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> parts,
+                int[] tintLayers, int lightCoords, int overlayCoords, int outlineColor) {}
+
+        @Override
+        public void submitBreakingBlockModel(PoseStack poseStack,
+                net.minecraft.client.renderer.block.dispatch.BlockStateModel model, long seed, int progress) {}
+
+        @Override
+        public void submitItem(PoseStack poseStack,
+                net.minecraft.world.item.ItemDisplayContext displayContext,
+                int lightCoords, int overlayCoords, int outlineColor, int[] tintLayers,
+                java.util.List<net.minecraft.client.resources.model.geometry.BakedQuad> quads,
+                net.minecraft.client.renderer.item.ItemStackRenderState.FoilType foilType) {}
+
+        @Override
+        public void submitCustomGeometry(PoseStack poseStack, RenderType renderType,
+                net.minecraft.client.renderer.SubmitNodeCollector.CustomGeometryRenderer customGeometryRenderer) {}
+
+        @Override
+        public void submitParticleGroup(
+                net.minecraft.client.renderer.SubmitNodeCollector.ParticleGroupRenderer particleGroupRenderer) {}
+    }
+
     private static void renderGhostWithPose(net.minecraft.world.entity.Entity entity,
             float[] snap, float partialTick, PoseStack pose,
             net.minecraft.client.renderer.entity.EntityRenderer<?, ?> renderer,
-            MultiBufferSource flatBuffer, int packedLight) {
+            GhostBufferCollector collector,
+            net.minecraft.client.renderer.entity.EntityRenderDispatcher dispatcher,
+            net.minecraft.client.renderer.state.level.CameraRenderState cameraState,
+            int packedLight, int tint) {
 
         // Save current entity state
         float savedYRot = entity.getYRot();
@@ -3111,14 +3253,28 @@ public class RenderAPI {
                 }
             }
 
-            // Render the entity with snapshot pose
-            pose.pushPose();
-            pose.translate(snap[0], snap[1], snap[2]);
+            // 26.1: entity rendering is render-state based. Build a fresh state
+            // under the snapshot-swapped entity (yaws/walk/tickCount above), then
+            // override its position/light with the SNAPSHOT values and submit it
+            // through the dispatcher (it handles the render offset + main submit).
+            // Our collector forwards only the main model, with the ghost tint
+            // baked into the per-vertex color.
             try {
-                ((net.minecraft.client.renderer.entity.EntityRenderer) renderer)
-                        .render(entity, snap[3], partialTick, pose, flatBuffer, packedLight);
-            } catch (Exception ignored) {}
-            pose.popPose();
+                Object st = ((net.minecraft.client.renderer.entity.EntityRenderer) renderer)
+                        .createRenderState(entity, partialTick);
+                if (st instanceof net.minecraft.client.renderer.entity.state.EntityRenderState ers) {
+                    ers.x = snap[0];
+                    ers.y = snap[1];
+                    ers.z = snap[2];
+                    ers.lightCoords = packedLight;
+                    collector.begin(tint);
+                    dispatcher.submit(ers, cameraState,
+                            snap[0] - cameraState.pos.x(),
+                            snap[1] - cameraState.pos.y(),
+                            snap[2] - cameraState.pos.z(),
+                            pose, collector);
+                }
+            } catch (Throwable ignored) {}
 
         } finally {
             // Restore original entity state
@@ -3287,9 +3443,6 @@ public class RenderAPI {
         int a = (color >> 24) & 0xFF;
         if (a == 0) a = 255;
 
-        float rf = r / 255.0f;
-        float gf = g / 255.0f;
-        float bf = b / 255.0f;
         float maxAlpha = (a / 255.0f) * deathMul;
 
         net.minecraft.client.renderer.entity.EntityRenderDispatcher dispatcher =
@@ -3302,34 +3455,23 @@ public class RenderAPI {
         }
         if (renderer == null) return;
 
-        // ── Buffer: first getBuffer() call per ghost (main model) gets a
-        //    TRANSLUCENT render type so blending (alpha fade) actually works.
-        //    Most non-player entity models request entityCutoutNoCull which has
-        //    NO_TRANSPARENCY — alpha is ignored and ghosts render fully opaque.
-        //    The player model happens to use entityTranslucent (with blending),
-        //    which is why the fade worked for the player but not other entities.
-        //    Fix: always use entityTranslucent with the entity's own texture
-        //    (textured mode) or the flat white texture (non-textured mode).
-        //    All subsequent calls (armor, items, capes) get no-op (suppressed).
-        //    The flag is reset before each ghost in the render loop below. ──
+        // ── 26.1 render-graph world ──
+        // The old flat-buffer trick (first getBuffer() translucent, rest no-op)
+        // is replaced by a SubmitNodeCollector shim: entity renderers now emit
+        // submissions instead of writing vertices directly. The shim forwards
+        // ONLY the main model submission to a TRANSLUCENT render type — most
+        // models request entityCutoutNoCull, whose pipeline ignores alpha, which
+        // is why ghosts used to render fully opaque — and drops everything else
+        // (armor, items, capes, shadows, nametags, flames, leashes).
+        // Ghost color/alpha are baked into the per-vertex color, which replaces
+        // the old RenderSystem.setShaderColor() multiply (26.1 has no global
+        // shader color). Depth test stays enabled via the translucent pipeline,
+        // so ghosts are still occluded by the real entity body.
         final RenderType flatType = RenderTypes.entityTranslucent(MODEL_TRAIL_WHITE_TEX);
-        final net.minecraft.resources.Identifier entityTex = ((net.minecraft.client.renderer.entity.EntityRenderer) renderer).getTextureLocation(entity);
-        final RenderType texturedType = RenderTypes.entityTranslucent(entityTex);
-        final boolean[] mainModelDone = {false};
-        MultiBufferSource flatBuffer = renderType -> {
-            if (!mainModelDone[0]) {
-                mainModelDone[0] = true;
-                return textured ? buffer.getBuffer(texturedType) : buffer.getBuffer(flatType);
-            }
-            return NO_OP_VC; // suppress armor, items, capes, etc.
-        };
-
-        // ── Blend setup for ghost copies ──
-        // Depth test stays ENABLED so ghosts behind the entity body are properly
-        // occluded — they should only be visible where not blocked by the model.
-        // entityTranslucent already has blend + depthTest enabled in its render state.
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
+        final net.minecraft.client.renderer.state.level.CameraRenderState cameraState =
+                new net.minecraft.client.renderer.state.level.CameraRenderState();
+        currentWorldContext.getCamera().extractRenderState(cameraState, 0.0f);
+        GhostBufferCollector collector = new GhostBufferCollector(buffer, renderer, textured, flatType);
 
         int total = data.snapshots.size();
         // fadesAmount: controls how many distinct opacity levels the trail uses.
@@ -3351,8 +3493,9 @@ public class RenderAPI {
             float alpha = (float)(Math.round(rawAlpha / quantStep) * quantStep);
             if (alpha <= 0.01f) continue;
 
-            // Reset the per-ghost flag so this ghost's main model gets a real buffer
-            mainModelDone[0] = false;
+            // Ghost tint: trail color RGB + fade alpha, packed ARGB. Written
+            // verbatim per vertex, replacing the old global shader color.
+            int tint = ((int)(alpha * 255.0f) << 24) | (r << 16) | (g << 8) | b;
 
             // Render ghost with pose from snapshot time (swaps + restores entity state).
             // partialTick is frozen to 0 — the snapshot's tickCount is fixed, so
@@ -3362,23 +3505,14 @@ public class RenderAPI {
             // so ghosts aren't glowing at night / in dark areas.
             int ghostLight = net.minecraft.client.renderer.LevelRenderer.getLightCoords(
                     entity.level(), net.minecraft.core.BlockPos.containing(snap[0], snap[1], snap[2]));
-            renderGhostWithPose(entity, snap, 0.0f, pose, renderer, flatBuffer, ghostLight);
+            renderGhostWithPose(entity, snap, 0.0f, pose, renderer, collector,
+                    dispatcher, cameraState, ghostLight, tint);
 
-            // Set shader color AFTER render but BEFORE flush.
-            // The renderer may set its own shader color during render() (e.g. for
-            // hurt flash, invisibility, etc.). By setting it after render() and
-            // before endBatch(), we ensure our alpha is the one uploaded to the
-            // ColorModulator uniform when the buffer is actually drawn.
-            RenderSystem.setShaderColor(rf, gf, bf, alpha);
-
-            // Flush after each ghost so shader color is applied correctly
+            // Flush after each ghost so translucent draw order is stable
             if (buffer instanceof MultiBufferSource.BufferSource bs) {
                 bs.endBatch();
             }
         }
-
-        // ── Reset state ──
-        RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
     }
 
     private static Shape buildBoxShape(float length, float width) {

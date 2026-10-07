@@ -517,30 +517,30 @@ public class Shader {
     public static Shader fromNBT(net.minecraft.nbt.CompoundTag tag) {
         if (tag == null || tag.isEmpty()) return null;
         Shader s = new Shader();
-        if (tag.contains("renderType")) s.renderType = tag.getString("renderType");
-        s.color = tag.getInt("color");
-        s.transparency = tag.getFloat("transparency");
-        s.glowing = tag.getBoolean("glowing");
-        s.glowStrength = tag.getFloat("glowStrength");
-        if (tag.contains("texture")) s.texture = tag.getString("texture");
-        if (tag.contains("drawOrder")) s.drawOrder = tag.getString("drawOrder");
-        if (tag.contains("swirlXSpeed")) s.swirlXSpeed = tag.getFloat("swirlXSpeed");
-        if (tag.contains("swirlZSpeed")) s.swirlZSpeed = tag.getFloat("swirlZSpeed");
-        if (tag.contains("swirlBlendMode")) s.swirlBlendMode = tag.getString("swirlBlendMode");
-        if (tag.contains("vertexSrc")) s.vertexShaderSource = tag.getString("vertexSrc");
-        if (tag.contains("fragmentSrc")) s.fragmentShaderSource = tag.getString("fragmentSrc");
-        if (tag.contains("programName")) s.shaderProgramName = tag.getString("programName");
+        if (tag.contains("renderType")) s.renderType = tag.getStringOr("renderType", "");
+        s.color = tag.getIntOr("color", 0);
+        s.transparency = tag.getFloatOr("transparency", 0.0F);
+        s.glowing = tag.getBooleanOr("glowing", false);
+        s.glowStrength = tag.getFloatOr("glowStrength", 0.0F);
+        if (tag.contains("texture")) s.texture = tag.getStringOr("texture", "");
+        if (tag.contains("drawOrder")) s.drawOrder = tag.getStringOr("drawOrder", "");
+        if (tag.contains("swirlXSpeed")) s.swirlXSpeed = tag.getFloatOr("swirlXSpeed", 0.0F);
+        if (tag.contains("swirlZSpeed")) s.swirlZSpeed = tag.getFloatOr("swirlZSpeed", 0.0F);
+        if (tag.contains("swirlBlendMode")) s.swirlBlendMode = tag.getStringOr("swirlBlendMode", "");
+        if (tag.contains("vertexSrc")) s.vertexShaderSource = tag.getStringOr("vertexSrc", "");
+        if (tag.contains("fragmentSrc")) s.fragmentShaderSource = tag.getStringOr("fragmentSrc", "");
+        if (tag.contains("programName")) s.shaderProgramName = tag.getStringOr("programName", "");
 
         if (tag.contains("floats")) {
-            net.minecraft.nbt.CompoundTag floats = tag.getCompound("floats");
+            net.minecraft.nbt.CompoundTag floats = tag.getCompoundOrEmpty("floats");
             for (String name : floats.getAllKeys()) s.floatUniforms.put(name, floats.getFloat(name));
         }
         if (tag.contains("vec3s")) {
-            net.minecraft.nbt.ListTag vec3List = tag.getList("vec3s", net.minecraft.nbt.Tag.TAG_COMPOUND);
+            net.minecraft.nbt.ListTag vec3List = tag.getListOrEmpty("vec3s");
             for (int i = 0; i < vec3List.size(); i++) {
-                net.minecraft.nbt.CompoundTag v = vec3List.getCompound(i);
-                s.vec3Uniforms.put(v.getString("name"),
-                        new float[]{v.getFloat("x"), v.getFloat("y"), v.getFloat("z")});
+                net.minecraft.nbt.CompoundTag v = vec3List.getCompoundOrEmpty(i);
+                s.vec3Uniforms.put(v.getStringOr("name", ""),
+                        new float[]{v.getFloatOr("x", 0.0F), v.getFloatOr("y", 0.0F), v.getFloatOr("z", 0.0F)});
             }
         }
         return s;

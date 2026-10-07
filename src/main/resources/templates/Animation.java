@@ -127,21 +127,21 @@ public class Animation {
 
             public static Controller fromNBT(CompoundTag tag) {
                 if (tag == null || tag.isEmpty()) return null;
-                String id = tag.getString("id");
+                String id = tag.getStringOr("id", "");
                 Controller c = new Controller(id);
-                c.modelId = tag.getString("modelId");
-                c.currentAnimation = tag.getString("currentAnimation");
-                c.animationType = AnimationType.fromString(tag.getString("animationType"));
-                c.startTick = tag.getLong("startTick");
+                c.modelId = tag.getStringOr("modelId", "");
+                c.currentAnimation = tag.getStringOr("currentAnimation", "");
+                c.animationType = AnimationType.fromString(tag.getStringOr("animationType", ""));
+                c.startTick = tag.getLongOr("startTick", 0L);
                 return c;
             }
 
             public void loadFromNBT(CompoundTag tag) {
                 if (tag == null) return;
-                this.modelId = tag.getString("modelId");
-                this.currentAnimation = tag.getString("currentAnimation");
-                this.animationType = AnimationType.fromString(tag.getString("animationType"));
-                this.startTick = tag.getLong("startTick");
+                this.modelId = tag.getStringOr("modelId", "");
+                this.currentAnimation = tag.getStringOr("currentAnimation", "");
+                this.animationType = AnimationType.fromString(tag.getStringOr("animationType", ""));
+                this.startTick = tag.getLongOr("startTick", 0L);
             }
 
             @Override
@@ -206,7 +206,7 @@ public class Animation {
                 if (!tag.contains(key)) return null;
 
                 CompoundTag controllerTag = tag.getCompound(key);
-                String id = controllerTag.getString("id");
+                String id = controllerTag.getStringOr("id", "");
 
                 Controller controller = INSTANCE.get(id);
                 if (controller == null) {
@@ -245,7 +245,7 @@ public class Animation {
                 if (!tag.contains(key)) return null;
 
                 CompoundTag controllerTag = tag.getCompound(key);
-                String id = controllerTag.getString("id");
+                String id = controllerTag.getStringOr("id", "");
 
                 Controller controller = INSTANCE.get(id);
                 if (controller == null) {
