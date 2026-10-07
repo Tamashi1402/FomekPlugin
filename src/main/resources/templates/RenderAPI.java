@@ -321,6 +321,103 @@ public class RenderAPI {
         }
     }
 
+
+    // ── 26.1 item drawing (replaces ItemRenderer.renderStatic) ────────────────
+    // Layers of an ItemStackRenderState are private; the only way to reach them
+    // for per-layer local transforms / quad extraction is reflection. (26.1 has
+    // no public layer accessor; vanilla itself only iterates them internally.)
+    private static void forEachLayer(net.minecraft.client.renderer.item.ItemStackRenderState state,
+            java.util.function.Consumer<net.minecraft.client.renderer.item.ItemStackRenderState.LayerRenderState> fn) {
+        try {
+            java.lang.reflect.Field fl = net.minecraft.client.renderer.item.ItemStackRenderState.class
+                    .getDeclaredField("layers");
+            fl.setAccessible(true);
+            Object[] layers = (Object[]) fl.get(state);
+            java.lang.reflect.Field fc = net.minecraft.client.renderer.item.ItemStackRenderState.class
+                    .getDeclaredField("activeLayerCount");
+            fc.setAccessible(true);
+            int count = fc.getInt(state);
+            for (int i = 0; i < count; i++) {
+                @SuppressWarnings("unchecked")
+                net.minecraft.client.renderer.item.ItemStackRenderState.LayerRenderState layer =
+                        (net.minecraft.client.renderer.item.ItemStackRenderState.LayerRenderState) layers[i];
+                fn.accept(layer);
+            }
+        } catch (Throwable ignored) {
+        }
+    }
+
+    /**
+     * Draw a resolved item state's quads into an arbitrary MultiBufferSource
+     * (world / item render context). Replaces ItemRenderer.renderStatic: 26.1
+     * emits baked quads via VertexConsumer.putBakedQuad. Foil/glint layers are
+     * not supported on this path (vanilla handles glint in ItemFeatureRenderer).
+     */
+    private static void drawItemQuads(MultiBufferSource buffer, PoseStack pose,
+            net.minecraft.client.renderer.item.ItemStackRenderState state, int light, int overlay) {
+        final com.mojang.blaze3d.vertex.QuadInstance qi = new com.mojang.blaze3d.vertex.QuadInstance();
+        forEachLayer(state, layer -> {
+            try {
+                java.util.List<net.minecraft.client.resources.model.geometry.BakedQuad> quads = layer.prepareQuadList();
+                if (quads == null || quads.isEmpty()) return;
+                net.minecraft.util.IntList tints = layer.tintLayers();
+                for (net.minecraft.client.resources.model.geometry.BakedQuad quad : quads) {
+                    net.minecraft.client.resources.model.geometry.BakedQuad.MaterialInfo mi = quad.materialInfo();
+                    if (mi == null || mi.itemRenderType() == null) continue;
+                    qi.setLightCoords(net.minecraft.util.LightCoordsUtil
+                            .lightCoordsWithEmission(light, Math.max(0, mi.lightEmission())));
+                    qi.setOverlayCoords(overlay);
+                    int tint = -1;
+                    if (tints != null && !tints.isEmpty() && mi.tintIndex() >= 0 && mi.tintIndex() < tints.size())
+                        tint = tints.getInt(mi.tintIndex());
+                    qi.setColor(tint);
+                    buffer.getBuffer(mi.itemRenderType()).putBakedQuad(pose.last(), quad, qi);
+                }
+            } catch (Throwable ignored) {
+            }
+        });
+    }
+
+    /**
+     * Submit an item into the GUI overlay via the 26.1 render-state pipeline
+     * (getItemModelResolver + GuiItemRenderState). x/y use the old center-based
+     * semantics; scale 1 = 16px item. yaw/pitch/roll are injected as per-layer
+     * local transforms, applied after the GUI display transform.
+     */
+    private static void submitOverlayGuiItem(GuiGraphicsExtractor gui, ItemStack stack,
+            float x, float y, float yaw, float pitch, float roll, float scale) {
+        Minecraft mc = Minecraft.getInstance();
+        LivingEntity entity = currentOverlayContext != null ? currentOverlayContext.getPlayer() : mc.player;
+        Level level = mc.level;
+        net.minecraft.client.renderer.item.TrackingItemStackRenderState state =
+                new net.minecraft.client.renderer.item.TrackingItemStackRenderState();
+        mc.getItemModelResolver().updateForTopItem(state, stack, ItemDisplayContext.GUI, level, entity, 0);
+        if (yaw != 0 || pitch != 0 || roll != 0) {
+            // Old stack order: mulPose Y, then X, then Z (Z first applied to a vector)
+            final org.joml.Matrix4f m = new org.joml.Matrix4f()
+                    .rotationY((float) Math.toRadians(yaw))
+                    .mul(new org.joml.Matrix4f().rotationX((float) Math.toRadians(pitch)))
+                    .mul(new org.joml.Matrix4f().rotationZ((float) Math.toRadians(roll)));
+            forEachLayer(state, layer -> layer.setLocalTransform(m));
+        }
+        gui.pose().pushMatrix();
+        // old code drew the 16px box centered on (x+8, y+8); convert to box origin
+        gui.pose().translate(x + 8 - 8 * scale, y + 8 - 8 * scale);
+        if (scale != 1) gui.pose().scale(scale, scale);
+        try {
+            // GuiItemRenderState is not a GuiElementRenderState; vanilla adds items
+            // via the extractor's private guiRenderState.addItem(...). Mirror that.
+            java.lang.reflect.Field f = GuiGraphicsExtractor.class.getDeclaredField("guiRenderState");
+            f.setAccessible(true);
+            net.minecraft.client.renderer.state.gui.GuiRenderState grs =
+                    (net.minecraft.client.renderer.state.gui.GuiRenderState) f.get(gui);
+            grs.addItem(new net.minecraft.client.renderer.state.gui.GuiItemRenderState(
+                    new org.joml.Matrix3x2f(gui.pose()), state, 0, 0, null));
+        } catch (Throwable ignored) {
+        }
+        gui.pose().popMatrix();
+    }
+
     private static ItemTransform resolveDisplayTransform(net.minecraft.world.item.ItemStack stack,
             ItemDisplayContext ctx) {
         try {
@@ -389,33 +486,12 @@ public class RenderAPI {
             final float _yaw = yaw, _pitch = pitch, _roll = roll, _scale = scale;
             final boolean _glowing = glowing;
             final ItemStack _stack = stack;
+            // 26.1: GUI item overlays go through the render-state pipeline.
+            // Depth sorting is handled by the enqueueOverlay draw order; there is
+            // no Z translate in the 2D GUI pipeline anymore.
             enqueueOverlay(_z, () -> {
-                Minecraft mc = Minecraft.getInstance();
                 GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
-                PoseStack pose = gui.pose();
-                MultiBufferSource.BufferSource buffer = gui.bufferSource();
-                Level level = mc.level;
-                LivingEntity entity = currentOverlayContext.getPlayer();
-                int light = LightCoordsUtil.FULL_BRIGHT;
-
-                pose.pushPose();
-                pose.translate(x + 8, y + 8, _z);
-                if (_yaw   != 0) pose.mulPose(Axis.YP.rotationDegrees(_yaw));
-                if (_pitch != 0) pose.mulPose(Axis.XP.rotationDegrees(_pitch));
-                if (_roll  != 0) pose.mulPose(Axis.ZP.rotationDegrees(_roll));
-                pose.scale(1, -1, 1);
-                float s = 16 * _scale;
-                pose.scale(s, s, s);
-
-                bypassMixin = true;
-                try {
-                    mc.getItemRenderer().renderStatic(
-                        entity, _stack, ItemDisplayContext.GUI, false,
-                        pose, buffer, level, light, OverlayTexture.NO_OVERLAY, 0);
-                } finally {
-                    bypassMixin = false;
-                }
-                pose.popPose();
+                submitOverlayGuiItem(gui, _stack, x, y, _yaw, _pitch, _roll, _scale);
             });
             return;
         }
@@ -457,12 +533,16 @@ public class RenderAPI {
         if (roll  != 0) pose.mulPose(Axis.ZP.rotationDegrees(roll));
         if (scale != 1) pose.scale(scale, scale, scale);
 
-        // Don't bypass the mixin in world context — let item render procedures
-        // intercept the render. The mixin itself sets bypassMixin=true during
-        // the event handler to prevent recursion.
-        Minecraft.getInstance().getItemRenderer().renderStatic(
-            entity, stack, ItemDisplayContext.NONE, false,
-            pose, buffer, level, light, OverlayTexture.NO_OVERLAY, 0);
+        // 26.1: renderStatic is gone. Resolve the stack into an item render
+        // state and emit its baked quads into the context's buffer directly.
+        try {
+            net.minecraft.client.renderer.item.TrackingItemStackRenderState _state =
+                    new net.minecraft.client.renderer.item.TrackingItemStackRenderState();
+            Minecraft.getInstance().getItemModelResolver().updateForTopItem(
+                    _state, stack, ItemDisplayContext.NONE, level, entity, 0);
+            drawItemQuads(buffer, pose, _state, light, OverlayTexture.NO_OVERLAY);
+        } catch (Throwable ignored) {
+        }
 
         pose.popPose();
 
@@ -485,32 +565,8 @@ public class RenderAPI {
         final ItemStack _stack = stack;
         final float _depth = depth, _yaw = yaw, _pitch = pitch, _roll = roll, _scale = scale;
         enqueueOverlay(_depth, () -> {
-            Minecraft mc = Minecraft.getInstance();
             GuiGraphicsExtractor gui = currentOverlayContext.getGuiGraphics();
-            PoseStack pose = gui.pose();
-            MultiBufferSource.BufferSource buffer = gui.bufferSource();
-            Level level = mc.level;
-            LivingEntity entity = currentOverlayContext.getPlayer();
-            int light = LightCoordsUtil.FULL_BRIGHT;
-
-            pose.pushPose();
-            pose.translate(x + 8, y + 8, _depth);
-            if (_yaw   != 0) pose.mulPose(Axis.YP.rotationDegrees(_yaw));
-            if (_pitch != 0) pose.mulPose(Axis.XP.rotationDegrees(_pitch));
-            if (_roll  != 0) pose.mulPose(Axis.ZP.rotationDegrees(_roll));
-            pose.scale(1, -1, 1);
-            float s = 16 * _scale;
-            pose.scale(s, s, s);
-
-            bypassMixin = true;
-            try {
-                mc.getItemRenderer().renderStatic(
-                    entity, _stack, ItemDisplayContext.GUI, false,
-                    pose, buffer, level, light, OverlayTexture.NO_OVERLAY, 0);
-            } finally {
-                bypassMixin = false;
-            }
-            pose.popPose();
+            submitOverlayGuiItem(gui, _stack, x, y, _yaw, _pitch, _roll, _scale);
         });
     }
 
@@ -3952,13 +4008,13 @@ public class RenderAPI {
         LivingEntity entity = getEntity();
         Level level = getWorld();
         try {
-            ResolvedModel bakedModel = Minecraft.getInstance().getItemRenderer()
-                    .getModel(itemStack, level, entity, 0);
+            ResolvedModel bakedModel = resolveItemModel(itemStack);
+            if (bakedModel == null) return new BEWRL.Model();
 
             ItemDisplayContext ctx = getCurrentDisplayContext();
             if (ctx == null) ctx = ItemDisplayContext.GUI;
 
-            ItemTransform transform = bakedModel.wrapped().transforms().getTransform(ctx);
+            ItemTransform transform = resolveDisplayTransform(itemStack, ctx);
             if (transform == null || transform == ItemTransform.NO_TRANSFORM) {
                 return reconstructBakedModel(bakedModel);
             }
