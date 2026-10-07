@@ -68,9 +68,9 @@ public class BEWRLStorage {
             BEWRLSavedData data = create();
             ListTag entries = tag.getList("entries", Tag.TAG_COMPOUND);
             for (int i = 0; i < entries.size(); i++) {
-                CompoundTag entry = entries.getCompound(i);
-                String id = entry.getString("id");
-                CompoundTag modelNBT = entry.getCompound("model");
+                CompoundTag entry = entries.getCompoundOrEmpty(i);
+                String id = entry.getStringOr("id", "");
+                CompoundTag modelNBT = entry.getCompoundOrEmpty("model");
                 BEWRL.Model model = modelFromNBT(modelNBT);
                 if (model != null && !id.isEmpty()) {
                     data.models.put(id, model);
@@ -145,7 +145,7 @@ public class BEWRLStorage {
         BEWRL.Model model = new BEWRL.Model();
         ListTag partsList = tag.getList("parts", Tag.TAG_COMPOUND);
         for (int i = 0; i < partsList.size(); i++) {
-            BEWRL.Model.Part part = partFromNBT(partsList.getCompound(i));
+            BEWRL.Model.Part part = partFromNBT(partsList.getCompoundOrEmpty(i));
             if (part != null) model.getParts().add(part);
         }
         return model;
@@ -187,35 +187,35 @@ public class BEWRLStorage {
     }
 
     private static BEWRL.Model.Part partFromNBT(CompoundTag tag) {
-        String type = tag.getString("type");
-        float x = tag.getFloat("x");
-        float y = tag.getFloat("y");
-        float z = tag.getFloat("z");
-        float yaw = tag.getFloat("yaw");
-        float pitch = tag.getFloat("pitch");
-        float roll = tag.getFloat("roll");
-        float xscale = tag.getFloat("xscale");
-        float yscale = tag.getFloat("yscale");
-        float zscale = tag.getFloat("zscale");
-        int color = tag.getInt("color");
-        String renderType = tag.contains("renderType") ? tag.getString("renderType") : null;
-        String texture = tag.contains("texture") ? tag.getString("texture") : null;
+        String type = tag.getStringOr("type", "");
+        float x = tag.getFloatOr("x", 0.0F);
+        float y = tag.getFloatOr("y", 0.0F);
+        float z = tag.getFloatOr("z", 0.0F);
+        float yaw = tag.getFloatOr("yaw", 0.0F);
+        float pitch = tag.getFloatOr("pitch", 0.0F);
+        float roll = tag.getFloatOr("roll", 0.0F);
+        float xscale = tag.getFloatOr("xscale", 0.0F);
+        float yscale = tag.getFloatOr("yscale", 0.0F);
+        float zscale = tag.getFloatOr("zscale", 0.0F);
+        int color = tag.getIntOr("color", 0);
+        String renderType = tag.contains("renderType") ? tag.getStringOr("renderType", "") : null;
+        String texture = tag.contains("texture") ? tag.getStringOr("texture", "") : null;
 
         switch (type) {
             case "child": {
-                BEWRL.Model childModel = modelFromNBT(tag.getCompound("childModel"));
-                Shader shader = tag.contains("shader") ? Shader.fromNBT(tag.getCompound("shader")) : null;
+                BEWRL.Model childModel = modelFromNBT(tag.getCompoundOrEmpty("childModel"));
+                Shader shader = tag.contains("shader") ? Shader.fromNBT(tag.getCompoundOrEmpty("shader")) : null;
                 return new BEWRL.Model.Part(childModel, shader,
                         x, y, z, yaw, pitch, roll, xscale, yscale, zscale);
             }
             case "java":
-                return new BEWRL.Model.Part(tag.getString("javaModelName"), texture,
+                return new BEWRL.Model.Part(tag.getStringOr("javaModelName", ""), texture,
                         x, y, z, yaw, pitch, roll, xscale, yscale, zscale, color, renderType);
             case "text":
-                return new BEWRL.Model.Part(tag.getString("text"), tag.getBoolean("textGlowing"),
+                return new BEWRL.Model.Part(tag.getStringOr("text", ""), tag.getBooleanOr("textGlowing", false),
                         x, y, z, yaw, pitch, roll, xscale, yscale, zscale, color);
             case "shape":
-                return new BEWRL.Model.Part(shapeFromNBT(tag.getCompound("shape")), texture,
+                return new BEWRL.Model.Part(shapeFromNBT(tag.getCompoundOrEmpty("shape")), texture,
                         x, y, z, yaw, pitch, roll, xscale, yscale, zscale, color, renderType);
             default:
                 return null;
@@ -246,9 +246,9 @@ public class BEWRLStorage {
 
     private static RenderAPI.Shape shapeFromNBT(CompoundTag tag) {
         RenderAPI.Shape shape = new RenderAPI.Shape();
-        String modeName = tag.getString("mode");
-        boolean hasTexture = tag.getBoolean("hasTexture");
-        boolean ended = tag.getBoolean("ended");
+        String modeName = tag.getStringOr("mode", "");
+        boolean hasTexture = tag.getBooleanOr("hasTexture", false);
+        boolean ended = tag.getBooleanOr("ended", false);
 
         try {
             com.mojang.blaze3d.vertex.VertexFormat.Mode mode =
@@ -260,12 +260,12 @@ public class BEWRLStorage {
 
         ListTag vertList = tag.getList("vertices", Tag.TAG_COMPOUND);
         for (int i = 0; i < vertList.size(); i++) {
-            CompoundTag vt = vertList.getCompound(i);
-            if (vt.getBoolean("hasUV")) {
-                shape.addVertexUV(vt.getFloat("x"), vt.getFloat("y"), vt.getFloat("z"),
-                        vt.getFloat("u"), vt.getFloat("v"), vt.getInt("color"));
+            CompoundTag vt = vertList.getCompoundOrEmpty(i);
+            if (vt.getBooleanOr("hasUV", false)) {
+                shape.addVertexUV(vt.getFloatOr("x", 0.0F), vt.getFloatOr("y", 0.0F), vt.getFloatOr("z", 0.0F),
+                        vt.getFloatOr("u", 0.0F), vt.getFloatOr("v", 0.0F), vt.getIntOr("color", 0));
             } else {
-                shape.addVertex(vt.getFloat("x"), vt.getFloat("y"), vt.getFloat("z"), vt.getInt("color"));
+                shape.addVertex(vt.getFloatOr("x", 0.0F), vt.getFloatOr("y", 0.0F), vt.getFloatOr("z", 0.0F), vt.getIntOr("color", 0));
             }
         }
         if (ended) shape.end();
@@ -355,7 +355,7 @@ public class BEWRLStorage {
         CustomData oldData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag oldTag = oldData.copyTag();
         if (oldTag.contains(key)) {
-            String oldId = oldTag.getString(key);
+            String oldId = oldTag.getStringOr(key, "");
             if (!oldId.isEmpty()) removeModel(oldId);
         }
 
@@ -374,7 +374,7 @@ public class BEWRLStorage {
         CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag tag = customData.copyTag();
         if (!tag.contains(key)) return null;
-        String modelId = tag.getString(key);
+        String modelId = tag.getStringOr(key, "");
         return modelId.isEmpty() ? null : getModel(modelId);
     }
 
@@ -384,7 +384,7 @@ public class BEWRLStorage {
         CustomData customData = stack.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY);
         CompoundTag tag = customData.copyTag();
         if (tag.contains(key)) {
-            String modelId = tag.getString(key);
+            String modelId = tag.getStringOr(key, "");
             if (!modelId.isEmpty()) removeModel(modelId);
         }
         CustomData.update(DataComponents.CUSTOM_DATA, stack, t -> t.remove(key));
@@ -404,7 +404,7 @@ public class BEWRLStorage {
         String key = NBT_PREFIX + tagName;
         CompoundTag existingData = be.getPersistentData();
         if (existingData.contains(key)) {
-            String oldId = existingData.getString(key);
+            String oldId = existingData.getStringOr(key, "");
             if (!oldId.isEmpty()) removeModel(oldId);
         }
 
@@ -429,7 +429,7 @@ public class BEWRLStorage {
         String key = NBT_PREFIX + tagName;
         CompoundTag data = be.getPersistentData();
         if (!data.contains(key)) return null;
-        String modelId = data.getString(key);
+        String modelId = data.getStringOr(key, "");
         return modelId.isEmpty() ? null : getModel(modelId);
     }
 
@@ -443,7 +443,7 @@ public class BEWRLStorage {
         String key = NBT_PREFIX + tagName;
         CompoundTag data = be.getPersistentData();
         if (data.contains(key)) {
-            String modelId = data.getString(key);
+            String modelId = data.getStringOr(key, "");
             if (!modelId.isEmpty()) removeModel(modelId);
         }
         be.getPersistentData().remove(key);

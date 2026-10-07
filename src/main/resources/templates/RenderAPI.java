@@ -393,8 +393,19 @@ public class RenderAPI {
      * emits baked quads via VertexConsumer.putBakedQuad. Foil/glint layers are
      * not supported on this path (vanilla handles glint in ItemFeatureRenderer).
      */
-    private static void drawItemQuads(MultiBufferSource buffer, PoseStack pose,
+    static void drawItemQuads(MultiBufferSource buffer, PoseStack pose,
             net.minecraft.client.renderer.item.ItemStackRenderState state, int light, int overlay) {
+        drawItemQuads(buffer, pose, state, light, overlay, null);
+    }
+
+    /**
+     * Same as above with an optional per-vertex color multiplier (ARGB,
+     * 0 = none). Replaces the old RenderSystem.setShaderColor() tint flow
+     * (no global shader color in 26.1) — the tint is baked into every vertex.
+     */
+    static void drawItemQuads(MultiBufferSource buffer, PoseStack pose,
+            net.minecraft.client.renderer.item.ItemStackRenderState state, int light, int overlay,
+            float[] tintRGBA) {
         final com.mojang.blaze3d.vertex.QuadInstance qi = new com.mojang.blaze3d.vertex.QuadInstance();
         forEachLayer(state, layer -> {
             try {
@@ -410,6 +421,7 @@ public class RenderAPI {
                     int tint = -1;
                     if (tints != null && !tints.isEmpty() && mi.tintIndex() >= 0 && mi.tintIndex() < tints.size())
                         tint = tints.getInt(mi.tintIndex());
+                    if (tintRGBA != null) tint = multiplyArgb(tint == -1 ? 0xFFFFFFFF : tint, tintRGBA);
                     qi.setColor(tint);
                     buffer.getBuffer(mi.itemRenderType()).putBakedQuad(pose.last(), quad, qi);
                 }
@@ -458,7 +470,16 @@ public class RenderAPI {
         gui.pose().popMatrix();
     }
 
-    private static ItemTransform resolveDisplayTransform(net.minecraft.world.item.ItemStack stack,
+
+    /** Multiply two ARGB colors per-channel (each channel: a*b/255). */
+    static int multiplyArgb(int a, float[] rgba) {
+        int aA = (a >>> 24) & 0xFF, rA = (a >>> 16) & 0xFF, gA = (a >>> 8) & 0xFF, bA = a & 0xFF;
+        int aB = Math.round(rgba[3] * 255f), rB = Math.round(rgba[0] * 255f),
+            gB = Math.round(rgba[1] * 255f), bB = Math.round(rgba[2] * 255f);
+        return ((aA * aB / 255) << 24) | ((rA * rB / 255) << 16) | ((gA * gB / 255) << 8) | (bA * bB / 255);
+    }
+
+    static ItemTransform resolveDisplayTransform(net.minecraft.world.item.ItemStack stack,
             ItemDisplayContext ctx) {
         // 26.1: ResolvedModel instances are not reachable at runtime (the bakery's
         // getModel is on inner classes only). Instead resolve the stack through the
@@ -5838,7 +5859,7 @@ public static void buildGLSL(GLSL glsl, Shader shader) { if (glsl != null && sha
         // Upload ModelView and Projection matrices from RenderSystem
         try {
             Matrix4f modelView = RenderSystem.getModelViewMatrix();
-            Matrix4f projection = RenderSystem.getProjectionMatrix();
+            Matrix4f projection = Shader.Manager.readProjectionMatrix();
             Shader.Manager.applyMatrices(programId, modelView, projection);
         } catch (Exception ignored) {}
 

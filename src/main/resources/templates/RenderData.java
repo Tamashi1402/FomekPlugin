@@ -25,7 +25,7 @@ public class RenderData {
         CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
         if (customData == null) return null;
         CompoundTag root = customData.copyTag();
-        return root.contains(KEY) ? root.getCompound(KEY) : null;
+        return root.contains(KEY) ? root.getCompoundOrEmpty(KEY) : null;
     }
 
     public static void setRenderData(ItemStack stack, CompoundTag data) {
@@ -57,17 +57,17 @@ public class RenderData {
 
     public static String getString(ItemStack stack, String key) {
         CompoundTag data = getRenderData(stack);
-        return data != null ? data.getString(key) : "";
+        return data != null ? data.getStringOr(key, "") : "";
     }
 
     public static int getInt(ItemStack stack, String key) {
         CompoundTag data = getRenderData(stack);
-        return data != null ? data.getInt(key) : 0;
+        return data != null ? data.getIntOr(key, 0) : 0;
     }
 
     public static boolean getBoolean(ItemStack stack, String key) {
         CompoundTag data = getRenderData(stack);
-        return data != null && data.getBoolean(key);
+        return data != null && data.getBooleanOr(key, false);
     }
 
     public static void setString(ItemStack stack, String key, String value) {

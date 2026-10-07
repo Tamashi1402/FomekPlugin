@@ -205,7 +205,7 @@ public class Animation {
                 String key = nbtKey(modelId);
                 if (!tag.contains(key)) return null;
 
-                CompoundTag controllerTag = tag.getCompound(key);
+                CompoundTag controllerTag = tag.getCompoundOrEmpty(key);
                 String id = controllerTag.getStringOr("id", "");
 
                 Controller controller = INSTANCE.get(id);
@@ -244,7 +244,7 @@ public class Animation {
                 String key = nbtKey(modelId);
                 if (!tag.contains(key)) return null;
 
-                CompoundTag controllerTag = tag.getCompound(key);
+                CompoundTag controllerTag = tag.getCompoundOrEmpty(key);
                 String id = controllerTag.getStringOr("id", "");
 
                 Controller controller = INSTANCE.get(id);

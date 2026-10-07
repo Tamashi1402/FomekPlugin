@@ -20,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.resources.model.cuboid.ItemTransform;
-import net.minecraft.client.resources.model.ResolvedModel;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -789,7 +788,7 @@ public class BEWRL {
                 // We'll bake viewMatrix * globalPose * partTransform into vertex positions below.
                 // ModelViewMat uniform = identity (positions already in clip-ready view space).
                 Matrix4f identityMV = new Matrix4f(); // identity
-                Matrix4f projection = RenderSystem.getProjectionMatrix();
+                Matrix4f projection = Shader.Manager.readProjectionMatrix();
                 Shader.Manager.applyMatrices(programId, identityMV, projection);
 
                 // Upload custom uniforms (uTime, uIntensity, etc.)
@@ -1001,12 +1000,16 @@ public class BEWRL {
                 boolean wasDepth = GL11.glIsEnabled(GL11.GL_DEPTH_TEST);
                 boolean wasCull = GL11.glIsEnabled(GL11.GL_CULL_FACE);
 
-                // Enable blending for translucent rendering, keep depth test
-                RenderSystem.enableBlend();
-                RenderSystem.defaultBlendFunc();
-                RenderSystem.enableDepthTest();
+                // Enable blending for translucent rendering, keep depth test.
+                // 26.1: RenderSystem.enableBlend()/defaultBlendFunc()/enableDepthTest()/
+                // disableCull() are gone — blend/depth/cull state now lives per
+                // RenderPipeline, but for a RAW GL draw we control it ourselves.
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glBlendFuncSeparate(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA,
+                                        GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA);
+                GL11.glEnable(GL11.GL_DEPTH_TEST);
                 // Disable culling so we see both sides of the geometry
-                RenderSystem.disableCull();
+                GL11.glDisable(GL11.GL_CULL_FACE);
 
                 // ── Create VAO + VBO and draw ────────────────────────────────────────
                 int vao = GL30.glGenVertexArrays();
@@ -1099,9 +1102,9 @@ public class BEWRL {
                 GL30.glDeleteVertexArrays(vao);
 
                 // Restore GL state
-                if (!wasBlend) RenderSystem.disableBlend();
-                if (!wasDepth) RenderSystem.disableDepthTest();
-                if (wasCull) RenderSystem.enableCull();
+                if (!wasBlend) GL11.glDisable(GL11.GL_BLEND);
+                if (!wasDepth) GL11.glDisable(GL11.GL_DEPTH_TEST);
+                if (wasCull) GL11.glEnable(GL11.GL_CULL_FACE);
 
                 // Unbind our shader — restore MC's pipeline
                 GL20.glUseProgram(0);
@@ -1473,13 +1476,13 @@ public class BEWRL {
                 if (xscale != 1 || yscale != 1 || zscale != 1) {
                     float cx = 0, cy = 0, cz = 0;
                     try {
-                        ResolvedModel bakedModel = Minecraft.getInstance().getItemRenderer()
-                                .getModel(part.itemStack, level, entity, 0);
-                        ItemTransform itemTransform = bakedModel.wrapped().transforms().getTransform(displayCtx);
+                        // 26.1: ItemRenderer.getModel is gone — resolve the display
+                        // transform through the item resolver (see RenderAPI).
+                        ItemTransform itemTransform = RenderAPI.resolveDisplayTransform(part.itemStack, displayCtx);
                         if (itemTransform != null && itemTransform != ItemTransform.NO_TRANSFORM) {
-                            cx = itemTransform.translation.x();
-                            cy = itemTransform.translation.y();
-                            cz = itemTransform.translation.z();
+                            cx = itemTransform.translation().x();
+                            cy = itemTransform.translation().y();
+                            cz = itemTransform.translation().z();
                         }
                     } catch (Exception ignored) {}
                     poseStack.translate(cx, cy, cz);
@@ -1489,29 +1492,16 @@ public class BEWRL {
 
                 RenderAPI.setBypassMixin(true);
                 try {
-                    if (hasTint) {
-                        // Use a DEDICATED buffer: render the item, flush immediately
-                        // while the tint is active, then restore. This isolates the
-                        // tint to only this item part — it won't leak to the player
-                        // or other geometry in the shared buffer.
-                        float[] savedColor = RenderSystem.getShaderColor();
-                        RenderSystem.setShaderColor(tintR, tintG, tintB, tintA);
-                        ByteBufferBuilder builder = new ByteBufferBuilder(786432);
-                        MultiBufferSource.BufferSource dedicatedBuffer = MultiBufferSource.immediate(builder);
-                        try {
-                            Minecraft.getInstance().getItemRenderer().renderStatic(
-                                entity, part.itemStack, displayCtx, false,
-                                poseStack, dedicatedBuffer, level, light, packedOverlay, 0);
-                            dedicatedBuffer.endBatch();
-                        } finally {
-                            builder.close();
-                        }
-                        RenderSystem.setShaderColor(savedColor[0], savedColor[1], savedColor[2], savedColor[3]);
-                    } else {
-                        Minecraft.getInstance().getItemRenderer().renderStatic(
-                            entity, part.itemStack, displayCtx, false,
-                            poseStack, bufferSource, level, light, packedOverlay, 0);
-                    }
+                    // 26.1: ItemRenderer.renderStatic + setShaderColor tint are gone.
+                    // Resolve the stack through the item resolver into a scratch
+                    // render state, then emit its baked quads directly. The tint
+                    // (if any) is baked per-vertex via the tintRGBA multiplier.
+                    net.minecraft.client.renderer.item.TrackingItemStackRenderState itemState =
+                            new net.minecraft.client.renderer.item.TrackingItemStackRenderState();
+                    Minecraft.getInstance().getItemModelResolver().updateForTopItem(
+                            itemState, part.itemStack, displayCtx, level, entity, 0);
+                    float[] tintRGBA = hasTint ? new float[]{tintR, tintG, tintB, tintA} : null;
+                    RenderAPI.drawItemQuads(bufferSource, poseStack, itemState, light, packedOverlay, tintRGBA);
                 } finally {
                     RenderAPI.setBypassMixin(false);
                 }

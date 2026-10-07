@@ -743,7 +743,7 @@ public class FomekBEWRL {
                 // We'll bake viewMatrix * globalPose * partTransform into vertex positions below.
                 // ModelViewMat uniform = identity (positions already in clip-ready view space).
                 Matrix4f identityMV = new Matrix4f(); // identity
-                Matrix4f projection = RenderSystem.getProjectionMatrix();
+                Matrix4f projection = Shader.Manager.readProjectionMatrix();
                 FomekShader.Manager.applyMatrices(programId, identityMV, projection);
 
                 // Upload custom uniforms (uTime, uIntensity, etc.)

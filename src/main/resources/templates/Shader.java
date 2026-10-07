@@ -12,6 +12,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL45C;
 import org.lwjgl.system.MemoryStack;
 import java.lang.reflect.Field;
 import java.nio.FloatBuffer;
@@ -237,6 +238,39 @@ public class Shader {
              * Upload ModelViewMat and ProjMat to the given GL program.
              * Must be called after glUseProgram(programId).
              */
+            /**
+             * 26.1: RenderSystem.getProjectionMatrix() is gone — the projection
+             * matrix lives only in a GPU uniform buffer (GpuBufferSlice), with no
+             * CPU-side copy and no public readback API. For our raw-GL custom
+             * shader path we read the buffer back with GL 4.5 DSA
+             * (glGetNamedBufferSubData). Layout = std140 mat4 (column-major,
+             * 16 floats starting at the slice offset).
+             *
+             * Returns identity if anything fails (slice null, buffer not a
+             * GlBuffer, reflection blocked, GL error). Callers draw so rarely
+             * on the failure path that a wrong-but-present matrix is better
+             * than a crash.
+             */
+            public static org.joml.Matrix4f readProjectionMatrix() {
+                try {
+                    com.mojang.blaze3d.buffers.GpuBufferSlice slice = RenderSystem.getProjectionMatrixBuffer();
+                    if (slice == null) return new org.joml.Matrix4f();
+                    if (!(slice.buffer() instanceof com.mojang.blaze3d.opengl.GlBuffer)) return new org.joml.Matrix4f();
+                    java.lang.reflect.Field h = com.mojang.blaze3d.opengl.GlBuffer.class.getDeclaredField("handle");
+                    h.setAccessible(true);
+                    int handle = (Integer) h.get(slice.buffer());
+                    java.nio.ByteBuffer bb = java.nio.ByteBuffer.allocate(64)
+                            .order(java.nio.ByteOrder.nativeOrder());
+                    org.lwjgl.opengl.GL45C.glGetNamedBufferSubData(handle, slice.offset(), 64, bb);
+                    bb.rewind();
+                    float[] m = new float[16];
+                    bb.asFloatBuffer().get(m);
+                    return new org.joml.Matrix4f(m);
+                } catch (Throwable t) {
+                    return new org.joml.Matrix4f();
+                }
+            }
+
             public static void applyMatrices(int programId, Matrix4f modelView, Matrix4f projection) {
                 if (programId == 0) return;
                 Map<String, Integer> locs = uniformLocCache.get(programId);
@@ -392,12 +426,6 @@ public class Shader {
                 }
                 return locs;
             }
-
-            // ── Reflection helpers ───────────────────────────────────────────────────
-
-    } catch (Exception ignored) {}
-            }
-
     }
 
 

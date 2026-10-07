@@ -3436,7 +3436,7 @@ public static void buildGLSL(GLSL glsl, FomekShader shader) { if (glsl != null &
         // Upload ModelView and Projection matrices from RenderSystem
         try {
             Matrix4f modelView = RenderSystem.getModelViewMatrix();
-            Matrix4f projection = RenderSystem.getProjectionMatrix();
+            Matrix4f projection = Shader.Manager.readProjectionMatrix();
             FomekShader.Manager.applyMatrices(programId, modelView, projection);
         } catch (Exception ignored) {}
 
