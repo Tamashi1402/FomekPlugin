@@ -3104,7 +3104,9 @@ public class RenderAPI {
                     try {
                         texturedType = RenderTypes.entityTranslucent(
                                 (net.minecraft.resources.Identifier)
-                                        ((net.minecraft.client.renderer.entity.EntityRenderer) renderer).getTextureLocation(state));
+                                        ((net.minecraft.client.renderer.entity.EntityRenderer) renderer)
+                                                .getTextureLocation(
+                                                        (net.minecraft.client.renderer.entity.state.EntityRenderState) state));
                     } catch (Throwable t) {
                         texturedType = flatType;
                     }
