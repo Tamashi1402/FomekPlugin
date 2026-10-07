@@ -58,3 +58,28 @@
 - neoforge universal jar: /root/.mcreator/gradle/caches/modules-2/files-2.1/net.neoforged/neoforge/26.1.2.95/b2c6a32bb07fe4e8f919bfb76cf1645be0a17b48/neoforge-26.1.2.95-universal.jar
 - MCreator 2026.2 generator 26.1 templates are the idiomatic reference:
   mcreator-src/plugins/generator-26.1.x/neoforge-26.1.2/templates (blockentity_renderer.java.ftl = new render-state architecture)
+
+## Chunk 3 findings (GUI item overlay rewrite — next up)
+Old path: `Minecraft.getItemRenderer().renderStatic(entity, stack, GUI, false, pose, gui.bufferSource(), level, light, overlay, seed)` + pose.pushPose/translate/mulPose/scale — ALL GONE.
+
+New vanilla pattern (from GuiGraphicsExtractor.item):
+```java
+TrackingItemStackRenderState state = new TrackingItemStackRenderState();
+Minecraft.getInstance().getItemModelResolver().updateForTopItem(state, stack, ItemDisplayContext.GUI, level, owner, seed);
+gui.submitGuiElementRenderState(new GuiItemRenderState(new Matrix3x2f(gui.pose()), state, x, y, null)); // guiRenderState.addItem() is the internal call
+```
+- gui.pose() is 2D Matrix3x2fStack: pushMatrix/popMatrix/translate(x,y)/scale(x,y)/rotate(rad). No z. Stratum = gui.nextStratum().
+- 3D item angles: ItemStackRenderState.LayerRenderState.setLocalTransform(Matrix4fc) per layer
+  (layers are set by updateForTopItem; iterate state layers) — this is how to inject
+  yaw/pitch/roll/scale into the baked model. Also setItemTransform(ItemTransform).
+- Direct 3D submit: state.submit(PoseStack, SubmitNodeCollector, lightCoords, overlay, outlineColor)
+  — lightCoords 15728880 = FULL_BRIGHT (see OversizedItemRenderer.renderToTexture:
+  poseStack.scale(1,-1,-1) then submit). SubmitNodeStorage = concrete collector.
+- ItemTransform record: rotation()/translation()/scale()/rightRotation() accessors (fields private).
+- VertexConsumer now requires setLineWidth(float) override (RenderAPI anon class ~2676).
+- Model.setupAnim signature changed (RenderAPI 1885-1889).
+- EntityRenderer now 2 generics: EntityRenderer<?,?>.
+- PageFlip.java: 4 errors — BookModel/PageFlip API moved (check BookModel in 26.1.2).
+- @EventBusSubscriber: bus attr GONE, only value (Dist[]) + modid remain.
+- RegisterClientReloadListenersEvent → AddClientReloadListenersEvent;
+  event.addListener(Identifier id, PreparableReloadListener) (was registerReloadListener).

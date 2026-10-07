@@ -250,7 +250,7 @@ public class RenderAPI {
             ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 // rotation is a Vector3f in degrees: x=pitch, y=yaw, z=roll
-                return transform.rotation.y();
+                return transform.rotation().y();
             }
         } catch (Exception ignored) {
         }
@@ -277,7 +277,7 @@ public class RenderAPI {
             ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
                 // rotation is a Vector3f in degrees: x=pitch, y=yaw, z=roll
-                return transform.rotation.x();
+                return transform.rotation().x();
             }
         } catch (Exception ignored) {
         }
@@ -303,7 +303,7 @@ public class RenderAPI {
                     .getModel(stack, level, entity, 0);
             ItemTransform transform = model.wrapped().transforms().getTransform(ctx);
             if (transform != null && transform != ItemTransform.NO_TRANSFORM) {
-                return transform.rotation.z();
+                return transform.rotation().z();
             }
         } catch (Exception ignored) {
         }
@@ -346,9 +346,9 @@ public class RenderAPI {
                 // ItemTransform stores rotation as Vector3f(x=pitch, y=yaw, z=roll) in degrees.
                 // The apply() method uses rotationZYX(z, y, x), which via mulPose
                 // means: apply Z first, then Y, then X (matching the order below).
-                float rZ = transform.rotation.z();
-                float rY = transform.rotation.y();
-                float rX = transform.rotation.x();
+                float rZ = transform.rotation().z();
+                float rY = transform.rotation().y();
+                float rX = transform.rotation().x();
                 if (rZ != 0) pose.mulPose(Axis.ZP.rotationDegrees(rZ));
                 if (rY != 0) pose.mulPose(Axis.YP.rotationDegrees(rY));
                 if (rX != 0) pose.mulPose(Axis.XP.rotationDegrees(rX));
@@ -3946,9 +3946,9 @@ public class RenderAPI {
                 return reconstructBakedModel(bakedModel);
             }
 
-            float rZ = transform.rotation.z();
-            float rY = transform.rotation.y();
-            float rX = transform.rotation.x();
+            float rZ = transform.rotation().z();
+            float rY = transform.rotation().y();
+            float rX = transform.rotation().x();
             float sX = transform.scale.x();
             float sY = transform.scale.y();
             float sZ = transform.scale.z();
