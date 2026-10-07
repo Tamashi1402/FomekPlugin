@@ -21,32 +21,20 @@ configurations {
 
 def mcreatorProject = project(':MCreator')
 
-dependencies {
-    implementation mcreatorProject
-}
-
 // Gradle 9: project() inside dependencies{} returns a ProjectDependency, so the old
 // project(':MCreator').afterEvaluate(...) chain is gone. Hoist the Project instead.
+// MCreator's third-party deps (gson, log4j, js-rhino, ...) are implementation-scoped there,
+// so they don't flow transitively — copy them into our implementation config.
 mcreatorProject.afterEvaluate {
     def mcreatorImpl = mcreatorProject.configurations.getByName('implementation')
     def pluginImpl = configurations.getByName('implementation')
-    mcreatorImpl.dependencies.each { dep ->
-        pluginImpl.dependencies.add(dep)
-    }
+    mcreatorImpl.dependencies.each { dep -> if (!(dep instanceof org.gradle.api.artifacts.ProjectDependency)) pluginImpl.dependencies.add(dep) }
 }
 
-tasks.jar {
-    archiveFileName.set("fomek-plugin.zip")
-    from { configurations.export.collect { it.isDirectory() ? it : zipTree(it) } }
-}
-
-tasks.register('runMCreatorWithPlugin', JavaExec) {
-    dependsOn jar
-    environment("MCREATOR_PLUGINS_FOLDER", file("./build/libs"))
-    jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
-    classpath = project(':MCreator').sourceSets.main.runtimeClasspath
-    main = 'net.mcreator.Launcher'
-    workingDir = mcreator_path
+dependencies {
+    implementation mcreatorProject
+    // libs the plugin code itself compiles against (MCreator declares them as implementation, not api)
+    implementation 'org.apache.logging.log4j:log4j-api:2.26.1'
 }
 
 sourceSets {
@@ -57,6 +45,13 @@ sourceSets {
     }
 }
 
+// MCreator test classes (TestWorkspaceDataProvider etc.) for the headless harness.
+// :MCreator does not expose a consumable test variant, so we wire the test outputs
+// and test compile classpath directly as file collections.
+def mcreatorTestOut = files(mcreator_path + '/build/classes/java/test', mcreator_path + '/build/resources/test')
+sourceSets.loadtest { compileClasspath += mcreatorTestOut }
+dependencies { loadtestRuntimeOnly mcreatorTestOut }
+
 tasks.register('pluginLoadTest', JavaExec) {
     dependsOn jar, compileLoadtestJava
     description = 'Headless load of fomek-plugin.zip inside MCreator 2026.2 (no GUI needed)'
@@ -66,3 +61,15 @@ tasks.register('pluginLoadTest', JavaExec) {
     jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED', '--enable-native-access=ALL-UNNAMED,jcef'
     workingDir = mcreator_path
 }
+
+tasks.register('pluginWorkspaceTest', JavaExec) {
+    dependsOn jar, compileLoadtestJava
+    description = 'Headless neoforge-26.1.2 workspace build with fomek runtime injected (surfaces all compile errors)'
+    environment("MCREATOR_PLUGINS_FOLDER", layout.buildDirectory.dir("libs").get().asFile.absolutePath)
+    classpath = sourceSets.loadtest.runtimeClasspath
+    mainClass = 'net.tamashi.fomek.test.WorkspaceBuildTest'
+    jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED', '--enable-native-access=ALL-UNNAMED', '-Djava.awt.headless=true'
+    maxHeapSize = '3g'
+    workingDir = projectDir
+}
+

@@ -69,6 +69,9 @@ public class RendererRuntime {
     }
 
 
+    /** Headless build support: same injection as MCreatorLoadedEvent, callable from tests/CI. */
+    public void injectForBuild(Workspace workspace) { injectClasses(workspace); injectMixinConfig(workspace); }
+
     private void injectClasses(Workspace workspace) {
         try {
             String modPackage = getModPackage(workspace);

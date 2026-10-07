@@ -67,6 +67,9 @@ public class MenusRuntime {
     }
 
 
+    /** Headless build support: same injection as the UI events, callable from tests/CI. */
+    public void injectForBuild(Workspace workspace) { injectRuntime(workspace); }
+
     private void injectRuntime(Workspace workspace) {
         try {
             String modPackage = getModPackage(workspace);

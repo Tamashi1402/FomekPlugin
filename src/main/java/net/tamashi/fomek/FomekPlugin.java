@@ -55,6 +55,12 @@ public class FomekPlugin extends JavaPlugin {
 
     public static volatile boolean LOADED = false;
 
+    /** Headless injection for tests/CI (no MCreator UI needed): renderer + menus runtimes. */
+    public static void injectRuntimeHeadless(net.mcreator.workspace.Workspace workspace) {
+        new RendererRuntime().injectForBuild(workspace);
+        new MenusRuntime().injectForBuild(workspace);
+    }
+
     public FomekPlugin(Plugin plugin) {
         super(plugin);
         LOADED = true;
