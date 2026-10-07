@@ -3472,12 +3472,10 @@ public class RenderAPI {
     public static BEWRL.Model reconstructItemAsBEWRL(ItemStack itemStack, boolean rimOnly) {
         if (itemStack == null || itemStack.isEmpty()) return new BEWRL.Model();
 
-        LivingEntity entity = getEntity();
-        Level level = getWorld();
         try {
-            ResolvedModel bakedModel = resolveItemModel(itemStack);
-            if (bakedModel == null) return new BEWRL.Model();
-            BEWRL.Model _result = reconstructBakedModel(bakedModel, true, true, rimOnly);
+            ResolvedItemGeometry geo = resolveItemGeometry(itemStack, getCurrentDisplayContext());
+            if (geo == null) return new BEWRL.Model();
+            BEWRL.Model _result = reconstructBakedModel(geo.quads, true, true, rimOnly);
             _result.sourceItemStack = itemStack;
             return _result;
         } catch (Exception e) {
@@ -3552,9 +3550,20 @@ public class RenderAPI {
     public static BEWRL.Model reconstructBlockAsBEWRL(BlockState blockState) {
         if (blockState == null) return new BEWRL.Model();
         try {
-            ResolvedModel bakedModel = Minecraft.getInstance().getBlockRenderer()
-                    .getBlockModel(blockState);
-            return reconstructBakedModel(bakedModel);
+            net.minecraft.client.renderer.block.BlockStateModelSet modelSet =
+                    Minecraft.getInstance().getModelManager().getBlockStateModelSet();
+            net.minecraft.client.renderer.block.dispatch.BlockStateModel model = modelSet.get(blockState);
+            java.util.List<BakedQuad> quads = new java.util.ArrayList<>();
+            java.util.List<net.minecraft.client.renderer.block.dispatch.BlockStateModelPart> parts =
+                    new java.util.ArrayList<>();
+            model.collectParts(RandomSource.create(), parts);
+            for (net.minecraft.client.renderer.block.dispatch.BlockStateModelPart part : parts) {
+                quads.addAll(part.getQuads(null));
+                for (Direction dir : Direction.values()) {
+                    quads.addAll(part.getQuads(dir));
+                }
+            }
+            return reconstructBakedModel(quads);
         } catch (Exception e) {
             return new BEWRL.Model();
         }
@@ -3564,11 +3573,36 @@ public class RenderAPI {
      * Internal: extract quads from a ResolvedModel and convert to BEWRL shape parts.
      * Handles both null-direction (general) and per-face quads.
      */
-    private static BEWRL.Model reconstructBakedModel(ResolvedModel bakedModel) {
-        return reconstructBakedModel(bakedModel, false);
+
+    // ── 26.1 BakedQuad record adapters (replaces old int[] getVertices API) ──
+    private static float qpx(BakedQuad q, int v) { return q.position(v).x(); }
+    private static float qpy(BakedQuad q, int v) { return q.position(v).y(); }
+    private static float qpz(BakedQuad q, int v) { return q.position(v).z(); }
+    private static int qcol(BakedQuad q, int v) { return q.bakedColors().color(v); } // ARGB
+    private static float qu(BakedQuad q, int v) {
+        return net.minecraft.client.model.geom.builders.UVPair.unpackU(q.packedUV(v));
+    }
+    private static float qv(BakedQuad q, int v) {
+        return net.minecraft.client.model.geom.builders.UVPair.unpackV(q.packedUV(v));
+    }
+    private static net.minecraft.client.renderer.texture.TextureAtlasSprite qsprite(BakedQuad q) {
+        try {
+            return q.materialInfo() != null ? q.materialInfo().sprite() : null;
+        } catch (Throwable t) {
+            return null;
+        }
+    }
+    /** ARGB in → BEWRL/shape color out, with alpha fallback to opaque. */
+    private static int toShapeColor(int argb) {
+        int a = (argb >> 24) & 0xFF; if (a == 0) a = 255;
+        return (a << 24) | (argb & 0x00FFFFFF); // already ARGB
     }
 
-    private static BEWRL.Model reconstructBakedModel(ResolvedModel bakedModel, boolean itemModel) {
+    private static BEWRL.Model reconstructBakedModel(java.util.List<BakedQuad> allQuads) {
+        return reconstructBakedModel(allQuads, false);
+    }
+
+    private static BEWRL.Model reconstructBakedModel(java.util.List<BakedQuad> allQuads, boolean itemModel) {
         return reconstructBakedModel(bakedModel, itemModel, true); // always include back face
     }
 
@@ -3610,35 +3644,26 @@ public class RenderAPI {
      *
      * For BLOCK MODELS (itemModel=false): all quads go into the single shape as-is.
      */
-    private static BEWRL.Model reconstructBakedModel(ResolvedModel bakedModel,
+    private static BEWRL.Model reconstructBakedModel(java.util.List<BakedQuad> allQuads,
                                                            boolean itemModel,
                                                            boolean keepBackFace) {
         return reconstructBakedModel(bakedModel, itemModel, keepBackFace, false);
     }
 
-    private static BEWRL.Model reconstructBakedModel(ResolvedModel bakedModel,
+    private static BEWRL.Model reconstructBakedModel(java.util.List<BakedQuad> allQuads,
                                                            boolean itemModel,
                                                            boolean keepBackFace,
                                                            boolean rimOnly) {
         BEWRL.Model bewrl = new BEWRL.Model();
 
-        RandomSource random = RandomSource.create();
-        java.util.List<BakedQuad> allQuads = new java.util.ArrayList<>();
-        allQuads.addAll(bakedModel.getQuads(null, null, random));
-        // Fetch direction-culled quads for ALL models — vanilla's generated item model
-        // puts SOUTH/NORTH face quads under their respective Direction slots, not null.
-        for (Direction dir : Direction.values()) {
-            allQuads.addAll(bakedModel.getQuads(null, dir, random));
-        }
-
-        if (allQuads.isEmpty()) return bewrl;
+        if (allQuads == null || allQuads.isEmpty()) return bewrl;
 
         // ── Step 1: resolve the item's own texture path and sprite UV bounds ────
         String texture = "minecraft:textures/atlas/blocks.png";
         float spriteU0 = 0f, spriteV0 = 0f, spriteU1 = 1f, spriteV1 = 1f;
         net.minecraft.client.renderer.texture.TextureAtlasSprite sprite = null;
         try {
-            sprite = allQuads.get(0).getSprite();
+            sprite = qsprite(allQuads.get(0));
             String spriteName = sprite.contents().name().toString();
             int colon = spriteName.indexOf(':');
             if (colon >= 0) {
@@ -3681,19 +3706,15 @@ public class RenderAPI {
         java.util.List<BakedQuad> edgeQuads = new java.util.ArrayList<>();
 
         for (BakedQuad quad : allQuads) {
-            int[] data = quad.getVertices();
-            if (data == null || data.length < 8) { edgeQuads.add(quad); continue; }
-            int stride = data.length / 4;
-
             // Compute normal from first 3 vertices via cross product
-            float ax = Float.intBitsToFloat(data[0]),          ay = Float.intBitsToFloat(data[1]),          az = Float.intBitsToFloat(data[2]);
-            float bx = Float.intBitsToFloat(data[stride]),     by = Float.intBitsToFloat(data[stride+1]),   bz = Float.intBitsToFloat(data[stride+2]);
-            float cx = Float.intBitsToFloat(data[stride*2]),   cy = Float.intBitsToFloat(data[stride*2+1]), cz = Float.intBitsToFloat(data[stride*2+2]);
+            float ax = qpx(quad, 0), ay = qpy(quad, 0), az = qpz(quad, 0);
+            float bx = qpx(quad, 1), by = qpy(quad, 1), bz = qpz(quad, 1);
+            float cx = qpx(quad, 2), cy = qpy(quad, 2), cz = qpz(quad, 2);
             float ux=bx-ax, uy=by-ay, uz=bz-az;
             float vx=cx-ax, vy=cy-ay, vz=cz-az;
             float nz = ux*vy - uy*vx; // only need Z component to decide face vs edge
-            // Also check quad.getDirection() as a fallback (may be set on some models)
-            Direction qd = quad.getDirection();
+            // Also check quad.direction() as a fallback (may be set on some models)
+            Direction qd = quad.direction();
             boolean isFace = (Math.abs(nz) > 0.5f)
                           || (qd == Direction.SOUTH || qd == Direction.NORTH);
             if (isFace) {
@@ -3710,16 +3731,12 @@ public class RenderAPI {
         float frontZ = 0f, backZ = 0f;
         boolean foundFront = false, foundBack = false;
         for (BakedQuad quad : faceQuads) {
-            int[] data = quad.getVertices();
-            if (data == null || data.length < 4) continue;
-            int stride = data.length / 4;
             float minX = Float.MAX_VALUE, maxX = -Float.MAX_VALUE;
             float minY = Float.MAX_VALUE, maxY = -Float.MAX_VALUE;
-            float fz = Float.intBitsToFloat(data[2]);
+            float fz = qpz(quad, 0);
             for (int v = 0; v < 4; v++) {
-                int base = v * stride;
-                float vx = Float.intBitsToFloat(data[base]);
-                float vy = Float.intBitsToFloat(data[base + 1]);
+                float vx = qpx(quad, v);
+                float vy = qpy(quad, v);
                 if (vx < minX) minX = vx;
                 if (vx > maxX) maxX = vx;
                 if (vy < minY) minY = vy;
@@ -3728,10 +3745,10 @@ public class RenderAPI {
             faceMinX = minX; faceMaxX = maxX;
             faceMinY = minY; faceMaxY = maxY;
             // Detect front (nz>0) vs back (nz<0) using computed normal
-            if (data != null && data.length >= 8) {
-                float ax2 = Float.intBitsToFloat(data[0]),        ay2 = Float.intBitsToFloat(data[1]);
-                float bx2 = Float.intBitsToFloat(data[stride]),   by2 = Float.intBitsToFloat(data[stride+1]);
-                float cx2 = Float.intBitsToFloat(data[stride*2]), cy2 = Float.intBitsToFloat(data[stride*2+1]);
+            {
+                float ax2 = qpx(quad, 0), ay2 = qpy(quad, 0);
+                float bx2 = qpx(quad, 1), by2 = qpy(quad, 1);
+                float cx2 = qpx(quad, 2), cy2 = qpy(quad, 2);
                 float ux2=bx2-ax2, uy2=by2-ay2;
                 float vx2=cx2-ax2, vy2=cy2-ay2;
                 float nz2 = ux2*vy2 - uy2*vx2;
@@ -3779,19 +3796,15 @@ public class RenderAPI {
             // Determine front vs back by computed normal (nz > 0 = front/SOUTH, nz < 0 = back/NORTH)
             boolean isFront = true;
             {
-                int[] fdata = quad.getVertices();
-                if (fdata != null && fdata.length >= 8) {
-                    int fstride = fdata.length / 4;
-                    float ax2 = Float.intBitsToFloat(fdata[0]),        ay2 = Float.intBitsToFloat(fdata[1]),        az2 = Float.intBitsToFloat(fdata[2]);
-                    float bx2 = Float.intBitsToFloat(fdata[fstride]),   by2 = Float.intBitsToFloat(fdata[fstride+1]),bz2 = Float.intBitsToFloat(fdata[fstride+2]);
-                    float cx2 = Float.intBitsToFloat(fdata[fstride*2]), cy2 = Float.intBitsToFloat(fdata[fstride*2+1]);
-                    float ux2=bx2-ax2, uy2=by2-ay2;
-                    float vx2=cx2-ax2, vy2=cy2-ay2;
-                    float nz2 = ux2*vy2 - uy2*vx2;
-                    isFront = (nz2 >= 0);
-                }
+                float ax2 = qpx(quad, 0), ay2 = qpy(quad, 0), az2 = qpz(quad, 0);
+                float bx2 = qpx(quad, 1), by2 = qpy(quad, 1), bz2 = qpz(quad, 1);
+                float cx2 = qpx(quad, 2), cy2 = qpy(quad, 2);
+                float ux2=bx2-ax2, uy2=by2-ay2;
+                float vx2=cx2-ax2, vy2=cy2-ay2;
+                float nz2 = ux2*vy2 - uy2*vx2;
+                isFront = (nz2 >= 0);
                 // Also respect Direction if set
-                Direction qd = quad.getDirection();
+                Direction qd = quad.direction();
                 if (qd == Direction.SOUTH) isFront = true;
                 if (qd == Direction.NORTH) isFront = false;
             }
@@ -3813,15 +3826,7 @@ public class RenderAPI {
 
             int faceColor = -1;
             {
-                int[] data = quad.getVertices();
-                if (data != null && data.length >= 4) {
-                    int mcColor = data[3]; // vertex 0 color
-                    int a = (mcColor >> 24) & 0xFF; if (a == 0) a = 255;
-                    int b = (mcColor >> 16) & 0xFF;
-                    int g = (mcColor >> 8)  & 0xFF;
-                    int r =  mcColor        & 0xFF;
-                    faceColor = (a << 24) | (r << 16) | (g << 8) | b;
-                }
+                faceColor = toShapeColor(qcol(quad, 0)); // vertex 0 color
             }
 
             for (int py = 0; py < spriteH; py++) {
@@ -3988,21 +3993,17 @@ public class RenderAPI {
             // For item models, internal edges (both sides opaque) are filtered out
             // using the alpha mask. External edges (silhouette + holes) are kept.
             for (BakedQuad quad : edgeQuads) {
-                int[] data = quad.getVertices();
-                if (data == null || data.length < 4) continue;
-                int stride = data.length / 4;
-
                 float nx = 0, ny = 0, nz = 0;
-                Direction faceDir = quad.getDirection();
+                Direction faceDir = quad.direction();
                 if (faceDir != null) {
                     nx = faceDir.step().x();
                     ny = faceDir.step().y();
                     nz = faceDir.step().z();
                 } else {
                     try {
-                        float eax = Float.intBitsToFloat(data[0]),          eay = Float.intBitsToFloat(data[1]),          eaz = Float.intBitsToFloat(data[2]);
-                        float ebx = Float.intBitsToFloat(data[stride]),     eby = Float.intBitsToFloat(data[stride+1]),   ebz = Float.intBitsToFloat(data[stride+2]);
-                        float ecx = Float.intBitsToFloat(data[stride*2]),   ecy = Float.intBitsToFloat(data[stride*2+1]), ecz = Float.intBitsToFloat(data[stride*2+2]);
+                        float eax = qpx(quad, 0), eay = qpy(quad, 0), eaz = qpz(quad, 0);
+                        float ebx = qpx(quad, 1), eby = qpy(quad, 1), ebz = qpz(quad, 1);
+                        float ecx = qpx(quad, 2), ecy = qpy(quad, 2), ecz = qpz(quad, 2);
                         float eux=ebx-eax, euy=eby-eay, euz=ebz-eaz;
                         float evx2=ecx-eax, evy2=ecy-eay, evz2=ecz-eaz;
                         nx = euy*evz2 - euz*evy2;
@@ -4021,14 +4022,14 @@ public class RenderAPI {
                 if (pixelOpaque != null && itemModel && spriteW > 0 && spriteH > 0
                         && faceSpanX > 1e-8f && faceSpanY > 1e-8f
                         && (Math.abs(nx) > 0.5f || Math.abs(ny) > 0.5f)) {
-                    float qx0 = Float.intBitsToFloat(data[0]);
-                    float qy0 = Float.intBitsToFloat(data[1]);
-                    float qx1 = Float.intBitsToFloat(data[stride]);
-                    float qy1 = Float.intBitsToFloat(data[stride + 1]);
-                    float qx2 = Float.intBitsToFloat(data[2 * stride]);
-                    float qy2 = Float.intBitsToFloat(data[2 * stride + 1]);
-                    float qx3 = Float.intBitsToFloat(data[3 * stride]);
-                    float qy3 = Float.intBitsToFloat(data[3 * stride + 1]);
+                    float qx0 = qpx(quad, 0);
+                    float qy0 = qpy(quad, 0);
+                    float qx1 = qpx(quad, 1);
+                    float qy1 = qpy(quad, 1);
+                    float qx2 = qpx(quad, 2);
+                    float qy2 = qpy(quad, 2);
+                    float qx3 = qpx(quad, 3);
+                    float qy3 = qpy(quad, 3);
 
                     boolean skip = false;
 
@@ -4079,18 +4080,12 @@ public class RenderAPI {
                 float[] enu = new float[4], env = new float[4];
                 int[] ecol = new int[4];
                 for (int v = 0; v < 4; v++) {
-                    int base = v * stride;
-                    evx[v] = Float.intBitsToFloat(data[base]);
-                    evy[v] = Float.intBitsToFloat(data[base + 1]);
-                    evz[v] = Float.intBitsToFloat(data[base + 2]);
-                    int mcColor = data[base + 3];
-                    int a = (mcColor >> 24) & 0xFF; if (a == 0) a = 255;
-                    int b = (mcColor >> 16) & 0xFF;
-                    int g = (mcColor >> 8)  & 0xFF;
-                    int r =  mcColor        & 0xFF;
-                    ecol[v] = (a << 24) | (r << 16) | (g << 8) | b;
-                    float atlasU = Float.intBitsToFloat(data[base + 4]);
-                    float atlasV = Float.intBitsToFloat(data[base + 5]);
+                    evx[v] = qpx(quad, v);
+                    evy[v] = qpy(quad, v);
+                    evz[v] = qpz(quad, v);
+                    ecol[v] = toShapeColor(qcol(quad, v));
+                    float atlasU = qu(quad, v);
+                    float atlasV = qv(quad, v);
                     enu[v] = (atlasU - spriteU0) / spriteURange;
                     env[v] = (atlasV - spriteV0) / spriteVRange;
                 }
@@ -4190,100 +4185,6 @@ public class RenderAPI {
         PoseStack pose = getActivePoseStack();
         if (pose != null) pose.popPose();
     }
-
-    // DEAD CODE — replaced by pushItemDisplayTransform / popItemDisplayTransform
-    private static BEWRL.Model _reconstructItemAsBEWRLTransformed_UNUSED(ItemStack itemStack) {
-        if (itemStack == null || itemStack.isEmpty()) return new BEWRL.Model();
-
-        LivingEntity entity = getEntity();
-        Level level = getWorld();
-        try {
-            ResolvedModel bakedModel = resolveItemModel(itemStack);
-            if (bakedModel == null) return new BEWRL.Model();
-
-            ItemDisplayContext ctx = getCurrentDisplayContext();
-            if (ctx == null) ctx = ItemDisplayContext.GUI;
-
-            ItemTransform transform = resolveDisplayTransform(itemStack, ctx);
-            if (transform == null || transform == ItemTransform.NO_TRANSFORM) {
-                return reconstructBakedModel(bakedModel);
-            }
-
-            float rZ = transform.rotation().z();
-            float rY = transform.rotation().y();
-            float rX = transform.rotation().x();
-            float sX = transform.scale.x();
-            float sY = transform.scale.y();
-            float sZ = transform.scale.z();
-            float tX = transform.translation.x();
-            float tY = transform.translation.y();
-            float tZ = transform.translation.z();
-
-            RandomSource random = RandomSource.create();
-            java.util.List<BakedQuad> allQuads = new java.util.ArrayList<>();
-            allQuads.addAll(bakedModel.getQuads(null, null, random));
-            for (Direction dir : Direction.values()) {
-                allQuads.addAll(bakedModel.getQuads(null, dir, random));
-            }
-
-            BEWRL.Model bewrl = new BEWRL.Model();
-            if (allQuads.isEmpty()) return bewrl;
-
-            RenderAPI.Shape shape = new RenderAPI.Shape();
-            shape.begin(VertexFormat.Mode.QUADS, true);
-
-            // Build transform matrix: translate → rotate(Z,Y,X) → scale
-            org.joml.Matrix4f mat = new org.joml.Matrix4f();
-            mat.translate(tX, tY, tZ);
-            if (rZ != 0) mat.rotateZ((float) Math.toRadians(rZ));
-            if (rY != 0) mat.rotateY((float) Math.toRadians(rY));
-            if (rX != 0) mat.rotateX((float) Math.toRadians(rX));
-            mat.scale(sX, sY, sZ);
-
-            org.joml.Vector3f vpos = new org.joml.Vector3f();
-
-            for (BakedQuad quad : allQuads) {
-                int[] data = quad.getVertices();
-                if (data == null || data.length < 4) continue;
-                int stride = data.length / 4;
-
-                for (int v = 0; v < 4; v++) {
-                    int base = v * stride;
-                    float x = Float.intBitsToFloat(data[base + 0]);
-                    float y = Float.intBitsToFloat(data[base + 1]);
-                    float z = Float.intBitsToFloat(data[base + 2]);
-
-                    vpos.set(x, y, z);
-                    mat.transformPosition(vpos);
-
-                    int mcColor = data[base + 3];
-                    int a = (mcColor >> 24) & 0xFF;
-                    int b = (mcColor >> 16) & 0xFF;
-                    int g = (mcColor >> 8) & 0xFF;
-                    int r = mcColor & 0xFF;
-                    if (a == 0) a = 255;
-                    int color = (a << 24) | (r << 16) | (g << 8) | b;
-
-                    float u = Float.intBitsToFloat(data[base + 4]);
-                    float vt = Float.intBitsToFloat(data[base + 5]);
-
-                    shape.addVertexUV(vpos.x, vpos.y, vpos.z, u, vt, color);
-                }
-            }
-            shape.end();
-
-            if (!shape.isEmpty()) {
-                String texture = "minecraft:textures/atlas/blocks.png";
-                bewrl.addPart(shape, texture,
-                    0, 0, 0, 0, 0, 0, 1, 1, 1, -1, "entityCutoutNoCull");
-            }
-
-            return bewrl;
-        } catch (Exception e) {
-            return new BEWRL.Model();
-        }
-    }
-
 
     // ── BEWRL Render with Vec3 pos/rot + Vec3 scale ──────────────────────────────
 
