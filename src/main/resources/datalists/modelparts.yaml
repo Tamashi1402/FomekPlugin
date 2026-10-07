@@ -1,0 +1,24 @@
+- head:
+  readable_name: "Head"
+- body:
+  readable_name: "Body"
+- rightArm:
+  readable_name: "Right arm"
+- leftArm:
+  readable_name: "Left arm"
+- rightLeg:
+  readable_name: "Right leg"
+- leftLeg:
+  readable_name: "Left leg"
+- hat:
+  readable_name: "Hat"
+- jacket:
+  readable_name: "Jacket"
+- rightSleeve:
+  readable_name: "Right sleeve"
+- leftSleeve:
+  readable_name: "Left sleeve"
+- rightPants:
+  readable_name: "Right pants"
+- leftPants:
+  readable_name: "Left pants"

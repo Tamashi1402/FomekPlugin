@@ -1,0 +1,37 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "r",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "g",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "b",
+      "check": "Number"
+    }
+  ],
+  "message0": "Color R: %1 G: %2 B: %3",
+  "output": "Number",
+  "inputsInline": true,
+  "colour": 230,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "fomekmenu_data",
+    "inputs": [
+      "r",
+      "g",
+      "b"
+    ],
+    "toolbox_init": [
+      "<value name=\"r\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value>",
+      "<value name=\"g\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value>",
+      "<value name=\"b\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value>"
+    ]
+  }
+}

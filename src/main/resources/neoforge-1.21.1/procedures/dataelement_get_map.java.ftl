@@ -1,0 +1,1 @@
+(${input$element} instanceof CompoundTag _compoundTag ? _compoundTag.copy() : new CompoundTag())

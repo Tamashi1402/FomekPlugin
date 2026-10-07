@@ -1,0 +1,44 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x1",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y1",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "x2",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y2",
+      "check": "Number"
+    }
+  ],
+  "message0": "Box x1: %1 y1: %2 x2: %3 y2: %4",
+  "output": "FomekMenuBox",
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "fomekmenu_data",
+    "inputs": [
+      "x1",
+      "y1",
+      "x2",
+      "y2"
+    ],
+    "toolbox_init": [
+      "<value name=\"x1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"y1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"x2\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value>",
+      "<value name=\"y2\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value>"
+    ]
+  }
+}

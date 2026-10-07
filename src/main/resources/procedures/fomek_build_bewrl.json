@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "do"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#a55ba5",
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "statements": [
+      {
+        "name": "do"
+      }
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_actions",
+  "message0": "Build BEWRL model %1"
+}

@@ -1,0 +1,1 @@
+(${input$element} instanceof ByteTag _byteTag ? _byteTag.getAsByte() == 1 : false)

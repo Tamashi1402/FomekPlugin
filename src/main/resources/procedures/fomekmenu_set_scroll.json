@@ -1,0 +1,32 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "fomekmenu_data",
+    "inputs": [
+      "id",
+      "value"
+    ],
+    "fields": [],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">scroll1</field></block></value>",
+      "<value name=\"value\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ]
+  },
+  "message0": "Set scroll of %1 to %2"
+}

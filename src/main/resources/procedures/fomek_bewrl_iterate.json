@@ -1,0 +1,34 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "bewrl",
+      "check": "BEWRL.Model"
+    },
+    {
+      "type": "input_statement",
+      "name": "do"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "inputs": [
+      "bewrl"
+    ],
+    "statements": [
+      {
+        "name": "do"
+      }
+    ],
+    "toolbox_init": [
+      "<value name=\"bewrl\"><block type=\"fomek_bewrl_empty\"></block></value>"
+    ]
+  },
+  "message0": "iterate BEWRL %1 as iterator part %2",
+  "toolbox_id": "fomek_bewlr_actions"
+}

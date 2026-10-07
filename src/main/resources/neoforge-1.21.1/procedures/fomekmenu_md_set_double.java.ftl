@@ -1,0 +1,1 @@
+${input$data}.setDouble(${input$key}, ${input$value});

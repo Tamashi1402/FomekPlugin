@@ -1,0 +1,35 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "texts",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "scale",
+      "check": "Number"
+    },
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": 230,
+  "mcreator": {
+    "group": "textdata",
+    "toolbox_id": "render_data",
+    "toolbox_init": [
+      "<value name=\"texts\"><block type=\"text\"><field name=\"TEXT\">texts</field></block></value>",
+      "<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>"
+    ],
+    "inputs": [
+      "scale"
+    ]
+  },
+  "message0": "Get line height of texts %1 with scale: %2 %3"
+}

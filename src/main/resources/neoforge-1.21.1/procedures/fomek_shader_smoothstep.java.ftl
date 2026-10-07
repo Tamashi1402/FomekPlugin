@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.smoothstep(${opt.toFloat(input$edge0)}, ${opt.toFloat(input$edge1)}, ${opt.toFloat(input$x)})

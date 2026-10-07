@@ -1,0 +1,1 @@
+if(${input$entity} instanceof LivingEntity _LivEnt) _LivEnt.setNoActionTime(${opt.toInt(input$amount)});

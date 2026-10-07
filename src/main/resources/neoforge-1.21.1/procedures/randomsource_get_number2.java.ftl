@@ -1,0 +1,1 @@
+Mth.nextDouble(${input$randomsource}, ${input$min}, ${input$max})

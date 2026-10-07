@@ -1,0 +1,54 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "left",
+      "check": "Vector"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "operator",
+      "options": [
+        [
+          "+",
+          "+"
+        ],
+        [
+          "-",
+          "-"
+        ],
+        [
+          "*",
+          "*"
+        ],
+        [
+          "/",
+          "/"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "right",
+      "check": "Vector"
+    }
+  ],
+  "output": "Vector",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "generic",
+    "toolbox_id": "fomek_math_vector",
+    "toolbox_init": [
+      "<value name=\"left\"></value>",
+      "<value name=\"right\"></value>"
+    ],
+    "inputs": [
+      "left",
+      "right"
+    ],
+    "fields": [
+      "operator"
+    ]
+  }
+}

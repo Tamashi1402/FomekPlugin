@@ -1,0 +1,1 @@
+/*@BlockState*/NbtUtils.readBlockState(BuiltInRegistries.BLOCK.asLookup(), ${input$map})

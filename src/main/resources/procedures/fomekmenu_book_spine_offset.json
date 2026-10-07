@@ -1,0 +1,32 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "spine",
+      "check": "Number"
+    }
+  ],
+  "message0": "Set book %1 spine offset (px): %2",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "group": "fomekmenu_book",
+    "inputs": [
+      "id",
+      "spine"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">book1</field></block></value>",
+      "<value name=\"spine\"><block type=\"math_number\"><field name=\"NUM\">7</field></block></value>"
+    ],
+    "fields": []
+  }
+}

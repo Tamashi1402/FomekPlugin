@@ -1,0 +1,53 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "item",
+      "check": "MCItem"
+    },
+    {
+      "type": "input_value",
+      "name": "_placeholder",
+      "check": "String"
+    },
+    {
+      "type": "input_statement",
+      "name": "foreach"
+    },
+    {
+      "type": "input_value",
+      "name": "_placeholder2",
+      "check": "Number"
+    }
+  ],
+  "extensions": [
+    "is_custom_loop"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 350,
+  "mcreator": {
+    "toolbox_id": "fomek_items_actions",
+    "toolbox_init": [
+      "<value name=\"item\"><block type=\"itemstack_to_mcitem\"></block></value>",
+      "<value name=\"_placeholder\"><block deletable=\"false\" movable=\"false\" enabled=\"false\" type=\"stringiterator\"></block></value>",
+      "<value name=\"_placeholder2\"><block deletable=\"false\" movable=\"false\" enabled=\"false\" type=\"level_of_applied_enchantment\"></block></value>"
+    ],
+    "inputs": [
+      "item"
+    ],
+    "statements": [
+      {
+        "name": "foreach",
+        "disable_local_variables": false
+      }
+    ],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

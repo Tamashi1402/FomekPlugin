@@ -1,0 +1,1 @@
+((ArrayList<Vec3>) ${input$list}.clone())

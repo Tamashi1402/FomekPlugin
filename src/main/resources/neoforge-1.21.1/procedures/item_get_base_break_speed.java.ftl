@@ -1,0 +1,1 @@
+(${input$item}.getItem() instanceof TieredItem _item ? _item.getTier().getSpeed() : 1)

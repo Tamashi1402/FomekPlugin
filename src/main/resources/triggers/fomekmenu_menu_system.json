@@ -1,0 +1,37 @@
+{
+  "side": "client",
+  "dependencies_provided": [
+    {
+      "name": "entity",
+      "type": "entity"
+    },
+    {
+      "name": "world",
+      "type": "world"
+    },
+    {
+      "name": "guigraphics",
+      "type": "guigraphics"
+    },
+    {
+      "name": "partialTick",
+      "type": "number"
+    },
+    {
+      "name": "mouseX",
+      "type": "number"
+    },
+    {
+      "name": "mouseY",
+      "type": "number"
+    },
+    {
+      "name": "screenWidth",
+      "type": "number"
+    },
+    {
+      "name": "screenHeight",
+      "type": "number"
+    }
+  ]
+}

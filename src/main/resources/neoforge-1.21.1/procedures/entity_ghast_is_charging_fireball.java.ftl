@@ -1,0 +1,1 @@
+((${input$entity} instanceof Ghast _ghast ? _ghast.isCharging():false))

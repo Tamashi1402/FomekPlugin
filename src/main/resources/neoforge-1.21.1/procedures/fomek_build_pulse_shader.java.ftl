@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.buildPulseShader((float) ${input$speed}, (float) ${input$minGlow}, (float) ${input$maxGlow}, (float) ${input$r}, (float) ${input$g}, (float) ${input$b}, (float) ${input$edge})

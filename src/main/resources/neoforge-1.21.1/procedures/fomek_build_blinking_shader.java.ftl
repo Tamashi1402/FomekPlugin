@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.buildBlinkingShader((float) ${input$speed}, (float) ${input$width}, (float) ${input$r}, (float) ${input$g}, (float) ${input$b}, (float) ${input$intensity})

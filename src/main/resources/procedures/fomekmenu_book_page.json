@@ -1,0 +1,158 @@
+{
+  "extensions": [
+    "fomekmenu_studio_icon"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "group": "fomekmenu_book",
+    "inputs": [
+      "id",
+      "STUDIO_NORMAL_STYLE",
+      "STUDIO_HOVER_STYLE",
+      "STUDIO_HELD_STYLE",
+      "STUDIO_CLICK_STYLE"
+    ],
+    "statements": [
+      {
+        "name": "LEFT",
+        "disable_local_variables": false
+      },
+      {
+        "name": "RIGHT",
+        "disable_local_variables": false
+      },
+      {
+        "name": "STUDIO_HOVER",
+        "disable_local_variables": false
+      },
+      {
+        "name": "STUDIO_CLICK",
+        "disable_local_variables": false
+      },
+      {
+        "name": "STUDIO_CHECK",
+        "disable_local_variables": false
+      },
+      {
+        "name": "STUDIO_UPDATE",
+        "disable_local_variables": false
+      }
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">page1</field></block></value>"
+    ],
+    "fields": [
+      "STUDIO_KEY"
+    ]
+  },
+  "message0": "Add page %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    }
+  ],
+  "message1": "Left %1",
+  "args1": [
+    {
+      "type": "input_statement",
+      "name": "LEFT"
+    }
+  ],
+  "message2": "Right %1",
+  "args2": [
+    {
+      "type": "input_statement",
+      "name": "RIGHT"
+    }
+  ],
+  "message3": "On Hover %1",
+  "args3": [
+    {
+      "type": "input_statement",
+      "name": "STUDIO_HOVER"
+    }
+  ],
+  "message4": "On Click %1",
+  "args4": [
+    {
+      "type": "input_statement",
+      "name": "STUDIO_CLICK"
+    }
+  ],
+  "message5": "On Check %1",
+  "args5": [
+    {
+      "type": "input_statement",
+      "name": "STUDIO_CHECK"
+    }
+  ],
+  "message6": "On Update %1",
+  "args6": [
+    {
+      "type": "input_statement",
+      "name": "STUDIO_UPDATE"
+    }
+  ],
+  "message7": "Style %1",
+  "args7": [
+    {
+      "type": "input_value",
+      "name": "STUDIO_NORMAL_STYLE",
+      "check": "FomekMenuStyle"
+    }
+  ],
+  "message8": "Style %1",
+  "args8": [
+    {
+      "type": "input_value",
+      "name": "STUDIO_HOVER_STYLE",
+      "check": "FomekMenuStyle"
+    }
+  ],
+  "message9": "Style %1",
+  "args9": [
+    {
+      "type": "input_value",
+      "name": "STUDIO_HELD_STYLE",
+      "check": "FomekMenuStyle"
+    }
+  ],
+  "message10": "%1 %2",
+  "args10": [
+    {
+      "type": "field_input",
+      "name": "STUDIO_KEY",
+      "text": ""
+    },
+    {
+      "type": "input_dummy",
+      "name": "STUDIO_KEY_ROW"
+    }
+  ],
+  "message11": "Style %1",
+  "args11": [
+    {
+      "type": "input_value",
+      "name": "STUDIO_CLICK_STYLE",
+      "check": "FomekMenuStyle"
+    }
+  ],
+  "message12": "%1 %2",
+  "args12": [
+    {
+      "type": "field_input",
+      "name": "STUDIO_LAYOUT",
+      "text": ""
+    },
+    {
+      "type": "input_dummy",
+      "name": "STUDIO_LAYOUT_ROW"
+    }
+  ]
+}

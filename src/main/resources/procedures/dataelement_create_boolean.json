@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "boolean",
+      "check": "Boolean"
+    }
+  ],
+  "output": "DataElement",
+  "colour": "%{BKY_DATAELEMENT_HUE}",
+  "mcreator": {
+    "group": "creator",
+    "toolbox_id": "fomek_math_dataelement",
+    "toolbox_init": [
+      "<value name=\"boolean\"></value>"
+    ],
+    "inputs": [
+      "boolean"
+    ]
+  }
+}

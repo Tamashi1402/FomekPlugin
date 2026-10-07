@@ -1,0 +1,22 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "expr",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 160,
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_data",
+    "toolbox_init": [
+      "<value name=\"expr\"><block type=\"text\"><field name=\"TEXT\">myVar</field></block></value>"
+    ],
+    "inputs": [
+      "expr"
+    ]
+  },
+  "message0": "to string %1"
+}

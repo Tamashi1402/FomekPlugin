@@ -1,0 +1,49 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "renderType",
+      "options": [
+        [
+          "GUI",
+          "GUI"
+        ],
+        [
+          "Fixed",
+          "FIXED"
+        ],
+        [
+          "Ground",
+          "GROUND"
+        ],
+        [
+          "First Person Right",
+          "FIRST_PERSON_RIGHT_HAND"
+        ],
+        [
+          "First Person Left",
+          "FIRST_PERSON_LEFT_HAND"
+        ],
+        [
+          "Third Person Right",
+          "THIRD_PERSON_RIGHT_HAND"
+        ],
+        [
+          "Third Person Left",
+          "THIRD_PERSON_LEFT_HAND"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "render_data",
+    "fields": [
+      "renderType"
+    ],
+    "group": "render_data"
+  },
+  "message0": "Is render type %1"
+}

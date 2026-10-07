@@ -1,0 +1,6 @@
+defaultvalue: new ${package}.api.render.Shader()
+scopes:
+  local:
+    init: ${package}.api.render.Shader ${var.getName()} = new ${package}.api.render.Shader();
+    get: ${name}
+    set: ${name} = (${package}.api.render.Shader) ${opt.removeParentheses(value)};

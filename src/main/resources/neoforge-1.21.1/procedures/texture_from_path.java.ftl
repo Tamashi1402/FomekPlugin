@@ -1,0 +1,1 @@
+(ResourceLocation.parse(${input$texture}))

@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "pageid",
+      "check": "String"
+    }
+  ],
+  "message0": "Book %1 page %2 is current",
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "group": "fomekmenu_book",
+    "inputs": [
+      "id",
+      "pageid"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">book1</field></block></value>",
+      "<value name=\"pageid\"><block type=\"text\"><field name=\"TEXT\">page1</field></block></value>"
+    ]
+  }
+}

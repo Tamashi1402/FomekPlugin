@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "v",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "comp",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 55,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"v\"><block type=\"text\"><field name=\"TEXT\">myVec</field></block></value>",
+      "<value name=\"comp\"><block type=\"text\"><field name=\"TEXT\">x</field></block></value>"
+    ],
+    "inputs": [
+      "v",
+      "comp"
+    ]
+  },
+  "message0": "%1 . %2"
+}

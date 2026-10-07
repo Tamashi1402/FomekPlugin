@@ -1,0 +1,35 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "regex",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "replace",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": "%{BKY_TEXTS_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_utils",
+    "toolbox_init": [
+      "<value name=\"regex\"><block type=\"text\"><field name=\"TEXT\">[CDE]</field></block></value>",
+      "<value name=\"replace\"><block type=\"text\"><field name=\"TEXT\">_</field></block></value>",
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">ABCDEFGHI</field></block></value>"
+    ],
+    "inputs": [
+      "regex",
+      "replace",
+      "text"
+    ]
+  }
+}

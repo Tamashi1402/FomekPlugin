@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderFloat((${package}.api.render.Shader) ${input$shader}, ${input$name}, ${opt.toFloat(input$value)});

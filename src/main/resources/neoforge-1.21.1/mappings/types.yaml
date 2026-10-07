@@ -1,0 +1,26 @@
+armrendering: RenderArmEvent
+chunk: LevelChunk
+dataelement: Tag
+datalist: net.minecraft.nbt.ListTag
+datamap: net.minecraft.nbt.CompoundTag
+entityrendering: RenderLivingEvent
+file: File
+fomek_bewrl_part: BEWRL.Part
+fomek_fragment: RenderAPI.Fragment
+fomek_glsl: RenderAPI.GLSL
+fomek_model: BEWRL.Model
+fomek_shader: Shader
+fomek_shape: RenderAPI.Shape
+fomek_vec3: BEWRLVars.Vec3
+hitboxcalculating: EntityEvent.Size
+jsonarray: com.google.gson.JsonArray
+jsonobject: com.google.gson.JsonObject
+model: EntityModel
+playerrendering: RenderPlayerEvent
+posestack: PoseStack
+randomsource: RandomSource
+texturelocation: ResourceLocation
+tooltip: List<Component>
+vector: Vec3
+vectorlist: ArrayList<Vec3>
+vectormap: HashMap<String, Vec3>

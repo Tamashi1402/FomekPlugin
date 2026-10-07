@@ -1,0 +1,24 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    }
+  ],
+  "message0": "Initialize menu %1",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_building",
+    "group": "building",
+    "inputs": [
+      "id"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">testmenu1</field></block></value>"
+    ]
+  }
+}

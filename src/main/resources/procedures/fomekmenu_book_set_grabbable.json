@@ -1,0 +1,33 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "inset",
+      "check": "Number"
+    }
+  ],
+  "message0": "Set book %1 grabbable: grab zone inset %2 (0 = edge only, 0.1 = outer 10%, 1 = whole page)",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mutator": "fomekmenu_book_grabbable_mutator",
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "group": "fomekmenu_book",
+    "inputs": [
+      "id",
+      "inset"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">book1</field></block></value>",
+      "<value name=\"inset\"><block type=\"math_number\"><field name=\"NUM\">0.25</field></block></value>",
+      "<mutation items=\"\" count=\"0\"></mutation>"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+((ForgeRegistries.ENTITY_TYPES.getKey(${input$entity}.getType()).toString()).equals("minecraft:${generator.map(field$entityid, "entityids", 0)}"))

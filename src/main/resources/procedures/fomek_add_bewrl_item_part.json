@@ -1,0 +1,53 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "itemstack",
+      "check": "MCItem"
+    },
+    {
+      "type": "input_value",
+      "name": "glowing",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_value",
+      "name": "pos",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "rot",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "scale",
+      "check": "Vec3"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "toolbox_init": [
+      "<value name=\"itemstack\"><block type=\"mcitem_all\"><field name=\"value\"></field></block></value>",
+      "<value name=\"glowing\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>",
+      "<value name=\"pos\"><block type=\"fomek_vec3_pos\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>",
+      "<value name=\"rot\"><block type=\"fomek_vec3_rot\"><value name=\"yaw\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"pitch\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"roll\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>",
+      "<value name=\"scale\"><block type=\"fomek_vec3_scale\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value>"
+    ],
+    "inputs": [
+      "itemstack",
+      "glowing",
+      "pos",
+      "rot",
+      "scale"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_actions",
+  "message0": "Add part: Item %1 glowing %2 at pos %3 rotation %4 scale %5"
+}

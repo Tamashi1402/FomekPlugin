@@ -1,0 +1,60 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "func",
+      "options": [
+        [
+          "abs",
+          "abs"
+        ],
+        [
+          "length",
+          "length"
+        ],
+        [
+          "normalize",
+          "normalize"
+        ],
+        [
+          "sin",
+          "sin"
+        ],
+        [
+          "cos",
+          "cos"
+        ],
+        [
+          "fract",
+          "fract"
+        ],
+        [
+          "floor",
+          "floor"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "arg",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 55,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"arg\"><block type=\"text\"><field name=\"TEXT\">x</field></block></value>"
+    ],
+    "fields": [
+      "func"
+    ],
+    "inputs": [
+      "arg"
+    ]
+  },
+  "message0": "%1 (%2)"
+}

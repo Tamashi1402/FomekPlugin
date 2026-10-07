@@ -1,0 +1,12 @@
+{
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#943c77",
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_data"
+  },
+  "toolbox_id": "render_data",
+  "message0": "Enable culling"
+}

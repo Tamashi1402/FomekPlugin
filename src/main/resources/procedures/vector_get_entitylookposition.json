@@ -1,0 +1,69 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "input_value",
+      "name": "length",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "blockmode",
+      "options": [
+        [
+          "OUTLINE",
+          "OUTLINE"
+        ],
+        [
+          "COLLIDER",
+          "COLLIDER"
+        ],
+        [
+          "VISUAL",
+          "VISUAL"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "fluidmode",
+      "options": [
+        [
+          "NONE",
+          "NONE"
+        ],
+        [
+          "SOURCE_ONLY",
+          "SOURCE_ONLY"
+        ],
+        [
+          "ANY",
+          "ANY"
+        ]
+      ]
+    }
+  ],
+  "output": "Vector",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "entity2",
+    "toolbox_id": "fomek_math_utils",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+      "<value name=\"length\"><block type=\"math_number\"><field name=\"NUM\">5</field></block></value>"
+    ],
+    "inputs": [
+      "entity",
+      "length"
+    ],
+    "fields": [
+      "blockmode",
+      "fluidmode"
+    ]
+  }
+}

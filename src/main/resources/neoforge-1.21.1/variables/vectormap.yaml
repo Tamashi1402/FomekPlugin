@@ -1,0 +1,130 @@
+defaultvalue: new HashMap<String, Vec3>()
+scopes:
+  local:
+    init: ${var.getType().getJavaType(generator.getWorkspace())} ${var.getName()};
+    get: ${name}
+    set: ${name} = ${opt.removeParentheses(value)};
+  global_session:
+    init: public static HashMap<String, Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    get: ${JavaModName}Variables.${name}
+    set: ${JavaModName}Variables.${name} = ${opt.removeParentheses(value)};
+  global_world:
+    init: public HashMap<String, Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      {
+        this.${var.getName()} = new HashMap<>();
+        CompoundTag compoundTag = nbt.getCompound("${var.getName()}");
+        for (String name : compoundTag.getAllKeys()) {
+          ListTag listTag = compoundTag.getList(name, 6);
+          this.${var.getName()}.put(name, new Vec3(listTag.getDouble(0), listTag.getDouble(1), listTag.getDouble(2)));
+        }
+      }
+    write: |
+      {
+        CompoundTag compoundTag = new CompoundTag();
+        for (Map.Entry<String, Vec3> entry : this.${var.getName()}.entrySet()) {
+          Vec3 vec3 = entry.getValue();
+          vec3 = vec3 == null ? Vec3.ZERO : vec3;
+          ListTag listTag = new ListTag();
+            listTag.addTag(0, DoubleTag.valueOf(vec3.x()));
+            listTag.addTag(1, DoubleTag.valueOf(vec3.y()));
+            listTag.addTag(2, DoubleTag.valueOf(vec3.z()));
+            compoundTag.put(entry.getKey(), listTag);
+        }
+        nbt.put("${var.getName()}", compoundTag);
+      }
+    get: ${JavaModName}Variables.WorldVariables.get(world).${name}
+    set: |
+      ${JavaModName}Variables.WorldVariables.get(world).${name} = ${opt.removeParentheses(value)};
+      ${JavaModName}Variables.WorldVariables.get(world).markSyncDirty();
+  global_map:
+    init: public HashMap<String, Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      {
+        this.${var.getName()} = new HashMap<>();
+        CompoundTag compoundTag = nbt.getCompound("${var.getName()}");
+        for (String name : compoundTag.getAllKeys()) {
+          ListTag listTag = compoundTag.getList(name, 6);
+          this.${var.getName()}.put(name, new Vec3(listTag.getDouble(0), listTag.getDouble(1), listTag.getDouble(2)));
+        }
+      }
+    write: |
+      {
+        CompoundTag compoundTag = new CompoundTag();
+        for (Map.Entry<String, Vec3> entry : this.${var.getName()}.entrySet()) {
+          Vec3 vec3 = entry.getValue();
+          vec3 = vec3 == null ? Vec3.ZERO : vec3;
+          ListTag listTag = new ListTag();
+            listTag.addTag(0, DoubleTag.valueOf(vec3.x()));
+            listTag.addTag(1, DoubleTag.valueOf(vec3.y()));
+            listTag.addTag(2, DoubleTag.valueOf(vec3.z()));
+            compoundTag.put(entry.getKey(), listTag);
+        }
+        nbt.put("${var.getName()}", compoundTag);
+      }
+    get: ${JavaModName}Variables.MapVariables.get(world).${name}
+    set: |
+      ${JavaModName}Variables.MapVariables.get(world).${name} = ${opt.removeParentheses(value)};
+      ${JavaModName}Variables.MapVariables.get(world).markSyncDirty();
+  player_lifetime:
+    init: public HashMap<String, Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      {
+        this.${var.getName()} = new HashMap<>();
+        CompoundTag compoundTag = nbt.getCompound("${var.getName()}");
+        for (String name : compoundTag.getAllKeys()) {
+          ListTag listTag = compoundTag.getList(name, 6);
+          this.${var.getName()}.put(name, new Vec3(listTag.getDouble(0), listTag.getDouble(1), listTag.getDouble(2)));
+        }
+      }
+    write: |
+      {
+        CompoundTag compoundTag = new CompoundTag();
+        for (Map.Entry<String, Vec3> entry : this.${var.getName()}.entrySet()) {
+          Vec3 vec3 = entry.getValue();
+          vec3 = vec3 == null ? Vec3.ZERO : vec3;
+          ListTag listTag = new ListTag();
+            listTag.addTag(0, DoubleTag.valueOf(vec3.x()));
+            listTag.addTag(1, DoubleTag.valueOf(vec3.y()));
+            listTag.addTag(2, DoubleTag.valueOf(vec3.z()));
+            compoundTag.put(entry.getKey(), listTag);
+        }
+        nbt.put("${var.getName()}", compoundTag);
+      }
+    get: ${entity}.getData(${JavaModName}Variables.PLAYER_VARIABLES).${name}
+    set: |
+      if (${entity} instanceof Player _player) {
+        ${JavaModName}Variables.PlayerVariables _vars = _player.getData(${JavaModName}Variables.PLAYER_VARIABLES);
+        _vars.${name} = ${opt.removeParentheses(value)};
+      }
+  player_persistent:
+    init: public HashMap<String, Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      {
+        this.${var.getName()} = new HashMap<>();
+        CompoundTag compoundTag = nbt.getCompound("${var.getName()}");
+        for (String name : compoundTag.getAllKeys()) {
+          ListTag listTag = compoundTag.getList(name, 6);
+          this.${var.getName()}.put(name, new Vec3(listTag.getDouble(0), listTag.getDouble(1), listTag.getDouble(2)));
+        }
+      }
+    write: |
+      {
+        CompoundTag compoundTag = new CompoundTag();
+        for (Map.Entry<String, Vec3> entry : this.${var.getName()}.entrySet()) {
+          Vec3 vec3 = entry.getValue();
+          vec3 = vec3 == null ? Vec3.ZERO : vec3;
+          ListTag listTag = new ListTag();
+            listTag.addTag(0, DoubleTag.valueOf(vec3.x()));
+            listTag.addTag(1, DoubleTag.valueOf(vec3.y()));
+            listTag.addTag(2, DoubleTag.valueOf(vec3.z()));
+            compoundTag.put(entry.getKey(), listTag);
+        }
+        nbt.put("${var.getName()}", compoundTag);
+      }
+    get: ${entity}.getData(${JavaModName}Variables.PLAYER_VARIABLES).${name}
+    set: |
+      if (${entity} instanceof Player _player) {
+        ${JavaModName}Variables.PlayerVariables _vars = _player.getData(${JavaModName}Variables.PLAYER_VARIABLES);
+        _vars.${name} = ${opt.removeParentheses(value)};
+      }

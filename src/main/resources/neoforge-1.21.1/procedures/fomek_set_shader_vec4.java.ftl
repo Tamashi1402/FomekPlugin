@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderVec4((${package}.api.render.Shader) ${input$shader}, ${input$name}, ${opt.toFloat(input$x)}, ${opt.toFloat(input$y)}, ${opt.toFloat(input$z)}, ${opt.toFloat(input$w)});

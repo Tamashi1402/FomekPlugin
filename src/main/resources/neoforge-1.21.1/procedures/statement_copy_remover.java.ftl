@@ -1,0 +1,1 @@
+${statement$whatever?replace(".copy()", "")}

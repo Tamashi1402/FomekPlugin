@@ -1,0 +1,1 @@
+RandomSource.create((((long) ${input$x} & 1048575) + (((long) ${input$y} & 1048575) << 40) + (((long) ${input$z} & 1048575) << 20)))

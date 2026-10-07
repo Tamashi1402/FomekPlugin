@@ -1,0 +1,1 @@
+${input$entity}.getX() + ${input$entity}.getLookAngle().x * ${input$distance}

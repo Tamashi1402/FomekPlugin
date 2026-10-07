@@ -1,0 +1,24 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "part",
+      "check": "BEWRL.Part"
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": "#5ba58c",
+  "mcreator": {
+    "group": "fomek_bewlr_data",
+    "toolbox_id": "fomek_bewlr_data",
+    "inputs": [
+      "part"
+    ],
+    "toolbox_init": [
+      "<value name=\"part\"><block type=\"fomek_bewrl_part_iterator\"></block></value>"
+    ]
+  },
+  "message0": "get %1 type",
+  "toolbox_id": "fomek_bewlr_data"
+}

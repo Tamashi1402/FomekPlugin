@@ -1,0 +1,37 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"type\"><block type=\"text\"><field name=\"TEXT\">float</field></block></value>",
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">myVar</field></block></value>",
+      "<value name=\"value\"><block type=\"text\"><field name=\"TEXT\">0.0</field></block></value>"
+    ],
+    "inputs": [
+      "type",
+      "name",
+      "value"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "type",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "String"
+    }
+  ],
+  "message0": "declare %1 %2 = %3"
+}

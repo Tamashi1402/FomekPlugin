@@ -1,0 +1,1 @@
+(ResourceLocation.fromNamespaceAndPath("${modid}", "textures/entities/${field$texture}.png"))

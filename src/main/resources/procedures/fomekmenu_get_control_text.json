@@ -1,0 +1,22 @@
+{
+  "message0": "Text / selection of %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 160,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "data",
+    "inputs": [
+      "id"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">inputfield_1</field></block></value>"
+    ]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "option",
+      "options": [
+        [
+          "Break out",
+          "Break out"
+        ],
+        [
+          "Continue with next iteration",
+          "Continue with next iteration"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "colour": 120,
+  "mcreator": {
+    "toolbox_id": "fomek_utils",
+    "toolbox_init": [],
+    "fields": [
+      "option"
+    ]
+  }
+}

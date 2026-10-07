@@ -1,0 +1,1 @@
+(new ${field$model}(Minecraft.getInstance().getEntityModels().bakeLayer(${field$model}.LAYER_LOCATION)))

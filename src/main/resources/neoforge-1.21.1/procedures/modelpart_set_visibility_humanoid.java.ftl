@@ -1,0 +1,1 @@
+${generator.map(field$model, "humanoidmodels")?replace("CUSTOM:", "")}.${generator.map(field$modelpart, "humanoidparts")}.visible = ${input$visibility};

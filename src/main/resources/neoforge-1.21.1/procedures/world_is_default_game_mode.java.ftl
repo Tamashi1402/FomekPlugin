@@ -1,0 +1,1 @@
+(world.getServer() != null ? world.getServer().getDefaultGameType() == GameType.${field$gamemode} : false)

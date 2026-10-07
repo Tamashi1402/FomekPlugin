@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    }
+  ],
+  "message0": "Book %1 current page (0-based)",
+  "output": "Number",
+  "inputsInline": true,
+  "colour": 230,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "group": "fomekmenu_book",
+    "inputs": [
+      "id"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">book1</field></block></value>"
+    ]
+  }
+}

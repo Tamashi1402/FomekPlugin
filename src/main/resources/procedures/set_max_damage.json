@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "provideditemstack",
+      "check": "MCItem"
+    },
+    {
+      "type": "input_value",
+      "name": "maxdmg",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 350,
+  "mcreator": {
+    "toolbox_id": "fomek_items_actions",
+    "toolbox_init": [
+      "<value name=\"provideditemstack\"><block type=\"itemstack_to_mcitem\"></block></value>",
+      "<value name=\"maxdmg\"><block type=\"math_number\"><field name=\"NUM\">420</field></block></value>"
+    ],
+    "inputs": [
+      "provideditemstack",
+      "maxdmg"
+    ]
+  }
+}

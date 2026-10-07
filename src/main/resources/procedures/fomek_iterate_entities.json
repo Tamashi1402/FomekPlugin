@@ -1,0 +1,55 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "foreach"
+    }
+  ],
+  "extensions": [
+    "is_custom_loop"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#5b93a5",
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_data",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_iterator\"></block></value>"
+    ],
+    "statements": [
+      {
+        "name": "foreach",
+        "provides": [
+          {
+            "name": "entityiterator",
+            "type": "entity"
+          }
+        ]
+      }
+    ],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  },
+  "toolbox_id": "render_data",
+  "message0": "Iterate renderable entities as %1 %2 %3 do %4"
+}

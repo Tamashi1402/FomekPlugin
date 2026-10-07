@@ -1,0 +1,44 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "ret_type",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "params",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "body",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 210,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"ret_type\"><block type=\"text\"><field name=\"TEXT\">float</field></block></value>",
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">myFunc</field></block></value>",
+      "<value name=\"params\"><block type=\"text\"><field name=\"TEXT\">float x</field></block></value>",
+      "<value name=\"body\"><block type=\"text\"><field name=\"TEXT\">return x;</field></block></value>"
+    ],
+    "inputs": [
+      "ret_type",
+      "name",
+      "params",
+      "body"
+    ]
+  },
+  "message0": "%1 %2 (%3) '{' %4 '}'"
+}

@@ -1,0 +1,11 @@
+{
+  "args0": [],
+  "message0": "action mouse Y",
+  "output": "Number",
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_actions",
+    "group": "actions",
+    "toolbox_init": []
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "output": "RenderAPI.Shape",
+  "colour": 320,
+  "mcreator": {
+    "group": "fomek_shapes",
+    "toolbox_id": "fomek_shapes"
+  },
+  "toolbox_id": "fomek_shapes",
+  "message0": "Created shape"
+}

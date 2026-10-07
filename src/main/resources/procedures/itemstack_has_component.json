@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "provideditemstack",
+      "check": "MCItem"
+    },
+    {
+      "type": "field_data_list_selector",
+      "name": "datacomponents",
+      "datalist": "datacomponents"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_items_data",
+    "toolbox_init": [
+      "<value name=\"provideditemstack\"><block type=\"itemstack_to_mcitem\"></block></value>"
+    ],
+    "inputs": [
+      "provideditemstack"
+    ],
+    "fields": [
+      "datacomponents"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+${input$data}.getCompound(${input$key})

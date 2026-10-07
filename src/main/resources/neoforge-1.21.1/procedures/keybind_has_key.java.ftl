@@ -1,0 +1,1 @@
+(Minecraft.getInstance().options.${field$keybind}.getKey().getValue() == InputConstants.${field$key})

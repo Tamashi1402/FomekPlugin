@@ -1,0 +1,34 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "vector",
+      "check": "Vector"
+    },
+    {
+      "type": "input_dummy",
+      "name": "datalistvar"
+    }
+  ],
+  "extensions": [
+    "mathutils_datalist_variables"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#888888",
+  "mcreator": {
+    "toolbox_init": [
+      "<value name=\"vector\"></value>"
+    ],
+    "inputs": [
+      "vector"
+    ],
+    "fields": [
+      "DATALIST_VAR"
+    ],
+    "warnings": [
+      "mathutils_add_vectors"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+(${input$vector}.yRot(Mth.DEG_TO_RAD * ${opt.toFloat(input$angle)}))

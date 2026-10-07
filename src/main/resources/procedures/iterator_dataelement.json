@@ -1,0 +1,14 @@
+{
+  "output": "DataElement",
+  "colour": "%{BKY_DATAELEMENT_HUE}",
+  "mcreator": {
+    "group": "iterator",
+    "toolbox_id": "fomek_math_others",
+    "dependencies": [
+      {
+        "name": "dataelementiterator",
+        "type": "dataelement"
+      }
+    ]
+  }
+}

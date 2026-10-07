@@ -1,0 +1,2 @@
+<#assign fomek = w.getWorkspace().getWorkspaceSettings().getModElementsPackage() + ".api.guisystems">
+<#if field$reason == "input_manager">${fomek}.VirtualGui.isActionReason("input_routed")<#else>${fomek}.VirtualGui.isActionReason("${field$reason}")</#if>

@@ -1,0 +1,39 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "menuObject",
+      "check": "FomekMenuObject"
+    },
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 190,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_objects",
+    "group": "fomekmenu_objects",
+    "inputs": [
+      "menuObject",
+      "id",
+      "text"
+    ],
+    "fields": [],
+    "toolbox_init": [
+      "<value name=\"menuObject\"><block type=\"fomekmenu_obj_empty\"></block></value>",
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">text_1</field></block></value>",
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">New Text</field></block></value>"
+    ]
+  },
+  "message0": "Change text of %2 on %1 to %3"
+}

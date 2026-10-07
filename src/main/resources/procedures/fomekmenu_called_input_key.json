@@ -1,0 +1,13 @@
+{
+  "args0": [],
+  "message0": "Called input key",
+  "output": "String",
+  "colour": 0,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_actions",
+    "group": "actions",
+    "inputs": [],
+    "fields": [],
+    "toolbox_init": []
+  }
+}

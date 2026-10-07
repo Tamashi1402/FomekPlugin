@@ -1,0 +1,1 @@
+((HashMap<String, Vec3>) ${input$map}.clone())

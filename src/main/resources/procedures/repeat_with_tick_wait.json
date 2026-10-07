@@ -1,0 +1,51 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "times",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "tickwait",
+      "check": "Number"
+    },
+    {
+      "type": "input_statement",
+      "name": "foreach"
+    },
+    {
+      "type": "input_value",
+      "name": "_placeholder",
+      "check": "Number"
+    },
+    {
+      "type": "field_image",
+      "src": "./res/server.png",
+      "width": "8",
+      "height": "24"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 120,
+  "mcreator": {
+    "toolbox_id": "fomek_utils",
+    "toolbox_init": [
+      "<value name=\"times\"><block type=\"math_number\"><field name=\"NUM\">5</field></block></value>",
+      "<value name=\"tickwait\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+      "<value name=\"_placeholder\"><block deletable=\"false\" movable=\"false\" enabled=\"false\" type=\"timed_loop_iterator\"></block></value>"
+    ],
+    "inputs": [
+      "times",
+      "tickwait"
+    ],
+    "statements": [
+      {
+        "name": "foreach",
+        "disable_local_variables": true
+      }
+    ]
+  }
+}

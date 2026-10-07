@@ -1,0 +1,24 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "block",
+      "check": "MCItemBlock"
+    }
+  ],
+  "output": [
+    "DataElement",
+    "DataMap"
+  ],
+  "colour": "%{BKY_DATAMAP_HUE}",
+  "mcreator": {
+    "group": "data4",
+    "toolbox_id": "fomek_math_nbt",
+    "toolbox_init": [
+      "<value name=\"block\"><block type=\"mcitem_allblocks\"><field name=\"value\"></field></block></value>"
+    ],
+    "inputs": [
+      "block"
+    ]
+  }
+}

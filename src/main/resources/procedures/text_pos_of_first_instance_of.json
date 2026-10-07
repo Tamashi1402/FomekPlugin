@@ -1,0 +1,45 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "instance",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "index_order",
+      "options": [
+        [
+          "first",
+          "first"
+        ],
+        [
+          "last",
+          "last"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_utils",
+    "toolbox_init": [
+      "<value name=\"instance\"><block type=\"text\"><field name=\"TEXT\">C</field></block></value>",
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">ABCDEFGHI</field></block></value>"
+    ],
+    "inputs": [
+      "instance",
+      "text"
+    ],
+    "fields": [
+      "index_order"
+    ]
+  }
+}

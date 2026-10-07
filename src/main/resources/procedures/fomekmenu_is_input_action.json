@@ -1,0 +1,43 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "eventType",
+      "options": [
+        [
+          "key held",
+          "key_held"
+        ],
+        [
+          "key pressed",
+          "key_down"
+        ],
+        [
+          "key released",
+          "key_up"
+        ],
+        [
+          "scroll up",
+          "scroll_up"
+        ],
+        [
+          "scroll down",
+          "scroll_down"
+        ]
+      ]
+    }
+  ],
+  "message0": "Is called input of action %1",
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_actions",
+    "group": "actions",
+    "fields": [
+      "eventType"
+    ],
+    "inputs": [],
+    "toolbox_init": []
+  }
+}

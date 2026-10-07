@@ -1,0 +1,64 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "side",
+      "options": [
+        [
+          "front book outside",
+          "front_book_outside"
+        ],
+        [
+          "front book inside",
+          "front_book_inside"
+        ],
+        [
+          "back book outside",
+          "back_book_outside"
+        ],
+        [
+          "back book inside",
+          "back_book_inside"
+        ],
+        [
+          "cover outside",
+          "cover_outside"
+        ],
+        [
+          "cover inside",
+          "cover_inside"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "String"
+    }
+  ],
+  "message0": "Set book %1 texture side: %2 texture: %3",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "group": "fomekmenu_book",
+    "inputs": [
+      "id",
+      "texture"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">book1</field></block></value>",
+      "<value name=\"texture\"><block type=\"text\"><field name=\"TEXT\">modid:textures/gui/book_page.png</field></block></value>"
+    ],
+    "fields": [
+      "side"
+    ]
+  }
+}

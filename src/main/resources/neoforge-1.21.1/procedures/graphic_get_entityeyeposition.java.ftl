@@ -1,0 +1,1 @@
+(${input$entity}.getEyePosition((float) partialTick))

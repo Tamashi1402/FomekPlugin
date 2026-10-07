@@ -1,0 +1,2 @@
+<#assign fomek = w.getWorkspace().getWorkspaceSettings().getModElementsPackage() + ".api.guisystems">
+new ${fomek}.Box(0f, 0f, ${fomek}.VirtualGui.getCurrentElementWholeWidth(), ${fomek}.VirtualGui.getCurrentElementWholeHeight())

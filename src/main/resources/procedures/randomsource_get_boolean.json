@@ -1,0 +1,8 @@
+{
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "group": "generic4",
+    "toolbox_id": "fomek_math_random"
+  }
+}

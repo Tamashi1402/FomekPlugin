@@ -1,0 +1,1 @@
+(Math.random() < (${opt.removeParentheses(input$num1)}) / ((float) ${opt.removeParentheses(input$num2)}))

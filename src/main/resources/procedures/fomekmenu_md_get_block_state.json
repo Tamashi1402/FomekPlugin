@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "data",
+      "check": "FomekMenuData"
+    },
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "String"
+    }
+  ],
+  "message0": "Get %1 block state %2",
+  "output": "BlockState",
+  "inputsInline": true,
+  "colour": 320,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_menudata",
+    "group": "menudata",
+    "inputs": [
+      "data",
+      "key"
+    ],
+    "toolbox_init": [
+      "<value name=\"data\"><block type=\"fomekmenu_md_get\"><value name=\"id\"><block type=\"text\"><field name=\"TEXT\">menu1</field></block></value></block></value>",
+      "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">tagName</field></block></value>"
+    ]
+  }
+}

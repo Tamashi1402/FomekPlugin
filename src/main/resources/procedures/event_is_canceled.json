@@ -1,0 +1,11 @@
+{
+  "args0": [],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "group": "0",
+    "toolbox_id": "fomek_event_specific",
+    "toolbox_init": []
+  }
+}

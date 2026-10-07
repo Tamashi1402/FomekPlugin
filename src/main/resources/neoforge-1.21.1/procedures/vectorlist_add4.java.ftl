@@ -1,0 +1,1 @@
+${input$list2}.addAll(${opt.toInt(input$index)}, ${input$list1});

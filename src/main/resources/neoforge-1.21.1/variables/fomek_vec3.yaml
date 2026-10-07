@@ -1,0 +1,6 @@
+defaultvalue: ${package}.api.render.BEWRLVars.Vec3.zero()
+scopes:
+  local:
+    init: ${package}.api.render.BEWRLVars.Vec3 ${var.getName()} = ${package}.api.render.BEWRLVars.Vec3.zero();
+    get: ${name}
+    set: ${name} = (${package}.api.render.BEWRLVars.Vec3) ${opt.removeParentheses(value)};

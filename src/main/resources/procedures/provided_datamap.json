@@ -1,0 +1,14 @@
+{
+  "output": "DataMap",
+  "colour": "%{BKY_DATAMAP_HUE}",
+  "mcreator": {
+    "group": "provider",
+    "toolbox_id": "fomek_math_others",
+    "dependencies": [
+      {
+        "name": "datamap",
+        "type": "datamap"
+      }
+    ]
+  }
+}

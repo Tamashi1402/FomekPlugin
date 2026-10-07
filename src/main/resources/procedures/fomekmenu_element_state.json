@@ -1,0 +1,46 @@
+{
+  "message0": "Is element %1 %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "state",
+      "options": [
+        [
+          "hovered",
+          "hovered"
+        ],
+        [
+          "held",
+          "held"
+        ],
+        [
+          "clicked",
+          "clicked"
+        ],
+        [
+          "checked",
+          "checked"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "data",
+    "inputs": [
+      "id"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">btn1</field></block></value>",
+      "<field name=\"state\">hovered</field>"
+    ]
+  },
+  "output": "Boolean"
+}

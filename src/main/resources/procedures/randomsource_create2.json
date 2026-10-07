@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "seed",
+      "check": "Number"
+    }
+  ],
+  "output": "RandomSource",
+  "colour": 300,
+  "mcreator": {
+    "group": "creator2",
+    "toolbox_id": "fomek_math_random",
+    "toolbox_init": [
+      "<value name=\"seed\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ],
+    "inputs": [
+      "seed"
+    ]
+  }
+}

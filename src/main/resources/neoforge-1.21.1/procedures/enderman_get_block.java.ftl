@@ -1,0 +1,2 @@
+<#include "redwires_plugin_utils.ftl">
+/*@BlockState*/(${input$entity} instanceof EnderMan _ender${index} && _ender${index}.getCarriedBlock() != null ? _ender${index}.getCarriedBlock() : Blocks.AIR.defaultBlockState())

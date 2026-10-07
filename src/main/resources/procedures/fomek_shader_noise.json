@@ -1,0 +1,31 @@
+{
+  "inputsInline": true,
+  "output": "Number",
+  "colour": 55,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ],
+    "inputs": [
+      "x",
+      "y"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    }
+  ],
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Noise x: %1 y: %2"
+}

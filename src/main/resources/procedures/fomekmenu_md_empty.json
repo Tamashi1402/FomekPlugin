@@ -1,0 +1,11 @@
+{
+  "args0": [],
+  "message0": "Empty menu data",
+  "output": "FomekMenuData",
+  "colour": 260,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_menudata",
+    "group": "menudata_management",
+    "toolbox_init": []
+  }
+}

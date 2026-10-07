@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "DataMap"
+    }
+  ],
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "data2",
+    "toolbox_id": "fomek_math_datamap",
+    "toolbox_init": [
+      "<value name=\"map\"></value>"
+    ],
+    "inputs": [
+      "map"
+    ]
+  }
+}

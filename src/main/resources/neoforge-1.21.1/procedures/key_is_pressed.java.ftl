@@ -1,0 +1,1 @@
+InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), InputConstants.${field$key})

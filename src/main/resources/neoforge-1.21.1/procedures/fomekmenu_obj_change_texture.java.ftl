@@ -1,0 +1,1 @@
+${input$menuObject}.changeTexture(${input$id}, ${input$texture});

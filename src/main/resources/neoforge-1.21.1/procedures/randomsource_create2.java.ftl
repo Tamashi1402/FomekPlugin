@@ -1,0 +1,1 @@
+RandomSource.create((long) ${input$seed})

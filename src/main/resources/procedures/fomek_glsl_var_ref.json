@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 55,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">myVar</field></block></value>"
+    ],
+    "inputs": [
+      "name"
+    ]
+  },
+  "message0": "var: %1"
+}

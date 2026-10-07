@@ -1,0 +1,62 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "previousStatement": null,
+  "nextStatement": null,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"shader\"><block type=\"entity_iterator\"><field name=\"ITERATOR\">shader</field></block></value>"
+    ],
+    "inputs": [
+      "shader"
+    ],
+    "fields": [
+      "blendMode"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "blendMode",
+      "options": [
+        [
+          "Use Global (enableBlending)",
+          "GLOBAL"
+        ],
+        [
+          "Addition",
+          "ADDITION"
+        ],
+        [
+          "Alpha",
+          "ALPHA"
+        ],
+        [
+          "Multiplication",
+          "MULTIPLICATION"
+        ],
+        [
+          "Screen",
+          "SCREEN"
+        ],
+        [
+          "Subtraction",
+          "SUBTRACTION"
+        ],
+        [
+          "Opaque",
+          "OPAQUE"
+        ]
+      ]
+    }
+  ],
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Set %1 shader swirl blend mode to %2"
+}

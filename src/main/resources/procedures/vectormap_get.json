@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "VectorMap"
+    }
+  ],
+  "output": "Vector",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "data",
+    "toolbox_id": "fomek_math_vectormap",
+    "toolbox_init": [
+      "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
+      "<value name=\"map\"></value>"
+    ],
+    "inputs": [
+      "key",
+      "map"
+    ]
+  }
+}

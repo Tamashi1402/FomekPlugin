@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderFragmentCode((${package}.api.render.Shader) ${input$shader}, ${input$code});

@@ -1,0 +1,31 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "previousStatement": null,
+  "nextStatement": null,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"glsl\"><block type=\"entity_iterator\"><field name=\"ITERATOR\">glsl</field></block></value>",
+      "<value name=\"shader\"><block type=\"entity_iterator\"><field name=\"ITERATOR\">shader</field></block></value>"
+    ],
+    "inputs": [
+      "glsl",
+      "shader"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "glsl",
+      "check": "RenderAPI.GLSL"
+    },
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    }
+  ],
+  "message0": "Build %1 GLSL into shader %2"
+}

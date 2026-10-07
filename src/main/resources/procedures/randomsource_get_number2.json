@@ -1,0 +1,36 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "min",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "max",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "randomsource",
+      "check": "RandomSource"
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "generic",
+    "toolbox_id": "fomek_math_random",
+    "toolbox_init": [
+      "<value name=\"min\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"max\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value>",
+      "<value name=\"randomsource\"></value>"
+    ],
+    "inputs": [
+      "min",
+      "max",
+      "randomsource"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "var",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "count",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "body",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 210,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"var\"><block type=\"text\"><field name=\"TEXT\">i</field></block></value>",
+      "<value name=\"count\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
+      "<value name=\"body\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
+    ],
+    "inputs": [
+      "var",
+      "count",
+      "body"
+    ]
+  },
+  "message0": "for loop var: %1 count: %2 '{' %3 '}'"
+}

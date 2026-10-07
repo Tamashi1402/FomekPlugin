@@ -1,0 +1,28 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "property",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "block",
+      "check": "MCItemBlock"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_world_data",
+    "toolbox_init": [
+      "<value name=\"property\"><block type=\"text\"><field name=\"TEXT\">age</field></block></value>",
+      "<value name=\"block\"><block type=\"blockstate_from_deps\"></block></value>"
+    ],
+    "inputs": [
+      "property",
+      "block"
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "red",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "green",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "blue",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": 230,
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_data",
+    "toolbox_init": [
+      "<value name=\"red\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value>",
+      "<value name=\"green\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value>",
+      "<value name=\"blue\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value>"
+    ],
+    "inputs": [
+      "red",
+      "green",
+      "blue"
+    ]
+  },
+  "message0": "Color R: %1 G: %2 B: %3"
+}

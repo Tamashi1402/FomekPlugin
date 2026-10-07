@@ -1,0 +1,43 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "block",
+      "check": "MCItemBlock"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "rotation_type",
+      "options": [
+        [
+          "all",
+          "Directional"
+        ],
+        [
+          "cardinal",
+          "HorizontalDirectional"
+        ],
+        [
+          "log",
+          "RotatedPillar"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "group": "data",
+    "toolbox_id": "fomek_world_data",
+    "toolbox_init": [
+      "<value name=\"block\"><block type=\"blockstate_from_deps\"></block></value>"
+    ],
+    "inputs": [
+      "block"
+    ],
+    "fields": [
+      "rotation_type"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+(${input$element} == null)

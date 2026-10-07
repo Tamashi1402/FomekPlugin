@@ -1,0 +1,6 @@
+defaultvalue: null
+scopes:
+  local:
+    init: ${var.getType().getJavaType(generator.getWorkspace())} ${var.getName()};
+    get: ${name}
+    set: ${name} = ${opt.removeParentheses(value)};

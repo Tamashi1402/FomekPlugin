@@ -1,0 +1,1 @@
+StringTag.valueOf(${input$string})

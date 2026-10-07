@@ -1,0 +1,32 @@
+{
+  "dependencies_provided": [
+    {
+      "name": "itemstack",
+      "type": "itemstack"
+    },
+    {
+      "name": "entity",
+      "type": "entity"
+    },
+    {
+      "name": "world",
+      "type": "world"
+    },
+    {
+      "name": "x",
+      "type": "float"
+    },
+    {
+      "name": "y",
+      "type": "float"
+    },
+    {
+      "name": "z",
+      "type": "float"
+    },
+    {
+      "name": "partialTick",
+      "type": "float"
+    }
+  ]
+}

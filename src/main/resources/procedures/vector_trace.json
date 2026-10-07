@@ -1,0 +1,75 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "start",
+      "check": "Vector"
+    },
+    {
+      "type": "input_value",
+      "name": "end",
+      "check": "Vector"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "blockmode",
+      "options": [
+        [
+          "OUTLINE",
+          "OUTLINE"
+        ],
+        [
+          "COLLIDER",
+          "COLLIDER"
+        ],
+        [
+          "VISUAL",
+          "VISUAL"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "fluidmode",
+      "options": [
+        [
+          "NONE",
+          "NONE"
+        ],
+        [
+          "SOURCE_ONLY",
+          "SOURCE_ONLY"
+        ],
+        [
+          "ANY",
+          "ANY"
+        ]
+      ]
+    }
+  ],
+  "output": "Vector",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "data2",
+    "toolbox_id": "fomek_math_utils",
+    "toolbox_init": [
+      "<value name=\"start\"></value>",
+      "<value name=\"end\"></value>"
+    ],
+    "inputs": [
+      "start",
+      "end"
+    ],
+    "fields": [
+      "blockmode",
+      "fluidmode"
+    ],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

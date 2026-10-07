@@ -1,0 +1,73 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "output": "Shader",
+  "mcreator": {
+    "group": "fomek_shader_build",
+    "toolbox_id": "fomek_shader_templates",
+    "toolbox_init": [
+      "<value name=\"texture\"><block type=\"text\"><field name=\"TEXT\">minecraft:textures/block/end_portal_frame_top.png</field></block></value>",
+      "<value name=\"scrollSpeed\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
+      "<value name=\"uvScale\"><block type=\"math_number\"><field name=\"NUM\">1.0</field></block></value>",
+      "<value name=\"r\"><block type=\"math_number\"><field name=\"NUM\">1.0</field></block></value>",
+      "<value name=\"g\"><block type=\"math_number\"><field name=\"NUM\">1.0</field></block></value>",
+      "<value name=\"b\"><block type=\"math_number\"><field name=\"NUM\">1.0</field></block></value>",
+      "<value name=\"intensity\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
+      "<value name=\"transparency\"><block type=\"math_number\"><field name=\"NUM\">0.0</field></block></value>"
+    ],
+    "inputs": [
+      "texture",
+      "scrollSpeed",
+      "uvScale",
+      "r",
+      "g",
+      "b",
+      "intensity",
+      "transparency"
+    ],
+    "fields": []
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "scrollSpeed",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "uvScale",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "r",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "g",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "b",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "intensity",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "transparency",
+      "check": "Number"
+    }
+  ],
+  "message0": "Build portal projection shader texture %1 scroll speed %2 UV scale %3 color R %4 G %5 B %6 intensity %7 transparency %8"
+}

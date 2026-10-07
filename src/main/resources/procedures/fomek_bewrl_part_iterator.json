@@ -1,0 +1,11 @@
+{
+  "output": "BEWRL.Part",
+  "inputsInline": true,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_data",
+    "toolbox_id": "fomek_bewlr_data"
+  },
+  "message0": "iterator part",
+  "toolbox_id": "fomek_bewlr_data"
+}

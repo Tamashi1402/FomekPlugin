@@ -1,0 +1,30 @@
+{
+  "message0": "Menu object of element %2 in menu %1",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "menu",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "element",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "colour": 190,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_objects",
+    "group": "fomekmenu_objects",
+    "inputs": [
+      "menu",
+      "element"
+    ],
+    "toolbox_init": [
+      "<value name=\"menu\"><block type=\"text\"><field name=\"TEXT\">menu1</field></block></value>",
+      "<value name=\"element\"><block type=\"text\"><field name=\"TEXT\">panel1</field></block></value>"
+    ]
+  },
+  "output": "FomekMenuObject"
+}

@@ -1,0 +1,80 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "box",
+      "check": "FomekMenuBox"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "orientation",
+      "options": [
+        [
+          "both",
+          "both"
+        ],
+        [
+          "horizontal",
+          "horizontal"
+        ],
+        [
+          "vertical",
+          "vertical"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "direction",
+      "options": [
+        [
+          "horizontal",
+          "horizontal"
+        ],
+        [
+          "vertical",
+          "vertical"
+        ]
+      ]
+    },
+    {
+      "type": "field_number",
+      "name": "cellsAmount",
+      "value": 0
+    },
+    {
+      "type": "field_number",
+      "name": "rowsAmount",
+      "value": 0
+    }
+  ],
+  "message0": "Create grid area: %1 orientation: %2 direction: %3 cells (0=infinite): %4 rows (0=infinite): %5",
+  "output": "FomekMenuAttribute",
+  "inputsInline": false,
+  "colour": 160,
+  "mutator": "fomekmenu_grid_mutator",
+  "mcreator": {
+    "group": "interactions",
+    "inputs": [
+      "box"
+    ],
+    "fields": [
+      "orientation",
+      "direction",
+      "cellsAmount",
+      "rowsAmount"
+    ],
+    "toolbox_init": [
+      "<value name=\"box\"><block type=\"fomekmenu_box\"><value name=\"x1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"x2\"><block type=\"math_number\"><field name=\"NUM\">200</field></block></value><value name=\"y2\"><block type=\"math_number\"><field name=\"NUM\">200</field></block></value></block></value>",
+      "<mutation items=\"\" count=\"0\"></mutation>"
+    ],
+    "repeating_inputs": [
+      "mt_snap_to_end",
+      "mt_cell_size",
+      "mt_render_grid",
+      "mt_grid_color",
+      "mt_begin_x",
+      "mt_begin_y"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "input",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "cast",
+      "options": [
+        [
+          "float",
+          "float"
+        ],
+        [
+          "int",
+          "int"
+        ],
+        [
+          "double",
+          "double"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "sp_01",
+    "toolbox_id": "fomek_math_number",
+    "toolbox_init": [
+      "<value name=\"input\"></value>"
+    ],
+    "inputs": [
+      "input"
+    ],
+    "fields": [
+      "cast"
+    ]
+  }
+}

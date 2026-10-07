@@ -1,0 +1,1 @@
+(${input$entity} instanceof Player _plr ? _plr.getFoodData().getFoodLevel() : 0) < 20 || (${input$entity} instanceof Player _plr ? _plr.getAbilities().instabuild : false)

@@ -1,0 +1,66 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "reason",
+      "options": [
+        [
+          "button clicked",
+          "button_clicked"
+        ],
+        [
+          "slider changed",
+          "slider_changed"
+        ],
+        [
+          "grid add",
+          "grid_add"
+        ],
+        [
+          "grid remove",
+          "grid_remove"
+        ],
+        [
+          "drag start",
+          "drag_start"
+        ],
+        [
+          "drag in",
+          "drag_in"
+        ],
+        [
+          "drag out",
+          "drag_out"
+        ],
+        [
+          "input routed",
+          "input_routed"
+        ],
+        [
+          "update",
+          "update"
+        ],
+        [
+          "double click",
+          "double_click"
+        ],
+        [
+          "right click",
+          "right_click"
+        ]
+      ]
+    }
+  ],
+  "message0": "Is reason for action %1",
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_actions",
+    "group": "actions",
+    "fields": [
+      "reason"
+    ],
+    "toolbox_init": []
+  }
+}

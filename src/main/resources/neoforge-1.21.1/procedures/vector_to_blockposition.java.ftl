@@ -1,0 +1,1 @@
+(Vec3.atLowerCornerOf(BlockPos.containing(${input$vector})))

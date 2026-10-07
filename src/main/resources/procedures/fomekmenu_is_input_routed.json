@@ -1,0 +1,418 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "eventType",
+      "options": [
+        [
+          "key held",
+          "key_held"
+        ],
+        [
+          "key pressed",
+          "key_down"
+        ],
+        [
+          "key released",
+          "key_up"
+        ],
+        [
+          "scroll up",
+          "scroll_up"
+        ],
+        [
+          "scroll down",
+          "scroll_down"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "key",
+      "options": [
+        [
+          "A",
+          "key.keyboard.a"
+        ],
+        [
+          "B",
+          "key.keyboard.b"
+        ],
+        [
+          "C",
+          "key.keyboard.c"
+        ],
+        [
+          "D",
+          "key.keyboard.d"
+        ],
+        [
+          "E",
+          "key.keyboard.e"
+        ],
+        [
+          "F",
+          "key.keyboard.f"
+        ],
+        [
+          "G",
+          "key.keyboard.g"
+        ],
+        [
+          "H",
+          "key.keyboard.h"
+        ],
+        [
+          "I",
+          "key.keyboard.i"
+        ],
+        [
+          "J",
+          "key.keyboard.j"
+        ],
+        [
+          "K",
+          "key.keyboard.k"
+        ],
+        [
+          "L",
+          "key.keyboard.l"
+        ],
+        [
+          "M",
+          "key.keyboard.m"
+        ],
+        [
+          "N",
+          "key.keyboard.n"
+        ],
+        [
+          "O",
+          "key.keyboard.o"
+        ],
+        [
+          "P",
+          "key.keyboard.p"
+        ],
+        [
+          "Q",
+          "key.keyboard.q"
+        ],
+        [
+          "R",
+          "key.keyboard.r"
+        ],
+        [
+          "S",
+          "key.keyboard.s"
+        ],
+        [
+          "T",
+          "key.keyboard.t"
+        ],
+        [
+          "U",
+          "key.keyboard.u"
+        ],
+        [
+          "V",
+          "key.keyboard.v"
+        ],
+        [
+          "W",
+          "key.keyboard.w"
+        ],
+        [
+          "X",
+          "key.keyboard.x"
+        ],
+        [
+          "Y",
+          "key.keyboard.y"
+        ],
+        [
+          "Z",
+          "key.keyboard.z"
+        ],
+        [
+          "0",
+          "key.keyboard.0"
+        ],
+        [
+          "1",
+          "key.keyboard.1"
+        ],
+        [
+          "2",
+          "key.keyboard.2"
+        ],
+        [
+          "3",
+          "key.keyboard.3"
+        ],
+        [
+          "4",
+          "key.keyboard.4"
+        ],
+        [
+          "5",
+          "key.keyboard.5"
+        ],
+        [
+          "6",
+          "key.keyboard.6"
+        ],
+        [
+          "7",
+          "key.keyboard.7"
+        ],
+        [
+          "8",
+          "key.keyboard.8"
+        ],
+        [
+          "9",
+          "key.keyboard.9"
+        ],
+        [
+          "F1",
+          "key.keyboard.f1"
+        ],
+        [
+          "F2",
+          "key.keyboard.f2"
+        ],
+        [
+          "F3",
+          "key.keyboard.f3"
+        ],
+        [
+          "F4",
+          "key.keyboard.f4"
+        ],
+        [
+          "F5",
+          "key.keyboard.f5"
+        ],
+        [
+          "F6",
+          "key.keyboard.f6"
+        ],
+        [
+          "F7",
+          "key.keyboard.f7"
+        ],
+        [
+          "F8",
+          "key.keyboard.f8"
+        ],
+        [
+          "F9",
+          "key.keyboard.f9"
+        ],
+        [
+          "F10",
+          "key.keyboard.f10"
+        ],
+        [
+          "F11",
+          "key.keyboard.f11"
+        ],
+        [
+          "F12",
+          "key.keyboard.f12"
+        ],
+        [
+          "Space",
+          "key.keyboard.space"
+        ],
+        [
+          "Enter",
+          "key.keyboard.enter"
+        ],
+        [
+          "Tab",
+          "key.keyboard.tab"
+        ],
+        [
+          "Escape",
+          "key.keyboard.escape"
+        ],
+        [
+          "Backspace",
+          "key.keyboard.backspace"
+        ],
+        [
+          "Delete",
+          "key.keyboard.delete"
+        ],
+        [
+          "Insert",
+          "key.keyboard.insert"
+        ],
+        [
+          "Home",
+          "key.keyboard.home"
+        ],
+        [
+          "End",
+          "key.keyboard.end"
+        ],
+        [
+          "Page Up",
+          "key.keyboard.page.up"
+        ],
+        [
+          "Page Down",
+          "key.keyboard.page.down"
+        ],
+        [
+          "Up Arrow",
+          "key.keyboard.up"
+        ],
+        [
+          "Down Arrow",
+          "key.keyboard.down"
+        ],
+        [
+          "Left Arrow",
+          "key.keyboard.left"
+        ],
+        [
+          "Right Arrow",
+          "key.keyboard.right"
+        ],
+        [
+          "Left Shift",
+          "key.keyboard.left.shift"
+        ],
+        [
+          "Right Shift",
+          "key.keyboard.right.shift"
+        ],
+        [
+          "Left Ctrl",
+          "key.keyboard.left.ctrl"
+        ],
+        [
+          "Right Ctrl",
+          "key.keyboard.right.ctrl"
+        ],
+        [
+          "Left Alt",
+          "key.keyboard.left.alt"
+        ],
+        [
+          "Right Alt",
+          "key.keyboard.right.alt"
+        ],
+        [
+          "Left Win",
+          "key.keyboard.left.win"
+        ],
+        [
+          "Right Win",
+          "key.keyboard.right.win"
+        ],
+        [
+          "Caps Lock",
+          "key.keyboard.caps.lock"
+        ],
+        [
+          "Num Lock",
+          "key.keyboard.num.lock"
+        ],
+        [
+          "Scroll Lock",
+          "key.keyboard.scroll.lock"
+        ],
+        [
+          "Pause",
+          "key.keyboard.pause"
+        ],
+        [
+          "Print Screen",
+          "key.keyboard.print.screen"
+        ],
+        [
+          "Menu",
+          "key.keyboard.menu"
+        ],
+        [
+          "Minus",
+          "key.keyboard.minus"
+        ],
+        [
+          "Equals",
+          "key.keyboard.equals"
+        ],
+        [
+          "Grave",
+          "key.keyboard.grave.accent"
+        ],
+        [
+          "Left Bracket",
+          "key.keyboard.left.bracket"
+        ],
+        [
+          "Right Bracket",
+          "key.keyboard.right.bracket"
+        ],
+        [
+          "Backslash",
+          "key.keyboard.backslash"
+        ],
+        [
+          "Semicolon",
+          "key.keyboard.semicolon"
+        ],
+        [
+          "Apostrophe",
+          "key.keyboard.apostrophe"
+        ],
+        [
+          "Comma",
+          "key.keyboard.comma"
+        ],
+        [
+          "Period",
+          "key.keyboard.period"
+        ],
+        [
+          "Slash",
+          "key.keyboard.slash"
+        ],
+        [
+          "Mouse Left",
+          "mouse.left"
+        ],
+        [
+          "Mouse Right",
+          "mouse.right"
+        ],
+        [
+          "Mouse Middle",
+          "mouse.middle"
+        ],
+        [
+          "Scroll Wheel",
+          "key.mouse.wheel"
+        ]
+      ]
+    }
+  ],
+  "message0": "Is input routed %1 %2",
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_actions",
+    "group": "actions",
+    "fields": [
+      "eventType",
+      "key"
+    ],
+    "inputs": [],
+    "toolbox_init": []
+  }
+}

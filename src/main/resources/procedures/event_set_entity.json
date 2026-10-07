@@ -1,0 +1,36 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "event_type",
+      "options": [
+        [
+          "attack target for 'entity sets/changes attack target'",
+          "attack_target"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 90,
+  "mcreator": {
+    "group": "02c",
+    "toolbox_id": "fomek_event_specific",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>"
+    ],
+    "inputs": [
+      "entity"
+    ],
+    "fields": [
+      "event_type"
+    ]
+  }
+}

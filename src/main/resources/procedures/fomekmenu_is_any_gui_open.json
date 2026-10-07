@@ -1,0 +1,11 @@
+{
+  "args0": [],
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "fomekmenu_manage"
+  },
+  "message0": "Is any virtual GUI open"
+}

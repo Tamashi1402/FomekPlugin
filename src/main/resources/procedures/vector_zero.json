@@ -1,0 +1,8 @@
+{
+  "output": "Vector",
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "generic",
+    "toolbox_id": "fomek_math_vector"
+  }
+}

@@ -1,0 +1,1 @@
+${input$item}.getOrCreateTag().putInt("HideFlags", ${opt.toInt(input$flags)});

@@ -1,0 +1,1 @@
+${input$data}.setItem(${input$key}, ${input$value});

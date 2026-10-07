@@ -1,0 +1,15 @@
+{
+  "args0": [],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "72",
+  "mcreator": {
+    "toolbox_id": "fomek_items_tooltips",
+    "dependencies": [
+      {
+        "name": "tooltip",
+        "type": "tooltip"
+      }
+    ]
+  }
+}

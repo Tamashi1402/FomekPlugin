@@ -1,0 +1,1 @@
+if(${input$entity} instanceof LivingEntity _entity${cbi}) _entity${cbi}.skipDropExperience();

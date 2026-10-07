@@ -1,0 +1,32 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "part",
+      "check": "BEWRL.Part"
+    },
+    {
+      "type": "input_value",
+      "name": "bewrl",
+      "check": "BEWRL.Model"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "inputs": [
+      "part",
+      "bewrl"
+    ],
+    "toolbox_init": [
+      "<value name=\"part\"><block type=\"fomek_bewrl_part_iterator\"></block></value>",
+      "<value name=\"bewrl\"><block type=\"fomek_bewrl_empty\"></block></value>"
+    ]
+  },
+  "message0": "Remove part %1 from %2",
+  "toolbox_id": "fomek_bewlr_actions"
+}

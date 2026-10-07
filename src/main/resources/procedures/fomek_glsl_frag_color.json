@@ -1,0 +1,23 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"expr\"><block type=\"text\"><field name=\"TEXT\">vec4(1.0)</field></block></value>"
+    ],
+    "inputs": [
+      "expr"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "expr",
+      "check": "String"
+    }
+  ],
+  "message0": "gl_FragColor = %1"
+}

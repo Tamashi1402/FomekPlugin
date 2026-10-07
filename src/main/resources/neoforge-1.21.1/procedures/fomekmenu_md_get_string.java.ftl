@@ -1,0 +1,1 @@
+${input$data}.getString(${input$key})

@@ -1,0 +1,32 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "box",
+      "check": "FomekMenuBox"
+    }
+  ],
+  "message0": "Draggable %1",
+  "output": "FomekMenuAttribute",
+  "inputsInline": true,
+  "colour": 50,
+  "mcreator": {
+    "group": "interactions",
+    "inputs": [
+      "box"
+    ],
+    "toolbox_init": [
+      "<value name=\"box\"><block type=\"fomekmenu_box\"><value name=\"x1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"x2\"><block type=\"math_number\"><field name=\"NUM\">100</field></block></value><value name=\"y2\"><block type=\"math_number\"><field name=\"NUM\">20</field></block></value></block></value>",
+      "<mutation items=\"\" count=\"0\"></mutation>"
+    ],
+    "repeating_inputs": [
+      "mt_checks",
+      "mt_drag_out",
+      "mt_drag_in",
+      "mt_highlight",
+      "mt_highlight_color",
+      "mt_drag_bounds"
+    ]
+  },
+  "mutator": "fomekmenu_draggable_mutator"
+}

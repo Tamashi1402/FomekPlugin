@@ -1,0 +1,1 @@
+((${input$entity} instanceof LivingEntity _livEnt ? _livEnt.hurtTime : 0) != 0)

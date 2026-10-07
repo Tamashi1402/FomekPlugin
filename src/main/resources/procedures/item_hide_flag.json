@@ -1,0 +1,64 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "item",
+      "check": "MCItem"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "hide_flag",
+      "options": [
+        [
+          "enchantments",
+          "ENCHANTMENTS"
+        ],
+        [
+          "attributes",
+          "MODIFIERS"
+        ],
+        [
+          "miscellaneous",
+          "ADDITIONAL"
+        ],
+        [
+          "is unbreakable",
+          "UNBREAKABLE"
+        ],
+        [
+          "is dyed",
+          "DYE"
+        ],
+        [
+          "can destroy",
+          "CAN_DESTROY"
+        ],
+        [
+          "can place on",
+          "CAN_PLACE"
+        ],
+        [
+          "armor trims",
+          "UPGRADES"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 350,
+  "mcreator": {
+    "group": "hideflags",
+    "toolbox_id": "fomek_items_actions",
+    "toolbox_init": [
+      "<value name=\"item\"><block type=\"itemstack_to_mcitem\"></block></value>"
+    ],
+    "inputs": [
+      "item"
+    ],
+    "fields": [
+      "hide_flag"
+    ]
+  }
+}

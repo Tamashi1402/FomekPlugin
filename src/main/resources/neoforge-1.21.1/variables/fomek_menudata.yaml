@@ -1,0 +1,6 @@
+defaultvalue: new ${package}.api.guisystems.MenuData()
+scopes:
+  local:
+    init: ${package}.api.guisystems.MenuData ${var.getName()} = new ${package}.api.guisystems.MenuData();
+    get: ${name}
+    set: ${name} = ${opt.removeParentheses(value)};

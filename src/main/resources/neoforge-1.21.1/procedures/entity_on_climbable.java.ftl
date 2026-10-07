@@ -1,0 +1,1 @@
+(${input$entity} instanceof LivingEntity _LivEnt ? _LivEnt.onClimbable():false)

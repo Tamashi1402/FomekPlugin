@@ -1,0 +1,1 @@
+/*@int*/(${input$list}.indexOf(${input$vector}))

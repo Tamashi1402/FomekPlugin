@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "direction",
+      "check": "Direction"
+    }
+  ],
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "util",
+    "toolbox_id": "fomek_files_utils",
+    "toolbox_init": [
+      "<value name=\"direction\"><block type=\"direction_constant\">DOWN</block></value>"
+    ],
+    "inputs": [
+      "direction"
+    ]
+  }
+}

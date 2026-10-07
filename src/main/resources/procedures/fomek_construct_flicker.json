@@ -1,0 +1,78 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "channel",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "amount",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "waviness",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "radius",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "lifetime",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "lifetimeVar",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": "BEWRL.Model",
+  "colour": 140,
+  "mutator": "fomek_construct_beam_mutator",
+  "mcreator": {
+    "group": "fomek_bewlr_constructs",
+    "toolbox_id": "fomek_bewlr_constructs",
+    "inputs": [
+      "channel",
+      "amount",
+      "entity",
+      "color",
+      "waviness",
+      "radius",
+      "lifetime",
+      "lifetimeVar"
+    ],
+    "repeating_inputs": [
+      "animators"
+    ],
+    "toolbox_init": [
+      "<value name=\"channel\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"amount\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+      "<value name=\"color\"><block type=\"fomek_get_rgbacolor\"><value name=\"red\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"green\"><block type=\"math_number\"><field name=\"NUM\">200</field></block></value><value name=\"blue\"><block type=\"math_number\"><field name=\"NUM\">25</field></block></value><value name=\"alpha\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>",
+      "<value name=\"waviness\"><block type=\"math_number\"><field name=\"NUM\">0.15</field></block></value>",
+      "<value name=\"radius\"><block type=\"math_number\"><field name=\"NUM\">0.9</field></block></value>",
+      "<value name=\"lifetime\"><block type=\"math_number\"><field name=\"NUM\">12</field></block></value>",
+      "<value name=\"lifetimeVar\"><block type=\"math_number\"><field name=\"NUM\">6</field></block></value>",
+      "<mutation inputs=\"0\" count=\"0\"></mutation>"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_constructs",
+  "message0": "Construct flicker (lightning arcs) channel: %1 arcs: %2 on %3 color: %4 waviness: %5 radius: %6 lifetime: %7 lifetime variation: %8"
+}

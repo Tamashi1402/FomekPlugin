@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.buildPortalProjectionShader((String) ${input$texture}, (float) ${input$scrollSpeed}, (float) ${input$uvScale}, (float) ${input$r}, (float) ${input$g}, (float) ${input$b}, (float) ${input$intensity}, (float) ${input$transparency})

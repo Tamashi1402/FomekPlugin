@@ -1,0 +1,16 @@
+{
+    "id": "fomekplugin",
+    "supportedversions": [
+        2026001
+    ],
+    "weight": 5000,
+    "javaplugin": "net.tamashi.fomek.FomekPlugin",
+    "info": {
+        "name": "Fomek Plugin",
+        "version": "3.6.2",
+        "description": "Fomek Plugin — all-in-one: menus, renderer, chunk, math, files, items, tooltips, entity models, player animations and more (core mod features live in the separate Fomek Core plugin)",
+        "author": "fomekdev5",
+        "credits": "FomekPlugin by fomekdev5; includes plugins by NerdyPuzzle, Marwinekks, Snails, RedWires and others"
+    },
+    "dependencies": []
+}

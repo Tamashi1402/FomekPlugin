@@ -1,0 +1,1 @@
+(${input$entity} instanceof AbstractMinecart _cart${cbi} ? _cart${cbi}.getMotionDirection() : Direction.NORTH)

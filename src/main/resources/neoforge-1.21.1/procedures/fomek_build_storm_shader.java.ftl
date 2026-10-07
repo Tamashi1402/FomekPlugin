@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.buildStormShader((float) ${input$speed}, (float) ${input$scale}, (float) ${input$r}, (float) ${input$g}, (float) ${input$b}, (float) ${input$intensity})

@@ -1,0 +1,1 @@
+(${input$text}.replaceAll(${input$regex},${input$replace}))

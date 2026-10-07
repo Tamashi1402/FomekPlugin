@@ -1,0 +1,2 @@
+<#include "mcitems.ftl">
+(${mappedBlockToBlock(input$block)} instanceof DirectionalBlock || ${mappedBlockToBlock(input$block)} instanceof HorizontalDirectionalBlock || ${mappedBlockToBlock(input$block)} instanceof StairBlock || ${mappedBlockToBlock(input$block)} instanceof RotatedPillarBlock)

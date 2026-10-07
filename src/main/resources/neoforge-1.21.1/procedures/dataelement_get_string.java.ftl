@@ -1,0 +1,1 @@
+(${input$element} instanceof StringTag _stringTag ? _stringTag.getAsString() : "")

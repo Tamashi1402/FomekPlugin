@@ -1,0 +1,46 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "left",
+      "check": "DataList"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "operator",
+      "options": [
+        [
+          "=",
+          "="
+        ],
+        [
+          "≠",
+          "≠"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "right",
+      "check": "DataList"
+    }
+  ],
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": "%{BKY_DATALIST_HUE}",
+  "mcreator": {
+    "group": "generic2",
+    "toolbox_id": "fomek_math_datalist",
+    "toolbox_init": [
+      "<value name=\"left\"></value>",
+      "<value name=\"right\"></value>"
+    ],
+    "inputs": [
+      "left",
+      "right"
+    ],
+    "fields": [
+      "operator"
+    ]
+  }
+}

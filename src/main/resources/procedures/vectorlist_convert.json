@@ -1,0 +1,22 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "list",
+      "check": "VectorList"
+    }
+  ],
+  "output": "VectorMap",
+  "colour": "#888888",
+  "mcreator": {
+    "toolbox_init": [
+      "<value name=\"list\"></value>"
+    ],
+    "inputs": [
+      "list"
+    ],
+    "warnings": [
+      "vectorlist_convert"
+    ]
+  }
+}

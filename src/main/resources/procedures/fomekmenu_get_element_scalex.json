@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": 230,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "fomekmenu_elements",
+    "inputs": [
+      "id"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">panel1</field></block></value>"
+    ]
+  },
+  "message0": "Get content scale X of element %1"
+}

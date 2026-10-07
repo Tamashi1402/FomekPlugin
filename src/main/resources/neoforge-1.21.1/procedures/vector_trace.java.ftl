@@ -1,0 +1,1 @@
+(Vec3.atLowerCornerOf(world.clip(new ClipContext(${input$start}, ${input$end}, ClipContext.Block.${field$blockmode}, ClipContext.Fluid.${field$fluidmode}, (Entity) null)).getBlockPos()))

@@ -1,0 +1,1 @@
+_appliedEnchantments.getLevel(_enchantHolder)

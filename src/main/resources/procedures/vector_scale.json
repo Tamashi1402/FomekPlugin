@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "vector",
+      "check": "Vector"
+    },
+    {
+      "type": "input_value",
+      "name": "scale",
+      "check": "Number"
+    }
+  ],
+  "output": "Vector",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "math",
+    "toolbox_id": "fomek_math_vector",
+    "toolbox_init": [
+      "<value name=\"vector\"></value>",
+      "<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>"
+    ],
+    "inputs": [
+      "vector",
+      "scale"
+    ]
+  }
+}

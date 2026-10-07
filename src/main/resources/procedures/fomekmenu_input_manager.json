@@ -1,0 +1,58 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "frequency",
+      "options": [
+        [
+          "frame",
+          "frame"
+        ],
+        [
+          "tick",
+          "tick"
+        ],
+        [
+          "second",
+          "second"
+        ]
+      ]
+    }
+  ],
+  "message0": "Input Manager %1 %2",
+  "args1": [
+    {
+      "type": "input_statement",
+      "name": "DO"
+    }
+  ],
+  "message1": "do %1",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 0,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_actions",
+    "group": "actions",
+    "inputs": [
+      "id"
+    ],
+    "fields": [
+      "frequency"
+    ],
+    "statements": [
+      {
+        "name": "DO",
+        "disable_local_variables": false
+      }
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">input_mgr1</field></block></value>"
+    ]
+  }
+}

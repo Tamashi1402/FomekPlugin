@@ -1,0 +1,57 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "part",
+      "check": "BEWRL.Part"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "partType",
+      "options": [
+        [
+          "shape",
+          "shape"
+        ],
+        [
+          "BEWRL",
+          "bewrl"
+        ],
+        [
+          "item",
+          "item"
+        ],
+        [
+          "java model",
+          "java"
+        ],
+        [
+          "text",
+          "text"
+        ],
+        [
+          "empty",
+          "empty"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "#5b80a5",
+  "mcreator": {
+    "group": "fomek_bewlr_data",
+    "toolbox_id": "fomek_bewlr_data",
+    "fields": [
+      "partType"
+    ],
+    "inputs": [
+      "part"
+    ],
+    "toolbox_init": [
+      "<value name=\"part\"><block type=\"fomek_bewrl_part_iterator\"></block></value>"
+    ]
+  },
+  "message0": "is %1 type %2",
+  "toolbox_id": "fomek_bewlr_data"
+}

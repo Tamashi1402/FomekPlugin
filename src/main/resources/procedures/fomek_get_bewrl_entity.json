@@ -1,0 +1,31 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "input_value",
+      "name": "tagName",
+      "check": "String"
+    }
+  ],
+  "output": "BEWRL.Model",
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_storage",
+    "toolbox_id": "fomek_bewlr_storage",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+      "<value name=\"tagName\"><block type=\"text\"><field name=\"TEXT\">main</field></block></value>"
+    ],
+    "inputs": [
+      "entity",
+      "tagName"
+    ]
+  },
+  "message0": "Get BEWRL %2 from %1",
+  "toolbox_id": "fomek_bewlr_storage",
+  "inputsInline": true
+}

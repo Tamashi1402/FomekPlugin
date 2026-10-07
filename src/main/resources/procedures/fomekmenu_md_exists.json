@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    }
+  ],
+  "message0": "Menu data %1 exists",
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": 260,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_menudata",
+    "group": "menudata_management",
+    "inputs": [
+      "id"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">menu1</field></block></value>"
+    ]
+  }
+}

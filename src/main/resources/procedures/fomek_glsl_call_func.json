@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "args",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 210,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">myFunc</field></block></value>",
+      "<value name=\"args\"><block type=\"text\"><field name=\"TEXT\">x, y</field></block></value>"
+    ],
+    "inputs": [
+      "name",
+      "args"
+    ]
+  },
+  "message0": "call %1 (%2)"
+}

@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "output": "MCItemBlock",
+  "colour": "#a5a55b",
+  "mcreator": {
+    "group": "hitdata",
+    "toolbox_id": "render_data",
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  },
+  "message0": "Get block being looked at %1"
+}

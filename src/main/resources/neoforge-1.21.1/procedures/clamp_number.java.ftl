@@ -1,0 +1,1 @@
+Math.clamp(${input$num}, ${input$min}, ${input$max})

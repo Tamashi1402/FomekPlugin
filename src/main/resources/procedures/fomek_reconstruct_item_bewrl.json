@@ -1,0 +1,48 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "itemstack",
+      "check": "MCItem"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "transform",
+      "options": [
+        [
+          "with display transform",
+          "true"
+        ],
+        [
+          "raw model space",
+          "false"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "rimOnly",
+      "check": "Boolean"
+    }
+  ],
+  "output": "BEWRL.Model",
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "toolbox_init": [
+      "<value name=\"itemstack\"><block type=\"mcitem_all\"><field name=\"value\"></field></block></value>",
+      "<value name=\"rimOnly\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+    ],
+    "fields": [
+      "transform"
+    ],
+    "inputs": [
+      "itemstack",
+      "rimOnly"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_actions",
+  "message0": "Reconstruct item %1 as BEWRL %2 rim only %3",
+  "inputsInline": true
+}

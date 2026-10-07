@@ -1,0 +1,62 @@
+{
+  "dependencies_provided": [
+    {
+      "name": "entity",
+      "type": "entity"
+    },
+    {
+      "name": "sourceentity",
+      "type": "entity"
+    },
+    {
+      "name": "world",
+      "type": "world"
+    },
+    {
+      "name": "x",
+      "type": "number"
+    },
+    {
+      "name": "y",
+      "type": "number"
+    },
+    {
+      "name": "z",
+      "type": "number"
+    },
+    {
+      "name": "hitresult",
+      "type": "string"
+    },
+    {
+      "name": "hx",
+      "type": "number"
+    },
+    {
+      "name": "hy",
+      "type": "number"
+    },
+    {
+      "name": "hz",
+      "type": "number"
+    },
+    {
+      "name": "hitblock",
+      "type": "blockstate"
+    },
+    {
+      "name": "bx",
+      "type": "number"
+    },
+    {
+      "name": "by",
+      "type": "number"
+    },
+    {
+      "name": "bz",
+      "type": "number"
+    }
+  ],
+  "side": "server",
+  "cancelable": "true"
+}

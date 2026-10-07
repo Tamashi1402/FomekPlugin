@@ -1,0 +1,46 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "partType",
+      "options": [
+        [
+          "shape",
+          "shape"
+        ],
+        [
+          "BEWRL",
+          "bewrl"
+        ],
+        [
+          "item",
+          "item"
+        ],
+        [
+          "java model",
+          "java"
+        ],
+        [
+          "text",
+          "text"
+        ],
+        [
+          "empty",
+          "empty"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_data",
+    "toolbox_id": "fomek_bewlr_data",
+    "fields": [
+      "partType"
+    ]
+  },
+  "message0": "part type %1",
+  "toolbox_id": "fomek_bewlr_data"
+}

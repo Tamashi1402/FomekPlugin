@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.enableBlending(${package}.api.render.RenderAPI.BlendMode.${field$mode});

@@ -1,0 +1,1 @@
+(new HashMap<String, Vec3>(${opt.toInt(input$size)}, ${opt.toFloat(input$factor)}))

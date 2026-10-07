@@ -1,0 +1,11 @@
+{
+  "args0": [],
+  "message0": "Empty",
+  "output": "FomekMenuType",
+  "inputsInline": true,
+  "colour": 130,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_building",
+    "group": "building"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "message0": "Set text / selection of %1 to %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "data",
+    "inputs": [
+      "id",
+      "text"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">inputfield_1</field></block></value>",
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">New text</field></block></value>"
+    ]
+  },
+  "previousStatement": null,
+  "nextStatement": null
+}

@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "VectorMap"
+    }
+  ],
+  "output": "VectorMap",
+  "colour": "%{BKY_VECTORMAP_HUE}",
+  "mcreator": {
+    "group": "generic2",
+    "toolbox_id": "fomek_math_vectormap",
+    "toolbox_init": [
+      "<value name=\"map\"></value>"
+    ],
+    "inputs": [
+      "map"
+    ]
+  }
+}

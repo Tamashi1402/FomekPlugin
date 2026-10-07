@@ -1,0 +1,42 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "first and last char",
+          "first_and_last_char"
+        ],
+        [
+          "all brackets",
+          "all_brackets"
+        ],
+        [
+          "namespace",
+          "namespace"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": "%{BKY_TEXTS_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_utils",
+    "toolbox_init": [
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">{minecraft:dirt}</field></block></value>"
+    ],
+    "inputs": [
+      "text"
+    ],
+    "fields": [
+      "type"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+${input$menuObject}.changeColor(${input$id}, ${opt.toInt(input$color)});

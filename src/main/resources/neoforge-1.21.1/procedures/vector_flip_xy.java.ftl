@@ -1,0 +1,1 @@
+(${input$vector}.multiply(1.0D, 1.0D, -1.0D))

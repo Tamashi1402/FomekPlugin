@@ -1,0 +1,28 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "modifier",
+      "check": "String"
+    },
+    {
+      "type": "field_data_list_selector",
+      "name": "attribute",
+      "datalist": "attributes",
+      "customEntryProviders": "attribute"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 350,
+  "mcreator": {
+    "toolbox_id": "fomek_attrmods",
+    "fields": [
+      "attribute"
+    ],
+    "inputs": [
+      "modifier"
+    ]
+  }
+}

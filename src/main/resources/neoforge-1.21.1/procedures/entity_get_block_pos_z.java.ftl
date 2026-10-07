@@ -1,0 +1,1 @@
+${input$entity}.getOnPos().getZ()

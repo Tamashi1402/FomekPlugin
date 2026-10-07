@@ -1,0 +1,23 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"v\"><block type=\"text\"><field name=\"TEXT\">myVec</field></block></value>"
+    ],
+    "inputs": [
+      "v"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "v",
+      "check": "String"
+    }
+  ],
+  "message0": "normalize(%1)"
+}

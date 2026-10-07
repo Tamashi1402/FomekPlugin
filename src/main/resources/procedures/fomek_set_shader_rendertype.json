@@ -1,0 +1,106 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"shader\"><block type=\"entity_iterator\"><field name=\"ITERATOR\">shader</field></block></value>"
+    ],
+    "inputs": [
+      "shader"
+    ],
+    "fields": [
+      "renderType"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "renderType",
+      "options": [
+        [
+          "entityCutout",
+          "entityCutout"
+        ],
+        [
+          "entityCutoutNoCull",
+          "entityCutoutNoCull"
+        ],
+        [
+          "entityTranslucent",
+          "entityTranslucent"
+        ],
+        [
+          "entityTranslucentEmissive",
+          "entityTranslucentEmissive"
+        ],
+        [
+          "eyes",
+          "eyes"
+        ],
+        [
+          "swirl (custom blend)",
+          "swirl"
+        ],
+        [
+          "energySwirl",
+          "energySwirl"
+        ],
+        [
+          "dragonExplosionAlpha",
+          "dragonExplosionAlpha"
+        ],
+        [
+          "End Portal (builtin)",
+          "endPortal"
+        ],
+        [
+          "End Gateway (builtin)",
+          "endGateway"
+        ],
+        [
+          "Nether Portal (builtin)",
+          "portal"
+        ],
+        [
+          "Lightning (builtin)",
+          "lightning"
+        ],
+        [
+          "Glint (builtin)",
+          "glint"
+        ],
+        [
+          "Glint Translucent (builtin)",
+          "glintTranslucent"
+        ],
+        [
+          "Entity Glint Direct (builtin)",
+          "entityGlintDirect"
+        ],
+        [
+          "Armor Glint (builtin)",
+          "armorGlint"
+        ],
+        [
+          "Water Mask (builtin)",
+          "waterMask"
+        ],
+        [
+          "Outline (builtin)",
+          "outline"
+        ]
+      ]
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Set %1 shader render type to %2"
+}

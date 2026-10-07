@@ -1,0 +1,1 @@
+((Level)world).getEntity(${opt.toInt(input$entityid)})

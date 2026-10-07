@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderTexture((${package}.api.render.Shader) ${input$shader}, ${input$texture});

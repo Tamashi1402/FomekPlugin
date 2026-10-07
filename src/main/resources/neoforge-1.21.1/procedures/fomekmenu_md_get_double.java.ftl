@@ -1,0 +1,1 @@
+${input$data}.getDouble(${input$key})

@@ -1,0 +1,6 @@
+defaultvalue: new ${package}.api.render.BEWRL.Animator()
+scopes:
+  local:
+    init: ${package}.api.render.BEWRL.Animator ${var.getName()} = new ${package}.api.render.BEWRL.Animator();
+    get: ${name}
+    set: ${name} = (${package}.api.render.BEWRL.Animator) ${opt.removeParentheses(value)};

@@ -1,0 +1,37 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "box",
+      "check": "FomekMenuBox"
+    }
+  ],
+  "message0": "Set screen boundaries box: %1",
+  "args1": [
+    {
+      "type": "input_statement",
+      "name": "DO"
+    }
+  ],
+  "message1": "do %1",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_building",
+    "group": "building",
+    "inputs": [
+      "box"
+    ],
+    "statements": [
+      {
+        "name": "DO",
+        "disable_local_variables": false
+      }
+    ],
+    "toolbox_init": [
+      "<value name=\"box\"><block type=\"fomekmenu_box\"><value name=\"x1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"x2\"><block type=\"math_number\"><field name=\"NUM\">200</field></block></value><value name=\"y2\"><block type=\"math_number\"><field name=\"NUM\">150</field></block></value></block></value>"
+    ]
+  }
+}

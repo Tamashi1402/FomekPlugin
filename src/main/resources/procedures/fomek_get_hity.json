@@ -1,0 +1,17 @@
+{
+  "args0": [
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "output": "Number",
+  "colour": 230,
+  "mcreator": {
+    "group": "hitdata",
+    "toolbox_id": "render_data"
+  },
+  "message0": "Get Y position being looked at %1"
+}

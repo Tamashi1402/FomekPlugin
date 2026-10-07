@@ -1,0 +1,93 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "previousStatement": null,
+  "nextStatement": null,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"shader\"><block type=\"entity_iterator\"><field name=\"ITERATOR\">shader</field></block></value>"
+    ],
+    "inputs": [
+      "shader"
+    ],
+    "fields": [
+      "program"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "program",
+      "options": [
+        [
+          "End Portal",
+          "minecraft:end_portal"
+        ],
+        [
+          "End Gateway",
+          "minecraft:end_gateway"
+        ],
+        [
+          "Portal (Nether)",
+          "minecraft:portal"
+        ],
+        [
+          "Lightning",
+          "minecraft:lightning"
+        ],
+        [
+          "Glint",
+          "minecraft:glint"
+        ],
+        [
+          "Glint Translucent",
+          "minecraft:glint_translucent"
+        ],
+        [
+          "Entity Glint Direct",
+          "minecraft:entity_glint_direct"
+        ],
+        [
+          "Trident",
+          "minecraft:trident"
+        ],
+        [
+          "Trident Translucent",
+          "minecraft:trident_translucent"
+        ],
+        [
+          "Text",
+          "minecraft:text"
+        ],
+        [
+          "Text Background",
+          "minecraft:text_background"
+        ],
+        [
+          "Text See Through",
+          "minecraft:text_see_through"
+        ],
+        [
+          "Particles",
+          "minecraft:particles"
+        ],
+        [
+          "Position",
+          "minecraft:position"
+        ],
+        [
+          "Position Color",
+          "minecraft:position_color"
+        ]
+      ]
+    }
+  ],
+  "message0": "Set %1 shader to built-in program %2"
+}

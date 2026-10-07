@@ -1,0 +1,224 @@
+{
+  "message0": "%1 style background: %2 border: %3 text color: %4 text: %5 font resource: %6 font size: %7 texture: %8 has text: %9 button: %10 smooth text: %11 borderWidth: %12 paddingX: %13 paddingY: %14 align: %15 shadow: %16 text: %17 placeholder: %18 label: %19 indicator: %20 list: %21 selection: %22 hasText: %23 smooth: %24 shadow: %25",
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "STATE",
+      "options": [
+        [
+          "Normal",
+          "NORMAL"
+        ],
+        [
+          "Hovered",
+          "HOVER"
+        ],
+        [
+          "Held",
+          "HELD"
+        ],
+        [
+          "Clicked",
+          "CLICK"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "background",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "border",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "textColor",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "font",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "size",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "String"
+    },
+    {
+      "type": "field_checkbox",
+      "name": "hasText",
+      "checked": true
+    },
+    {
+      "type": "field_dropdown",
+      "name": "buttonStyle",
+      "options": [
+        [
+          "Flat",
+          "flat"
+        ],
+        [
+          "Outline",
+          "outline"
+        ],
+        [
+          "Raised",
+          "raised"
+        ],
+        [
+          "Text only",
+          "none"
+        ]
+      ]
+    },
+    {
+      "type": "field_checkbox",
+      "name": "smooth",
+      "checked": true
+    },
+    {
+      "type": "input_value",
+      "name": "borderWidth",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "paddingX",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "paddingY",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "align",
+      "options": [
+        [
+          "Left",
+          "left"
+        ],
+        [
+          "Center",
+          "center"
+        ],
+        [
+          "Right",
+          "right"
+        ]
+      ]
+    },
+    {
+      "type": "field_checkbox",
+      "name": "shadow",
+      "checked": false
+    },
+    {
+      "type": "input_value",
+      "name": "PART_text",
+      "check": "FomekMenuStyle"
+    },
+    {
+      "type": "input_value",
+      "name": "PART_placeholder",
+      "check": "FomekMenuStyle"
+    },
+    {
+      "type": "input_value",
+      "name": "PART_label",
+      "check": "FomekMenuStyle"
+    },
+    {
+      "type": "input_value",
+      "name": "PART_indicator",
+      "check": "FomekMenuStyle"
+    },
+    {
+      "type": "input_value",
+      "name": "PART_list",
+      "check": "FomekMenuStyle"
+    },
+    {
+      "type": "input_value",
+      "name": "PART_selection",
+      "check": "FomekMenuStyle"
+    },
+    {
+      "type": "input_value",
+      "name": "BOOL_hasText",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_value",
+      "name": "BOOL_smooth",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_value",
+      "name": "BOOL_shadow",
+      "check": "Boolean"
+    }
+  ],
+  "inputsInline": false,
+  "output": "FomekMenuStyle",
+  "colour": 280,
+  "mcreator": {
+    "group": "studio",
+    "inputs": [
+      "background",
+      "border",
+      "textColor",
+      "text",
+      "font",
+      "size",
+      "texture",
+      "borderWidth",
+      "paddingX",
+      "paddingY",
+      "PART_text",
+      "PART_placeholder",
+      "PART_label",
+      "PART_indicator",
+      "PART_list",
+      "PART_selection",
+      "BOOL_hasText",
+      "BOOL_smooth",
+      "BOOL_shadow"
+    ],
+    "fields": [
+      "STATE",
+      "hasText",
+      "buttonStyle",
+      "smooth",
+      "align",
+      "shadow"
+    ],
+    "toolbox_init": [
+      "<value name=\"background\"><block type=\"math_number\"><field name=\"NUM\">-13487566</field></block></value>",
+      "<value name=\"border\"><block type=\"math_number\"><field name=\"NUM\">-8355712</field></block></value>",
+      "<value name=\"textColor\"><block type=\"math_number\"><field name=\"NUM\">-1</field></block></value>",
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"font\"><block type=\"text\"><field name=\"TEXT\">minecraft:default</field></block></value>",
+      "<value name=\"size\"><block type=\"math_number\"><field name=\"NUM\">9</field></block></value>",
+      "<value name=\"texture\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"borderWidth\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+      "<value name=\"paddingX\"><block type=\"math_number\"><field name=\"NUM\">4</field></block></value>",
+      "<value name=\"paddingY\"><block type=\"math_number\"><field name=\"NUM\">3</field></block></value>"
+    ]
+  }
+}

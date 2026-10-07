@@ -1,0 +1,35 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "width",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "height",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#4dba45",
+  "mcreator": {
+    "toolbox_id": "cemhitbox",
+    "toolbox_init": [
+      "<value name=\"width\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>",
+      "<value name=\"height\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>"
+    ],
+    "inputs": [
+      "width",
+      "height"
+    ],
+    "dependencies": [
+      {
+        "name": "hitboxCalculationEvent",
+        "type": "hitboxcalculating"
+      }
+    ]
+  }
+}

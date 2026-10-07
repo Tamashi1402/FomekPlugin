@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "vector",
+      "check": "Vector"
+    }
+  ],
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "data",
+    "toolbox_id": "fomek_math_vector",
+    "toolbox_init": [
+      "<value name=\"vector\"></value>"
+    ],
+    "inputs": [
+      "vector"
+    ]
+  }
+}

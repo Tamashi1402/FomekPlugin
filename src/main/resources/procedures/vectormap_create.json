@@ -1,0 +1,8 @@
+{
+  "output": "VectorMap",
+  "colour": "%{BKY_VECTORMAP_HUE}",
+  "mcreator": {
+    "group": "creator",
+    "toolbox_id": "fomek_math_vectormap"
+  }
+}

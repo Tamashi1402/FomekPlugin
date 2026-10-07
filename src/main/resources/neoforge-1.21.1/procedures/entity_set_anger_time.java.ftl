@@ -1,0 +1,1 @@
+if (${input$entity} instanceof NeutralMob _neut) _neut.setRemainingPersistentAngerTime(${opt.toInt(input$amount)});

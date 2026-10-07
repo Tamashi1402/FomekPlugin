@@ -1,0 +1,1 @@
+(!(${input$entity} == null) && !${input$entity}.isAlive() && ((${input$entity} instanceof LivingEntity _livEnt ? _livEnt.deathTime : 0) >= 20 || !(${input$entity} instanceof LivingEntity)))

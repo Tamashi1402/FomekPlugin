@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "sampler",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "uv",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 290,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"sampler\"><block type=\"text\"><field name=\"TEXT\">Sampler0</field></block></value>",
+      "<value name=\"uv\"><block type=\"text\"><field name=\"TEXT\">texCoord</field></block></value>"
+    ],
+    "inputs": [
+      "sampler",
+      "uv"
+    ]
+  },
+  "message0": "texture2D (%1, %2)"
+}

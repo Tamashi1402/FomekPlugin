@@ -1,0 +1,15 @@
+{
+  "output": "Number",
+  "colour": "#888888",
+  "mcreator": {
+    "dependencies": [
+      {
+        "name": "sortkeyiterator",
+        "type": "number"
+      }
+    ],
+    "warnings": [
+      "iterator_sortkey"
+    ]
+  }
+}

@@ -1,0 +1,43 @@
+import groovy.json.JsonSlurper
+
+plugins {
+    id "java"
+}
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.gradle.org/gradle/libs-releases" }
+    flatDir { dirs mcreator_path + '/lib' }
+}
+
+group = 'net.tamashi.fomek'
+version = new JsonSlurper().parse(file('src/main/resources/plugin.json'))['info']['version']
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+configurations {
+    implementation.extendsFrom export
+}
+
+dependencies {
+    implementation project(':MCreator')
+    project(':MCreator').afterEvaluate(() ->
+        project(":MCreator").configurations.named("implementation").get().dependencies.each {
+            implementation it
+        }
+    )
+}
+
+tasks.jar {
+    archiveFileName.set("fomek-plugin.zip")
+    from { configurations.export.collect { it.isDirectory() ? it : zipTree(it) } }
+}
+
+tasks.register('runMCreatorWithPlugin', JavaExec) {
+    dependsOn jar
+    environment("MCREATOR_PLUGINS_FOLDER", file("./build/libs"))
+    jvmArgs '--add-opens', 'java.base/java.lang=ALL-UNNAMED'
+    classpath = project(':MCreator').sourceSets.main.runtimeClasspath
+    main = 'net.mcreator.Launcher'
+    workingDir = mcreator_path
+}

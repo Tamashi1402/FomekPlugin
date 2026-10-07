@@ -1,0 +1,48 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "Texture"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "transform",
+      "options": [
+        [
+          "with display transform",
+          "true"
+        ],
+        [
+          "raw model space",
+          "false"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "rimOnly",
+      "check": "Boolean"
+    }
+  ],
+  "output": "BEWRL.Model",
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "toolbox_init": [
+      "<value name=\"texture\"><block type=\"fomek_texture_from_path\"><value name=\"texture\"><block type=\"text\"><field name=\"TEXT\">minecraft:textures/block/dirt.png</field></block></value></block></value>",
+      "<value name=\"rimOnly\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+    ],
+    "fields": [
+      "transform"
+    ],
+    "inputs": [
+      "texture",
+      "rimOnly"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_actions",
+  "message0": "Reconstruct texture %1 as item BEWRL %2 rim only %3",
+  "inputsInline": true
+}

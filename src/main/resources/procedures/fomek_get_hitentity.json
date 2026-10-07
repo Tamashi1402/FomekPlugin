@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "field_image",
+      "src": "./res/null.png",
+      "width": 8,
+      "height": 24
+    },
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "output": "Entity",
+  "colour": "#5b93a5",
+  "mcreator": {
+    "group": "hitdata",
+    "toolbox_id": "render_data"
+  },
+  "message0": "%1 Get entity being looked at %2"
+}

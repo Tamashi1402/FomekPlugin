@@ -1,0 +1,32 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"shader\"><block type=\"entity_iterator\"><field name=\"ITERATOR\">shader</field></block></value>",
+      "<value name=\"color\"><block type=\"fomek_get_rgbcolor\"><value name=\"red\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"green\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"blue\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>"
+    ],
+    "inputs": [
+      "shader",
+      "color"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "nextStatement": null,
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Set %1 shader color to %2"
+}

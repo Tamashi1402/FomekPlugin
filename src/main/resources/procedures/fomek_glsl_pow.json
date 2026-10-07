@@ -1,0 +1,30 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"x\"><block type=\"text\"><field name=\"TEXT\">x</field></block></value>",
+      "<value name=\"y\"><block type=\"text\"><field name=\"TEXT\">2.0</field></block></value>"
+    ],
+    "inputs": [
+      "x",
+      "y"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "String"
+    }
+  ],
+  "message0": "pow(%1, %2)"
+}

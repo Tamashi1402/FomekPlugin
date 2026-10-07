@@ -1,0 +1,422 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "key",
+      "options": [
+        [
+          "Space",
+          "KEY_SPACE"
+        ],
+        [
+          "Backspace",
+          "KEY_BACKSPACE"
+        ],
+        [
+          "Enter",
+          "KEY_ENTER"
+        ],
+        [
+          "Escape",
+          "KEY_ESCAPE"
+        ],
+        [
+          "Capslock",
+          "KEY_CAPSLOCK"
+        ],
+        [
+          "Tilde",
+          "KEY_GRAVE"
+        ],
+        [
+          "Minus",
+          "KEY_MINUS"
+        ],
+        [
+          "Equals",
+          "KEY_EQUALS"
+        ],
+        [
+          "Tab",
+          "KEY_TAB"
+        ],
+        [
+          "Left Bracket",
+          "KEY_LBRACKET"
+        ],
+        [
+          "Right Bracket",
+          "KEY_RBRACKET"
+        ],
+        [
+          "Backslash",
+          "KEY_BACKSLASH"
+        ],
+        [
+          "Home",
+          "KEY_HOME"
+        ],
+        [
+          "Semicolon",
+          "KEY_SEMICOLON"
+        ],
+        [
+          "Apostrophe",
+          "KEY_APOSTROPHE"
+        ],
+        [
+          "Page Up",
+          "KEY_PAGE_UP"
+        ],
+        [
+          "Page Down",
+          "KEY_PAGE_DOWN"
+        ],
+        [
+          "End",
+          "KEY_END"
+        ],
+        [
+          "Comma",
+          "KEY_COMMA"
+        ],
+        [
+          "Period",
+          "KEY_PERIOD"
+        ],
+        [
+          "Forward Slash",
+          "KEY_SLASH"
+        ],
+        [
+          "Insert",
+          "KEY_INSERT"
+        ],
+        [
+          "Delete",
+          "KEY_DELETE"
+        ],
+        [
+          "Windows",
+          "KEY_LWIN"
+        ],
+        [
+          "Numlock",
+          "KEY_NUMLOCK"
+        ],
+        [
+          "Numpad Enter",
+          "KEY_NUMPADENTER"
+        ],
+        [
+          "Numpad Comma",
+          "KEY_NUMPADCOMMA"
+        ],
+        [
+          "Numpad Equals",
+          "KEY_NUMPADEQUALS"
+        ],
+        [
+          "Add",
+          "KEY_ADD"
+        ],
+        [
+          "Multiply",
+          "KEY_MULTIPLY"
+        ],
+        [
+          "Return",
+          "KEY_RETURN"
+        ],
+        [
+          "Left Shift",
+          "KEY_LSHIFT"
+        ],
+        [
+          "Right Shift",
+          "KEY_RSHIFT"
+        ],
+        [
+          "Left Alt",
+          "KEY_LALT"
+        ],
+        [
+          "Right Alt",
+          "KEY_RALT"
+        ],
+        [
+          "Left Control",
+          "KEY_LCONTROL"
+        ],
+        [
+          "Right Control",
+          "KEY_RCONTROL"
+        ],
+        [
+          "Left Arrow",
+          "KEY_LEFT"
+        ],
+        [
+          "Up Arrow",
+          "KEY_UP"
+        ],
+        [
+          "Right Arrow",
+          "KEY_RIGHT"
+        ],
+        [
+          "Down Arrow",
+          "KEY_DOWN"
+        ],
+        [
+          "A",
+          "KEY_A"
+        ],
+        [
+          "B",
+          "KEY_B"
+        ],
+        [
+          "C",
+          "KEY_C"
+        ],
+        [
+          "D",
+          "KEY_D"
+        ],
+        [
+          "E",
+          "KEY_E"
+        ],
+        [
+          "F",
+          "KEY_F"
+        ],
+        [
+          "G",
+          "KEY_G"
+        ],
+        [
+          "H",
+          "KEY_H"
+        ],
+        [
+          "I",
+          "KEY_I"
+        ],
+        [
+          "J",
+          "KEY_J"
+        ],
+        [
+          "K",
+          "KEY_K"
+        ],
+        [
+          "L",
+          "KEY_L"
+        ],
+        [
+          "M",
+          "KEY_M"
+        ],
+        [
+          "N",
+          "KEY_N"
+        ],
+        [
+          "O",
+          "KEY_O"
+        ],
+        [
+          "P",
+          "KEY_P"
+        ],
+        [
+          "Q",
+          "KEY_Q"
+        ],
+        [
+          "R",
+          "KEY_R"
+        ],
+        [
+          "S",
+          "KEY_S"
+        ],
+        [
+          "T",
+          "KEY_T"
+        ],
+        [
+          "U",
+          "KEY_U"
+        ],
+        [
+          "V",
+          "KEY_V"
+        ],
+        [
+          "W",
+          "KEY_W"
+        ],
+        [
+          "X",
+          "KEY_X"
+        ],
+        [
+          "Y",
+          "KEY_Y"
+        ],
+        [
+          "Z",
+          "KEY_Z"
+        ],
+        [
+          "0",
+          "KEY_0"
+        ],
+        [
+          "1",
+          "KEY_1"
+        ],
+        [
+          "2",
+          "KEY_2"
+        ],
+        [
+          "3",
+          "KEY_3"
+        ],
+        [
+          "4",
+          "KEY_4"
+        ],
+        [
+          "5",
+          "KEY_5"
+        ],
+        [
+          "6",
+          "KEY_6"
+        ],
+        [
+          "7",
+          "KEY_7"
+        ],
+        [
+          "8",
+          "KEY_8"
+        ],
+        [
+          "9",
+          "KEY_9"
+        ],
+        [
+          "Numpad 0",
+          "KEY_NUMPAD0"
+        ],
+        [
+          "Numpad 1",
+          "KEY_NUMPAD1"
+        ],
+        [
+          "Numpad 2",
+          "KEY_NUMPAD2"
+        ],
+        [
+          "Numpad 3",
+          "KEY_NUMPAD3"
+        ],
+        [
+          "Numpad 4",
+          "KEY_NUMPAD4"
+        ],
+        [
+          "Numpad 5",
+          "KEY_NUMPAD5"
+        ],
+        [
+          "Numpad 6",
+          "KEY_NUMPAD6"
+        ],
+        [
+          "Numpad 7",
+          "KEY_NUMPAD7"
+        ],
+        [
+          "Numpad 8",
+          "KEY_NUMPAD8"
+        ],
+        [
+          "Numpad 9",
+          "KEY_NUMPAD9"
+        ],
+        [
+          "F1",
+          "KEY_F1"
+        ],
+        [
+          "F2",
+          "KEY_F2"
+        ],
+        [
+          "F3",
+          "KEY_F3"
+        ],
+        [
+          "F4",
+          "KEY_F4"
+        ],
+        [
+          "F5",
+          "KEY_F5"
+        ],
+        [
+          "F6",
+          "KEY_F6"
+        ],
+        [
+          "F7",
+          "KEY_F7"
+        ],
+        [
+          "F8",
+          "KEY_F8"
+        ],
+        [
+          "F9",
+          "KEY_F9"
+        ],
+        [
+          "F10",
+          "KEY_F10"
+        ],
+        [
+          "F11",
+          "KEY_F11"
+        ],
+        [
+          "F12",
+          "KEY_F12"
+        ]
+      ]
+    },
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "group": "client04_A1",
+    "toolbox_id": "fomek_player_data",
+    "fields": [
+      "key"
+    ]
+  }
+}

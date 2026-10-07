@@ -1,0 +1,37 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"x\"><block type=\"text\"><field name=\"TEXT\">x</field></block></value>",
+      "<value name=\"min_val\"><block type=\"text\"><field name=\"TEXT\">0.0</field></block></value>",
+      "<value name=\"max_val\"><block type=\"text\"><field name=\"TEXT\">1.0</field></block></value>"
+    ],
+    "inputs": [
+      "x",
+      "min_val",
+      "max_val"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "min_val",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "max_val",
+      "check": "String"
+    }
+  ],
+  "message0": "clamp(%1, %2, %3)"
+}

@@ -1,0 +1,15 @@
+{
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 20,
+  "mcreator": {
+    "group": "client00",
+    "toolbox_id": "fomek_player_actions",
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

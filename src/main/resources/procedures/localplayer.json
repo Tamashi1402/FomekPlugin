@@ -1,0 +1,17 @@
+{
+  "args0": [
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": "8",
+      "height": "24"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Entity",
+  "colour": 175,
+  "mcreator": {
+    "toolbox_id": "fomek_player_data",
+    "toolbox_init": []
+  }
+}

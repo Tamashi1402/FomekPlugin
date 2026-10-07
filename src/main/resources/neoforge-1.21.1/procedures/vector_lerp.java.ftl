@@ -1,0 +1,1 @@
+(${input$start}.lerp(${input$end}, ${input$step}))

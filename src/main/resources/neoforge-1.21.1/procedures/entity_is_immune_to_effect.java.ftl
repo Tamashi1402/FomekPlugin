@@ -1,0 +1,1 @@
+!(${input$entity} instanceof LivingEntity _entity ? _entity.canBeAffected(new MobEffectInstance(${generator.map(field$potion, "effects")})):true)

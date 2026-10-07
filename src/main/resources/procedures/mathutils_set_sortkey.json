@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "sorter",
+    "toolbox_id": "fomek_math_others",
+    "toolbox_init": [
+      "<value name=\"key\"></value>"
+    ],
+    "inputs": [
+      "key"
+    ],
+    "dependencies": [
+      {
+        "name": "sortkey",
+        "type": "number"
+      }
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+${input$txt}.repeat(${opt.toInt(input$amount)})

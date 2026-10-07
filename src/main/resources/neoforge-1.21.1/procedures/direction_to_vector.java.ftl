@@ -1,0 +1,1 @@
+(new Vec3(${input$direction}.step()))

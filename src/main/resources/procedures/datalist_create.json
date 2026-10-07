@@ -1,0 +1,11 @@
+{
+  "output": [
+    "DataElement",
+    "DataList"
+  ],
+  "colour": "%{BKY_DATALIST_HUE}",
+  "mcreator": {
+    "group": "creator",
+    "toolbox_id": "fomek_math_datalist"
+  }
+}

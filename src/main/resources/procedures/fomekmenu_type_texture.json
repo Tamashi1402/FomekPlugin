@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "tint",
+      "check": "Number"
+    }
+  ],
+  "message0": "Texture %1 tint: %2",
+  "output": "FomekMenuType",
+  "inputsInline": true,
+  "colour": 130,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_building",
+    "group": "building",
+    "inputs": [
+      "texture",
+      "tint"
+    ],
+    "toolbox_init": [
+      "<value name=\"texture\"><block type=\"text\"><field name=\"TEXT\">minecraft:textures/gui/example.png</field></block></value>",
+      "<value name=\"tint\"><block type=\"fomekmenu_rgb\"><value name=\"r\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"g\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"b\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>"
+    ]
+  }
+}

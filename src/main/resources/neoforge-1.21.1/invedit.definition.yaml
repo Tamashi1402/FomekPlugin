@@ -1,0 +1,17 @@
+global_templates:
+  - template: inveditor/inventory_renderer.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/client/InventoryRenderer.java"
+  - template: inveditor/invedit_msg_button.java.ftl
+    name: "@SRCROOT/@BASEPACKAGEPATH/network/@JavaModNameInventoryButtonMessage.java"
+    condition: "${w.getGElementsOfType('invedit')?filter(e -> e.hasButtonEvents())?size != 0}"
+
+localizationkeys:
+  - fromlist: data.getFixedTextLabels()
+    key: invedit.@modid.@[getName()]
+    mapto: getRenderText()
+  - fromlist: data.getFixedTooltips()
+    key: invedit.@modid.@[getName()]
+    mapto: getRenderText()
+  - fromlist: data.getComponentsOfType('Button')
+    key: invedit.@modid.@[getName()]
+    mapto: text

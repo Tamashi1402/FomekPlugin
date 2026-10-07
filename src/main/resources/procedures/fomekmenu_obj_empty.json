@@ -1,0 +1,13 @@
+{
+  "args0": [],
+  "message0": "new MenuObject",
+  "output": "FomekMenuObject",
+  "colour": 190,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_objects",
+    "group": "fomekmenu_objects",
+    "inputs": [],
+    "fields": [],
+    "toolbox_init": []
+  }
+}

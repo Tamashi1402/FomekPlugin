@@ -1,0 +1,32 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "menuObject",
+      "check": "FomekMenuObject"
+    },
+    {
+      "type": "input_value",
+      "name": "box",
+      "check": "FomekMenuBox"
+    }
+  ],
+  "message0": "set collision box of %1 to %2",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 190,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_objects",
+    "group": "fomekmenu_objects",
+    "inputs": [
+      "menuObject",
+      "box"
+    ],
+    "fields": [],
+    "toolbox_init": [
+      "<value name=\"menuObject\"><block type=\"fomekmenu_obj_empty\"></block></value>",
+      "<value name=\"box\"><block type=\"fomekmenu_box\"><value name=\"x1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"x2\"><block type=\"math_number\"><field name=\"NUM\">48</field></block></value><value name=\"y2\"><block type=\"math_number\"><field name=\"NUM\">64</field></block></value></block></value>"
+    ]
+  }
+}

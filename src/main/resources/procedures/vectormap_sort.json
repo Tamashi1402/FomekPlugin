@@ -1,0 +1,99 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "VectorMap"
+    },
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "vector",
+      "check": "Vector"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "order",
+      "options": [
+        [
+          "ASCENDING",
+          "ASCENDING"
+        ],
+        [
+          "DESCENDING",
+          "DESCENDING"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "sort"
+    },
+    {
+      "type": "input_statement",
+      "name": "foreach"
+    }
+  ],
+  "extensions": [
+    "is_custom_loop"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_VECTORMAP_HUE}",
+  "mcreator": {
+    "group": "generic5",
+    "toolbox_id": "fomek_math_vectormap",
+    "toolbox_init": [
+      "<value name=\"map\"></value>",
+      "<value name=\"key\"><block type=\"iterator_key\"></block></value>",
+      "<value name=\"vector\"><block type=\"iterator_vector\"></block></value>",
+      "<statement name=\"sort\"><block type=\"mathutils_set_sortkey\"></block></statement>"
+    ],
+    "inputs": [
+      "map"
+    ],
+    "fields": [
+      "order"
+    ],
+    "statements": [
+      {
+        "name": "sort",
+        "provides": [
+          {
+            "name": "sortkey",
+            "type": "number"
+          },
+          {
+            "name": "keyiterator",
+            "type": "string"
+          },
+          {
+            "name": "vectoriterator",
+            "type": "vector"
+          }
+        ]
+      },
+      {
+        "name": "foreach",
+        "provides": [
+          {
+            "name": "keyiterator",
+            "type": "string"
+          },
+          {
+            "name": "vectoriterator",
+            "type": "vector"
+          }
+        ]
+      }
+    ]
+  }
+}

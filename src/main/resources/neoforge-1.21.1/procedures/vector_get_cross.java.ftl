@@ -1,0 +1,1 @@
+(${input$left}.cross(${input$right}))

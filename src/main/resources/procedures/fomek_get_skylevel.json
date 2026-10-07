@@ -1,0 +1,27 @@
+{
+  "args0": [
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "output": "Number",
+  "colour": 230,
+  "mcreator": {
+    "group": "worldlevel",
+    "toolbox_id": "render_data",
+    "dependencies": [
+      {
+        "name": "partialTick",
+        "type": "number"
+      },
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  },
+  "message0": "Get sky level %1"
+}

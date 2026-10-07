@@ -1,0 +1,17 @@
+{
+  "args0": [],
+  "message0": "Exclude from grid",
+  "output": "FomekMenuAttribute",
+  "colour": 50,
+  "mutator": "fomekmenu_checks_mutator",
+  "mcreator": {
+    "group": "interactions",
+    "inputs": [],
+    "repeating_inputs": [
+      "checks"
+    ],
+    "toolbox_init": [
+      "<mutation inputs=\"0\"></mutation>"
+    ]
+  }
+}

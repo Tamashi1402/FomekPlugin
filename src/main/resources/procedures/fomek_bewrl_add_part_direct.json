@@ -1,0 +1,63 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "part",
+      "check": [
+        "BEWRL.Part",
+        "BEWRL.Model",
+        "RenderAPI.Shape"
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "bewrl",
+      "check": "BEWRL.Model"
+    },
+    {
+      "type": "input_value",
+      "name": "pos",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "rot",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "scale",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "inputs": [
+      "part",
+      "bewrl",
+      "pos",
+      "rot",
+      "scale",
+      "shader"
+    ],
+    "toolbox_init": [
+      "<value name=\"part\"><block type=\"fomek_bewrl_empty_part\"></block></value>",
+      "<value name=\"bewrl\"><block type=\"fomek_bewrl_empty\"></block></value>",
+      "<value name=\"pos\"><block type=\"fomek_vec3_pos\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>",
+      "<value name=\"rot\"><block type=\"fomek_vec3_rot\"><value name=\"yaw\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"pitch\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"roll\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>",
+      "<value name=\"scale\"><block type=\"fomek_vec3_scale\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value>"
+    ]
+  },
+  "message0": "Add part %1 to BEWRL %2 at pos %3 rotation %4 scale %5 shader %6",
+  "toolbox_id": "fomek_bewlr_actions"
+}

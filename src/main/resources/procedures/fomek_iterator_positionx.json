@@ -1,0 +1,15 @@
+{
+  "output": "Number",
+  "colour": 230,
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_data",
+    "dependencies": [
+      {
+        "name": "positionx",
+        "type": "number"
+      }
+    ]
+  },
+  "message0": "Iterator X"
+}

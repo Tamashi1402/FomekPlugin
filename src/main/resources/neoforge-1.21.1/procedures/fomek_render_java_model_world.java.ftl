@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.renderJavaModel(${input$name}, ${input$texture}, "${field$renderType}", ${opt.toFloat(input$x)}, ${opt.toFloat(input$y)}, ${opt.toFloat(input$z)}, ${opt.toFloat(input$yaw)}, ${opt.toFloat(input$pitch)}, ${opt.toFloat(input$roll)}, ${opt.toFloat(input$scale)});

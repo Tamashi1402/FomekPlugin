@@ -1,0 +1,36 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "start",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "end",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "step",
+      "check": "Number"
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "actions",
+    "toolbox_id": "fomek_math_number",
+    "toolbox_init": [
+      "<value name=\"start\"></value>",
+      "<value name=\"end\"></value>",
+      "<value name=\"step\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>"
+    ],
+    "inputs": [
+      "start",
+      "end",
+      "step"
+    ]
+  }
+}

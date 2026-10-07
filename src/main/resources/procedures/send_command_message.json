@@ -1,0 +1,35 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "message",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "inform",
+      "check": "Boolean"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 280,
+  "mcreator": {
+    "toolbox_id": "fomek_event_specific",
+    "toolbox_init": [
+      "<value name=\"message\"><block type=\"text\"><field name=\"TEXT\">Command Message</field></block></value>",
+      "<value name=\"inform\"><block type=\"logic_boolean\"><field name=\"BOOL\">TRUE</field></block></value>"
+    ],
+    "inputs": [
+      "message",
+      "inform"
+    ],
+    "dependencies": [
+      {
+        "name": "arguments",
+        "type": "cmdcontext"
+      }
+    ]
+  }
+}

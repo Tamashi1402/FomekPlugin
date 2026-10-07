@@ -1,0 +1,68 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "from_instance",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "to_instance",
+      "check": "String"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "from_index_order",
+      "options": [
+        [
+          "first",
+          "first"
+        ],
+        [
+          "last",
+          "last"
+        ]
+      ]
+    },
+    {
+      "type": "field_dropdown",
+      "name": "to_index_order",
+      "options": [
+        [
+          "first",
+          "first"
+        ],
+        [
+          "last",
+          "last"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "output": "String",
+  "colour": "%{BKY_TEXTS_HUE}",
+  "mcreator": {
+    "group": "substring",
+    "toolbox_id": "fomek_utils",
+    "toolbox_init": [
+      "<value name=\"from_instance\"><block type=\"text\"><field name=\"TEXT\">C</field></block></value>",
+      "<value name=\"to_instance\"><block type=\"text\"><field name=\"TEXT\">F</field></block></value>",
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">ABCDEFGHI</field></block></value>"
+    ],
+    "inputs": [
+      "from_instance",
+      "to_instance",
+      "text"
+    ],
+    "fields": [
+      "from_index_order",
+      "to_index_order"
+    ]
+  }
+}

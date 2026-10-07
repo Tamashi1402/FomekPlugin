@@ -1,0 +1,14 @@
+{
+  "args0": [],
+  "inputsInline": true,
+  "output": "BEWRL.Part",
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_data",
+    "toolbox_id": "fomek_bewlr_data",
+    "fields": [],
+    "inputs": []
+  },
+  "toolbox_id": "fomek_bewlr_data",
+  "message0": "empty part"
+}

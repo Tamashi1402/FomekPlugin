@@ -1,0 +1,54 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "hide_flag",
+      "options": [
+        [
+          "enchantments",
+          "ENCHANTMENTS"
+        ],
+        [
+          "attributes",
+          "MODIFIERS"
+        ],
+        [
+          "unbreakable",
+          "UNBREAKABLE"
+        ],
+        [
+          "miscellaneous",
+          "ADDITIONAL"
+        ],
+        [
+          "can destroy",
+          "CAN_DESTROY"
+        ],
+        [
+          "can place on",
+          "CAN_PLACE"
+        ],
+        [
+          "dye color",
+          "DYE"
+        ],
+        [
+          "armor trims",
+          "UPGRADES"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "hideflags",
+    "toolbox_id": "fomek_items_data",
+    "toolbox_init": [],
+    "inputs": [],
+    "fields": [
+      "hide_flag"
+    ]
+  }
+}

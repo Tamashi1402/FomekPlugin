@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "provideditemstack",
+      "check": "MCItem"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 350,
+  "mcreator": {
+    "toolbox_id": "fomek_items_actions",
+    "toolbox_init": [
+      "<value name=\"provideditemstack\"><block type=\"itemstack_to_mcitem\"></block></value>",
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">Display Name</field></block></value>"
+    ],
+    "inputs": [
+      "provideditemstack",
+      "name"
+    ]
+  }
+}

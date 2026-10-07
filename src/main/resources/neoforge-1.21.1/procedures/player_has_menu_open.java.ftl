@@ -1,0 +1,1 @@
+(${input$entity} instanceof Player _plr${cbi} && _plr${cbi}.containerMenu instanceof ${generator.map(field$menu, "menus")})

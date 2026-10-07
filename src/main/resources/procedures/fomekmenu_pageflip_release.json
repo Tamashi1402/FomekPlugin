@@ -1,0 +1,33 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "mode",
+      "options": [
+        [
+          "Auto (by amount)",
+          "AUTO"
+        ],
+        [
+          "Always complete",
+          "COMPLETE"
+        ],
+        [
+          "Always snap back",
+          "SNAP_BACK"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "fields": [
+      "mode"
+    ]
+  },
+  "message0": "Release grabbed page: %1"
+}

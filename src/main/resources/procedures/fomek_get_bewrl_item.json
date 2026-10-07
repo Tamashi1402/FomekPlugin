@@ -1,0 +1,31 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "itemstack",
+      "check": "MCItem"
+    },
+    {
+      "type": "input_value",
+      "name": "tagName",
+      "check": "String"
+    }
+  ],
+  "output": "BEWRL.Model",
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_storage",
+    "toolbox_id": "fomek_bewlr_storage",
+    "toolbox_init": [
+      "<value name=\"itemstack\"><block type=\"mcitem_all\"><field name=\"value\"></field></block></value>",
+      "<value name=\"tagName\"><block type=\"text\"><field name=\"TEXT\">main</field></block></value>"
+    ],
+    "inputs": [
+      "itemstack",
+      "tagName"
+    ]
+  },
+  "message0": "Get BEWRL %2 from %1",
+  "toolbox_id": "fomek_bewlr_storage",
+  "inputsInline": true
+}

@@ -1,0 +1,1 @@
+((${(input$input)}) > (${(input$min)}) && (${(input$input)}) < (${(input$max)}))

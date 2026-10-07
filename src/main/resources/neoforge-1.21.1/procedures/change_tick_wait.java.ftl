@@ -1,0 +1,1 @@
+_timedLoop.ticks = ${opt.toInt(input$ticks)};

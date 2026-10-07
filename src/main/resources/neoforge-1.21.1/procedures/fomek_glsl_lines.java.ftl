@@ -1,0 +1,1 @@
+<#list input_list$glsllines as _l>${_l}<#sep> + "\n" + </#sep></#list>

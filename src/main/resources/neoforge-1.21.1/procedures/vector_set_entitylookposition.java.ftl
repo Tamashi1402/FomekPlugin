@@ -1,0 +1,1 @@
+${input$entity}.lookAt(EntityAnchorArgument.Anchor.EYES, ${input$position});

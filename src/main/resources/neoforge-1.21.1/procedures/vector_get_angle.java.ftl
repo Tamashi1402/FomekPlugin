@@ -1,0 +1,1 @@
+(Math.toDegrees(Math.acos(${input$left}.normalize().dot(${input$right}.normalize()))))

@@ -1,0 +1,25 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "chance",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 90,
+  "mcreator": {
+    "toolbox_id": "fomek_event_specific",
+    "toolbox_init": [
+      "<value name=\"chance\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ],
+    "inputs": [
+      "chance"
+    ],
+    "warnings": [
+      "anvil_output_trigger"
+    ]
+  }
+}

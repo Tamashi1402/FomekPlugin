@@ -1,0 +1,53 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "bewrl",
+      "check": "BEWRL.Model"
+    },
+    {
+      "type": "input_value",
+      "name": "pos",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "rot",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "scale",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "render_overlay",
+    "toolbox_id": "render_overlay",
+    "toolbox_init": [
+      "<value name=\"bewrl\"><block type=\"fomek_get_model\"></block></value>",
+      "<value name=\"pos\"><block type=\"fomek_vec3_pos\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>",
+      "<value name=\"rot\"><block type=\"fomek_vec3_rot\"><value name=\"yaw\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"pitch\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"roll\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>",
+      "<value name=\"scale\"><block type=\"fomek_vec3_scale\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value>",
+      "<value name=\"shader\"><block type=\"fomek_create_shader\"></block></value>"
+    ],
+    "inputs": [
+      "bewrl",
+      "pos",
+      "rot",
+      "scale",
+      "shader"
+    ]
+  },
+  "toolbox_id": "render_overlay",
+  "message0": "Render BEWRL %1 at pos %2 rotation %3 scale %4 shader %5"
+}

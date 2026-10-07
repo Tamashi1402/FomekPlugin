@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "inputsInline": true,
+  "colour": 160,
+  "mcreator": {
+    "group": "texturedata",
+    "toolbox_id": "render_data",
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">modid</field></block></value>",
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">image</field></block></value>"
+    ],
+    "inputs": [
+      "id",
+      "name"
+    ]
+  },
+  "message0": "Texture ID %1 name %2"
+}

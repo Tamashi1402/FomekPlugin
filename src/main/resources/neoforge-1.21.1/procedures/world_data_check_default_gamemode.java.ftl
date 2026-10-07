@@ -1,0 +1,1 @@
+((!world.isClientSide() && world.getServer() != null) ? ((ServerLifecycleHooks.getCurrentServer().getDefaultGameType()) == (GameType.${generator.map(field$gamemode, "gamemodes")})):false)

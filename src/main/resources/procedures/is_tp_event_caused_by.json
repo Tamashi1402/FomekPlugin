@@ -1,0 +1,43 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "tplist",
+      "options": [
+        [
+          "TeleportCommand",
+          "TeleportCommand"
+        ],
+        [
+          "SpreadPlayersCommand",
+          "SpreadPlayersCommand"
+        ],
+        [
+          "ChorusFruit",
+          "ChorusFruit"
+        ],
+        [
+          "EnderPearl",
+          "EnderPearl"
+        ],
+        [
+          "EnderEntity",
+          "EnderEntity"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_event_specific",
+    "toolbox_init": [],
+    "fields": [
+      "tplist"
+    ],
+    "warnings": [
+      "entity_teleport_trigger"
+    ]
+  }
+}

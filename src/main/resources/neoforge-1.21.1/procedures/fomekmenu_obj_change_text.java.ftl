@@ -1,0 +1,1 @@
+${input$menuObject}.changeText(${input$id}, ${input$text});

@@ -1,0 +1,22 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "v",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 160,
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_data",
+    "toolbox_init": [
+      "<value name=\"v\"><block type=\"fomek_glsl_vec2\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>"
+    ],
+    "inputs": [
+      "v"
+    ]
+  },
+  "message0": "vec2 %1 to string"
+}

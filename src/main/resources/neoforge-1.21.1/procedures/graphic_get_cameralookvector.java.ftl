@@ -1,0 +1,1 @@
+(new Vec3(Minecraft.getInstance().gameRenderer.getMainCamera().getLookVector()))

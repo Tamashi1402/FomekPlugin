@@ -1,0 +1,43 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "character",
+          "character"
+        ],
+        [
+          "letter",
+          "letter"
+        ],
+        [
+          "number",
+          "number"
+        ],
+        [
+          "special",
+          "special"
+        ],
+        [
+          "mouse",
+          "mouse"
+        ]
+      ]
+    }
+  ],
+  "message0": "Is called input of type %1",
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_actions",
+    "group": "actions",
+    "fields": [
+      "type"
+    ],
+    "inputs": [],
+    "toolbox_init": []
+  }
+}

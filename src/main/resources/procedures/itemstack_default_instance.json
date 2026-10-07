@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "provideditemstack",
+      "check": "MCItem"
+    }
+  ],
+  "inputsInline": true,
+  "output": "MCItem",
+  "colour": 350,
+  "mcreator": {
+    "toolbox_id": "fomek_items_data",
+    "toolbox_init": [
+      "<value name=\"provideditemstack\"><block type=\"itemstack_to_mcitem\"></block></value>"
+    ],
+    "inputs": [
+      "provideditemstack"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+(${input$entity} instanceof Spider _spider ? _spider.onClimbable():false)

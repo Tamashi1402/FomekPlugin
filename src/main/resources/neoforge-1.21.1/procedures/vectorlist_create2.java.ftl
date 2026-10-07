@@ -1,0 +1,1 @@
+(new ArrayList<Vec3>(${opt.toInt(input$size)}))

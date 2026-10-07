@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": 230,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_render",
+    "group": "fomekmenu_render",
+    "inputs": [
+      "text"
+    ],
+    "toolbox_init": [
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">Hello</field></block></value>"
+    ]
+  },
+  "message0": "Get text width of %1"
+}

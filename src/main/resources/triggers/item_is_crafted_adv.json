@@ -1,0 +1,66 @@
+{
+  "dependencies_provided": [
+    {
+      "name": "entity",
+      "type": "entity"
+    },
+    {
+      "name": "world",
+      "type": "world"
+    },
+    {
+      "name": "x",
+      "type": "number"
+    },
+    {
+      "name": "y",
+      "type": "number"
+    },
+    {
+      "name": "z",
+      "type": "number"
+    },
+    {
+      "name": "itemstack",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot1",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot2",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot3",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot4",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot5",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot6",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot7",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot8",
+      "type": "itemstack"
+    },
+    {
+      "name": "slot9",
+      "type": "itemstack"
+    }
+  ],
+  "cancelable": "true",
+  "has_result": "true"
+}

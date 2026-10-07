@@ -1,0 +1,1 @@
+FloatTag.valueOf(${opt.toFloat(input$number)})

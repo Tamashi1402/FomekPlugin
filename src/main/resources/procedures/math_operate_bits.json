@@ -1,0 +1,62 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "left",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "operator",
+      "options": [
+        [
+          "<<",
+          "<<"
+        ],
+        [
+          ">>",
+          ">>"
+        ],
+        [
+          ">>>",
+          ">>>"
+        ],
+        [
+          "&",
+          "&"
+        ],
+        [
+          "^",
+          "^"
+        ],
+        [
+          "|",
+          "|"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "right",
+      "check": "Number"
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "actions",
+    "toolbox_id": "fomek_math_number",
+    "toolbox_init": [
+      "<value name=\"left\"></value>",
+      "<value name=\"right\"></value>"
+    ],
+    "inputs": [
+      "left",
+      "right"
+    ],
+    "fields": [
+      "operator"
+    ]
+  }
+}

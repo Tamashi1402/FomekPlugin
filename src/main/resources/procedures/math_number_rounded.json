@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "input",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "decimals",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "sp_03",
+    "toolbox_id": "fomek_math_number",
+    "toolbox_init": [
+      "<value name=\"input\"><block type=\"math_number\"><field name=\"NUM\">3.14159</field></block></value>",
+      "<value name=\"decimals\"><block type=\"math_number\"><field name=\"NUM\">2</field></block></value>"
+    ],
+    "inputs": [
+      "input",
+      "decimals"
+    ]
+  }
+}

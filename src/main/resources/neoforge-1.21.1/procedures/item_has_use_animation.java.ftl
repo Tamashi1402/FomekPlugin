@@ -1,0 +1,1 @@
+(${input$item}.getUseAnimation() == UseAnim.${field$use_animation})

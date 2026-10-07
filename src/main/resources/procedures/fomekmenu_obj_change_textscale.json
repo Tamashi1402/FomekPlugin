@@ -1,0 +1,38 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "menuObject",
+      "check": "FomekMenuObject"
+    },
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "textScale",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 190,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_objects",
+    "group": "fomekmenu_objects",
+    "inputs": [
+      "menuObject",
+      "id",
+      "textScale"
+    ],
+    "toolbox_init": [
+      "<value name=\"menuObject\"><block type=\"fomekmenu_obj_empty\"></block></value>",
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">text_1</field></block></value>",
+      "<value name=\"textScale\"><block type=\"math_number\"><field name=\"NUM\">1.0</field></block></value>"
+    ]
+  },
+  "message0": "Change text scale of %1 with id %2 to %3"
+}

@@ -1,0 +1,1 @@
+(${input$left}.dot(${input$right}))

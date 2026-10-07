@@ -1,0 +1,1 @@
+(-Math.toDegrees(Math.asin(${input$vector}.normalize().y())))

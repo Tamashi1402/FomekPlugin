@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "size",
+      "check": "Number"
+    }
+  ],
+  "output": "VectorMap",
+  "colour": "%{BKY_VECTORMAP_HUE}",
+  "mcreator": {
+    "group": "creator",
+    "toolbox_id": "fomek_math_vectormap",
+    "toolbox_init": [
+      "<value name=\"size\"><block type=\"math_number\"><field name=\"NUM\">16</field></block></value>"
+    ],
+    "inputs": [
+      "size"
+    ]
+  }
+}

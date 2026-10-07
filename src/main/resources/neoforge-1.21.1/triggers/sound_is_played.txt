@@ -1,0 +1,12 @@
+<#include "procedures.java.ftl">
+@Mod.EventBusSubscriber public class ${name}Procedure {
+	@SubscribeEvent public static void soundIsPlayed(PlaySoundEvent event) {
+    <#assign dependenciesCode><#compress>
+    <@procedureDependenciesCode dependencies, {
+      "sound": "event.getName()",
+      "event": "event"
+
+      }/>
+    </#compress></#assign>
+    execute(event<#if dependenciesCode?has_content>,</#if>${dependenciesCode});
+	}

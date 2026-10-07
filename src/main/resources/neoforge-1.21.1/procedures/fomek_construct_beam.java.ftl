@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.buildBeam(${opt.toFloat(input$length)}, ${opt.toInt(input$color)}, "${field$pivot}"<#if input_list$animators?has_content>, <#list input_list$animators as animator>(${package}.api.render.BEWRL.Animator) ${animator}<#if animator?has_next>, </#if></#list></#if>)

@@ -1,0 +1,1 @@
+ByteTag.valueOf(${input$boolean})

@@ -1,0 +1,30 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"version\"><block type=\"math_number\"><field name=\"NUM\">150</field></block></value>",
+      "<value name=\"core\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+    ],
+    "inputs": [
+      "version",
+      "core"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "version",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "core",
+      "check": "Boolean"
+    }
+  ],
+  "message0": "#version %1 core %2"
+}

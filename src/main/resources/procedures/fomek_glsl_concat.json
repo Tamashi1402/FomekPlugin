@@ -1,0 +1,30 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"a\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"b\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
+    ],
+    "inputs": [
+      "a",
+      "b"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "a",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "b",
+      "check": "String"
+    }
+  ],
+  "message0": "concat %1 + %2"
+}

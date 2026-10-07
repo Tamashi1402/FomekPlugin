@@ -1,0 +1,66 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "DataMap"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "type",
+      "options": [
+        [
+          "Boolean",
+          "1"
+        ],
+        [
+          "Double",
+          "6"
+        ],
+        [
+          "Float",
+          "5"
+        ],
+        [
+          "Int",
+          "3"
+        ],
+        [
+          "List",
+          "9"
+        ],
+        [
+          "Map",
+          "10"
+        ],
+        [
+          "String",
+          "8"
+        ]
+      ]
+    }
+  ],
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "group": "data2",
+    "toolbox_id": "fomek_math_datamap",
+    "toolbox_init": [
+      "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
+      "<value name=\"map\"></value>"
+    ],
+    "inputs": [
+      "key",
+      "map"
+    ],
+    "fields": [
+      "type"
+    ]
+  }
+}

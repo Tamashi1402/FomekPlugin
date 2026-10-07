@@ -1,0 +1,8 @@
+{
+  "output": "RandomSource",
+  "colour": "%{BKY_RANDOMSOURCE_HUE}",
+  "mcreator": {
+    "group": "creator",
+    "toolbox_id": "fomek_math_random"
+  }
+}

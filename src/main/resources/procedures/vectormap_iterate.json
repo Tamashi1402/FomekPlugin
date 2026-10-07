@@ -1,0 +1,60 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "VectorMap"
+    },
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "vector",
+      "check": "Vector"
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "foreach"
+    }
+  ],
+  "extensions": [
+    "is_custom_loop"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_VECTORMAP_HUE}",
+  "mcreator": {
+    "group": "generic4",
+    "toolbox_id": "fomek_math_vectormap",
+    "toolbox_init": [
+      "<value name=\"map\"></value>",
+      "<value name=\"key\"><block type=\"iterator_key\"></block></value>",
+      "<value name=\"vector\"><block type=\"iterator_vector\"></block></value>"
+    ],
+    "inputs": [
+      "map"
+    ],
+    "statements": [
+      {
+        "name": "foreach",
+        "provides": [
+          {
+            "name": "keyiterator",
+            "type": "string"
+          },
+          {
+            "name": "vectoriterator",
+            "type": "vector"
+          }
+        ]
+      }
+    ]
+  }
+}

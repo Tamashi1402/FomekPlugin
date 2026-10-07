@@ -1,0 +1,39 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "input_value",
+      "name": "tagName",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "bewrl",
+      "check": "BEWRL.Model"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_storage",
+    "toolbox_id": "fomek_bewlr_storage",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+      "<value name=\"tagName\"><block type=\"text\"><field name=\"TEXT\">main</field></block></value>",
+      "<value name=\"bewrl\"><block type=\"fomek_get_model\"></block></value>"
+    ],
+    "inputs": [
+      "entity",
+      "tagName",
+      "bewrl"
+    ]
+  },
+  "message0": "Set %1 BEWRL %2 to %3",
+  "toolbox_id": "fomek_bewlr_storage"
+}

@@ -1,0 +1,97 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "Texture"
+    },
+    {
+      "type": "input_value",
+      "name": "pos",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "rot",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "scale",
+      "check": "Vec3"
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "renderType",
+      "options": [
+        [
+          "entityCutout",
+          "entityCutout"
+        ],
+        [
+          "entityCutoutNoCull",
+          "entityCutoutNoCull"
+        ],
+        [
+          "entityTranslucent",
+          "entityTranslucent"
+        ],
+        [
+          "entityTranslucentEmissive",
+          "entityTranslucentEmissive"
+        ],
+        [
+          "eyes",
+          "eyes"
+        ],
+        [
+          "energySwirl",
+          "energySwirl"
+        ],
+        [
+          "dragonExplosionAlpha",
+          "dragonExplosionAlpha"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "toolbox_init": [
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">Helmet</field></block></value>",
+      "<value name=\"texture\"><block type=\"fomek_texture_from_path\"><value name=\"texture\"><block type=\"text\"><field name=\"TEXT\">minecraft:textures/block/dirt.png</field></block></value></block></value>",
+      "<value name=\"color\"><block type=\"fomek_get_rgbacolor\"><value name=\"red\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"green\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"blue\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"alpha\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>",
+      "<value name=\"pos\"><block type=\"fomek_vec3_pos\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>",
+      "<value name=\"rot\"><block type=\"fomek_vec3_rot\"><value name=\"yaw\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"pitch\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"roll\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value></block></value>",
+      "<value name=\"scale\"><block type=\"fomek_vec3_scale\"><value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value><value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value></block></value>"
+    ],
+    "fields": [
+      "renderType"
+    ],
+    "inputs": [
+      "name",
+      "texture",
+      "pos",
+      "rot",
+      "scale",
+      "color"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_actions",
+  "message0": "Add part: Java Model %1 texture %2 at pos %3 rotation %4 scale %5 color %6 render type %7"
+}

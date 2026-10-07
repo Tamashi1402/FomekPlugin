@@ -1,0 +1,94 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "shape",
+      "check": "RenderAPI.Shape"
+    },
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "z",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "yaw",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "pitch",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "roll",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "xscale",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "yscale",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "zscale",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "render_item",
+    "toolbox_id": "render_item",
+    "toolbox_init": [
+      "<value name=\"shape\"><block type=\"fomek_get_shape\"></block></value>",
+      "<value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"z\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"yaw\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"pitch\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"roll\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"xscale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+      "<value name=\"yscale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+      "<value name=\"zscale\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+      "<value name=\"color\"><block type=\"fomek_get_rgbacolor\"><value name=\"red\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"green\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"blue\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"alpha\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>"
+    ],
+    "inputs": [
+      "shape",
+      "x",
+      "y",
+      "z",
+      "yaw",
+      "pitch",
+      "roll",
+      "xscale",
+      "yscale",
+      "zscale",
+      "color"
+    ]
+  },
+  "message0": "Render shape %1 at x: %2 y: %3 z: %4 yaw: %5 pitch: %6 roll: %7 X scale: %8 Y scale: %9 Z scale: %10 color %11"
+}

@@ -1,0 +1,9 @@
+{
+  "dependencies_provided": [
+    {
+      "name": "sound",
+      "type": "string"
+    }
+  ],
+  "side": "client"
+}

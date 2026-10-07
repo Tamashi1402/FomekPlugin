@@ -1,0 +1,1 @@
+(${input$item}.getOrCreateTag().getCompound("Inventory").getInt("Size"))

@@ -1,0 +1,36 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "input",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "digits",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "pos",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "sp_04b",
+    "toolbox_id": "fomek_math_number",
+    "toolbox_init": [
+      "<value name=\"input\"><block type=\"math_number\"><field name=\"NUM\">3</field></block></value>",
+      "<value name=\"digits\"><block type=\"math_number\"><field name=\"NUM\">3</field></block></value>",
+      "<value name=\"pos\"><block type=\"math_number\"><field name=\"NUM\">5</field></block></value>"
+    ],
+    "inputs": [
+      "input",
+      "digits",
+      "pos"
+    ]
+  }
+}

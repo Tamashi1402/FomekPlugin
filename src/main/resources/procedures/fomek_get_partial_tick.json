@@ -1,0 +1,9 @@
+{
+  "output": "Number",
+  "colour": 230,
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_data"
+  },
+  "message0": "Partial tick"
+}

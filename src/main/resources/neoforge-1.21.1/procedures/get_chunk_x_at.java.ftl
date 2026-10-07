@@ -1,0 +1,1 @@
+((int) Math.floor(${input$x}) >> 4)

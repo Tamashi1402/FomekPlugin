@@ -1,0 +1,10 @@
+{
+  "args0": [],
+  "inputsInline": true,
+  "output": "Number",
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_items_data",
+    "toolbox_init": []
+  }
+}

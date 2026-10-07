@@ -1,0 +1,6 @@
+defaultvalue: new ${package}.api.render.RenderAPI.GLSL()
+scopes:
+  local:
+    init: ${package}.api.render.RenderAPI.GLSL ${var.getName()} = new ${package}.api.render.RenderAPI.GLSL();
+    get: ${name}
+    set: ${name} = (${package}.api.render.RenderAPI.GLSL) ${opt.removeParentheses(value)};

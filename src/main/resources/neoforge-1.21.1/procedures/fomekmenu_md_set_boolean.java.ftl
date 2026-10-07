@@ -1,0 +1,1 @@
+${input$data}.setBoolean(${input$key}, ${input$value});

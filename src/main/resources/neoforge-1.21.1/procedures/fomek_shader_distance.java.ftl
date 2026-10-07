@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.shaderDistance(${opt.toFloat(input$x1)}, ${opt.toFloat(input$y1)}, ${opt.toFloat(input$z1)}, ${opt.toFloat(input$x2)}, ${opt.toFloat(input$y2)}, ${opt.toFloat(input$z2)})

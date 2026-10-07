@@ -1,0 +1,1 @@
+(${input$entity} instanceof NeutralMob _neut ? _neut.isAngry() : false)

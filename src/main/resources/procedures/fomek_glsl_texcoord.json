@@ -1,0 +1,13 @@
+{
+  "args0": [],
+  "output": "String",
+  "colour": 290,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [],
+    "inputs": []
+  },
+  "message0": "texCoord"
+}

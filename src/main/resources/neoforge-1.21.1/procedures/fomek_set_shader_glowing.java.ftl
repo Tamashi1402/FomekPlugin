@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderGlowing((${package}.api.render.Shader) ${input$shader}, ${input$glowing});

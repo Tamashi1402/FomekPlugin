@@ -1,0 +1,59 @@
+{
+  "inputsInline": true,
+  "output": "Number",
+  "colour": 55,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"x1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"y1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"z1\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"x2\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"y2\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"z2\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ],
+    "inputs": [
+      "x1",
+      "y1",
+      "z1",
+      "x2",
+      "y2",
+      "z2"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "x1",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y1",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "z1",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "x2",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y2",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "z2",
+      "check": "Number"
+    }
+  ],
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Distance (%1,%2,%3) to (%4,%5,%6)"
+}

@@ -1,0 +1,46 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "append",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "local_var",
+      "check": "String"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "append_pos",
+      "options": [
+        [
+          "start",
+          "start"
+        ],
+        [
+          "end",
+          "end"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_TEXTS_HUE}",
+  "mcreator": {
+    "group": "string_array_tool",
+    "toolbox_id": "fomek_utils",
+    "toolbox_init": [
+      "<value name=\"append\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
+    ],
+    "inputs": [
+      "append",
+      "local_var"
+    ],
+    "fields": [
+      "append_pos"
+    ]
+  }
+}

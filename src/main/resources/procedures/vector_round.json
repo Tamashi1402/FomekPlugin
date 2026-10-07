@@ -1,0 +1,43 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "operator",
+      "options": [
+        [
+          "CEIL",
+          "CEIL"
+        ],
+        [
+          "FLOOR",
+          "FLOOR"
+        ],
+        [
+          "ROUND",
+          "ROUND"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "vector",
+      "check": "Vector"
+    }
+  ],
+  "output": "Vector",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "generic",
+    "toolbox_id": "fomek_math_vector",
+    "toolbox_init": [
+      "<value name=\"vector\"></value>"
+    ],
+    "fields": [
+      "operator"
+    ],
+    "inputs": [
+      "vector"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+arguments.getSource().sendFailure(Component.literal(${input$message}));

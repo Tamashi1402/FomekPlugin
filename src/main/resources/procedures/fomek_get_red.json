@@ -1,0 +1,22 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Number"
+    }
+  ],
+  "output": "Number",
+  "colour": 230,
+  "mcreator": {
+    "group": "colorcomponent",
+    "toolbox_id": "render_data",
+    "toolbox_init": [
+      "<value name=\"color\"></value>"
+    ],
+    "inputs": [
+      "color"
+    ]
+  },
+  "message0": "Get red of color %1"
+}

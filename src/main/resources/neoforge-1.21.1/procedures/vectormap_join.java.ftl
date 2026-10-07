@@ -1,0 +1,1 @@
+${input$map2}.putAll(${input$map1});

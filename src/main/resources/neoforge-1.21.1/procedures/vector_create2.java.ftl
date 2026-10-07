@@ -1,0 +1,1 @@
+(Vec3.directionFromRotation(${opt.toFloat(input$pitch)}, ${opt.toFloat(input$yaw)}))

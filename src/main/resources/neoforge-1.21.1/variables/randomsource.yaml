@@ -1,0 +1,10 @@
+defaultvalue: RandomSource.create()
+scopes:
+  local:
+    init: ${var.getType().getJavaType(generator.getWorkspace())} ${var.getName()};
+    get: ${name}
+    set: ${name} = ${opt.removeParentheses(value)};
+  global_session:
+    init: public static RandomSource ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    get: ${JavaModName}Variables.${name}
+    set: ${JavaModName}Variables.${name} = ${opt.removeParentheses(value)};

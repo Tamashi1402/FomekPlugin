@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderRenderType((${package}.api.render.Shader) ${input$shader}, "${field$renderType}");

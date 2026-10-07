@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setGLSLVertexCode((${package}.api.render.RenderAPI.GLSL) ${input$glsl}, ${input$code});

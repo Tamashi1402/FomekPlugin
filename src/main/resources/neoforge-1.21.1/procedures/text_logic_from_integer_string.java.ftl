@@ -1,0 +1,1 @@
+("1").equals(${input$text}.substring(${opt.toInt(input$position)}, ${opt.toInt(input$position)} + 1))

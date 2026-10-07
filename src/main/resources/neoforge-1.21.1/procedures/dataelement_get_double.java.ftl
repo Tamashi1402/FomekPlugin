@@ -1,0 +1,1 @@
+(${input$element} instanceof DoubleTag _doubleTag ? _doubleTag.getAsDouble() : 0.0D)

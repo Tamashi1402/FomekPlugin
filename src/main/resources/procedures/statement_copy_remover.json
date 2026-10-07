@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_statement",
+      "name": "whatever"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 120,
+  "mcreator": {
+    "toolbox_id": "fomek_utils",
+    "statements": [
+      {
+        "name": "whatever",
+        "disable_local_variables": false
+      }
+    ]
+  }
+}

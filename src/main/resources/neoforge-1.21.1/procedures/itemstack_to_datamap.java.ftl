@@ -1,0 +1,1 @@
+(${input$item}.save(new CompoundTag()))

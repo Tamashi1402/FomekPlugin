@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "randomsource",
+      "check": "RandomSource"
+    }
+  ],
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "group": "generic4",
+    "toolbox_id": "fomek_math_random",
+    "toolbox_init": [
+      "<value name=\"randomsource\"></value>"
+    ],
+    "inputs": [
+      "randomsource"
+    ]
+  }
+}

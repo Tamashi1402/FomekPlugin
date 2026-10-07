@@ -1,0 +1,1 @@
+(ItemStack.TooltipPart.${field$hide_flag}.getMask())

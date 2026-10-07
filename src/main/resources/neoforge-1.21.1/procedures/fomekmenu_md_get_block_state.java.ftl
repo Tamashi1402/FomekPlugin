@@ -1,0 +1,1 @@
+${input$data}.getBlockState(${input$key})

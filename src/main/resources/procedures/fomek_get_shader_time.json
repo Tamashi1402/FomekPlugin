@@ -1,0 +1,13 @@
+{
+  "inputsInline": true,
+  "output": "Number",
+  "colour": 55,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [],
+    "inputs": []
+  },
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Get shader time"
+}

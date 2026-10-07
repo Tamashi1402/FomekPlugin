@@ -1,0 +1,1 @@
+IntTag.valueOf(${opt.toInt(input$number)})

@@ -1,0 +1,2 @@
+(${input$entity}.tickCount)
+

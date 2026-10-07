@@ -1,0 +1,32 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "part1",
+      "check": "BEWRL.Part"
+    },
+    {
+      "type": "input_value",
+      "name": "part2",
+      "check": "BEWRL.Part"
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_data",
+    "toolbox_id": "fomek_bewlr_data",
+    "fields": [],
+    "inputs": [
+      "part1",
+      "part2"
+    ],
+    "toolbox_init": [
+      "<value name=\"part1\"><block type=\"fomek_bewrl_empty_part\"></block></value>",
+      "<value name=\"part2\"><block type=\"fomek_bewrl_empty_part\"></block></value>"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_data",
+  "message0": "%1 = %2"
+}

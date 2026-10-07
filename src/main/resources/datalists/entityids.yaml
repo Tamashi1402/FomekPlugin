@@ -1,0 +1,254 @@
+- allay:
+  readable_name: "Allay"
+- area_effect_cloud:
+  readable_name: "Area of Effect Cloud"
+- armadillo:
+  readable_name: "Armadillo"
+- armor_stand:
+  readable_name: "Armor Stand"
+- arrow:
+  readable_name: "Arrow"
+- axolotl:
+  readable_name: "Axolotl"
+- bat:
+  readable_name: "Bat"
+- bee:
+  readable_name: "Bee"
+- blaze:
+  readable_name: "Blaze"
+- block_display:
+  readable_name: "Block Display"
+- boat:
+  readable_name: "Boat"
+- bogged:
+  readable_name: "Bogged"
+- breeze:
+  readable_name: "Breeze"
+- breeze_wind_charge:
+  readable_name: "Breeze Wind Charge"
+- camel:
+  readable_name: "Camel"
+- cat:
+  readable_name: "Cat"
+- cave_spider:
+  readable_name: "Cave Spider"
+- chest_boat:
+  readable_name: "Chest Boat"
+- chest_minecart:
+  readable_name: "Chest Minecart"
+- chicken:
+  readable_name: "Chicken"
+- cod:
+  readable_name: "Cod"
+- command_block_minecart:
+  readable_name: "Command Block Minecart"
+- cow:
+  readable_name: "Cow"
+- creeper:
+  readable_name: "Creeper"
+- dolphin:
+  readable_name: "Dolphin"
+- donkey:
+  readable_name: "Donkey"
+- dragon_fireball:
+  readable_name: "Dragon Fireball"
+- drowned:
+  readable_name: "Drowned"
+- egg:
+  readable_name: "Egg"
+- elder_guardian:
+  readable_name: "Elder Guardian"
+- end_crystal:
+  readable_name: "End Crystal"
+- ender_dragon:
+  readable_name: "Ender Dragon"
+- ender_pearl:
+  readable_name: "Enderpearl"
+- enderman:
+  readable_name: "Enderman"
+- endermite:
+  readable_name: "Endermite"
+- evoker:
+  readable_name: "Evoker"
+- evoker_fangs:
+  readable_name: "Evoker Fangs"
+- experience_bottle:
+  readable_name: "Experience Bottle"
+- experience_orb:
+  readable_name: "Experience Orb"
+- eye_of_ender:
+  readable_name: "Eye of Ender"
+- falling_block:
+  readable_name: "Falling Block"
+- fireball:
+  readable_name: "Fireball"
+- firework_rocket:
+  readable_name: "Firework Rocket"
+- fox:
+  readable_name: "Fox"
+- frog:
+  readable_name: "Frog"
+- furnace_minecart:
+  readable_name: "Furnace Minecart"
+- ghast:
+  readable_name: "Ghast"
+- giant:
+  readable_name: "Giant"
+- glow_item_frame:
+  readable_name: "Glow Item Frame"
+- glow_squid:
+  readable_name: "Glow Squid"
+- goat:
+  readable_name: "Goat"
+- guardian:
+  readable_name: "Guardian"
+- horse:
+  readable_name: "Horse"
+- hopper_minecart:
+  readable_name: "Hopper Minecart"
+- husk:
+  readable_name: "Husk"
+- illusioner:
+  readable_name: "Illusioner"
+- interaction:
+  readable_name: "Interaction"
+- iron_golem:
+  readable_name: "Iron Golem"
+- item_display:
+  readable_name: "Item Display"
+- item:
+  readable_name: "Item"
+- item_frame:
+  readable_name: "Item Frame"
+- leash_knot:
+  readable_name: "Leash Knot"
+- lightning_bolt:
+  readable_name: "Lightning Bolt"
+- llama:
+  readable_name: "Llama"
+- llama_spit:
+  readable_name: "Llama Spit"
+- magma_cube:
+  readable_name: "Magma Cube"
+- marker:
+  readable_name: "Marker"
+- minecart:
+  readable_name: "Minecart"
+- mule:
+  readable_name: "Mule"
+- mooshroom:
+  readable_name: "Mooshroom"
+- ocelot:
+  readable_name: "Ocelot"
+- painting:
+  readable_name: "Painting"
+- panda:
+  readable_name: "Panda"
+- parrot:
+  readable_name: "Parrot"
+- phantom:
+  readable_name: "Phantom"
+- pig:
+  readable_name: "Pig"
+- piglin:
+  readable_name: "Piglin"
+- piglin_brute:
+  readable_name: "Piglin Brute"
+- pillager:
+  readable_name: "Pillager"
+- player:
+  readable_name: "Player"
+- polar_bear:
+  readable_name: "Polar Bear"
+- potion:
+  readable_name: "Potion"
+- pufferfish:
+  readable_name: "Pufferfish"
+- rabbit:
+  readable_name: "Rabbit"
+- ravager:
+  readable_name: "Ravager"
+- salmon:
+  readable_name: "Salmon"
+- sheep:
+  readable_name: "Sheep"
+- shulker:
+  readable_name: "Shulker"
+- shulker_bullet:
+  readable_name: "Shulker Bullet"
+- silverfish:
+  readable_name: "Silverfish"
+- skeleton:
+  readable_name: "Skeleton"
+- skeleton_horse:
+  readable_name: "Skeleton Horse"
+- slime:
+  readable_name: "Slime"
+- small_fireball:
+  readable_name: "Small Fireball"
+- sniffer:
+  readable_name: "Sniffer"
+- snow_golem:
+  readable_name: "Snow Golem"
+- snowball:
+  readable_name: "Snowball"
+- spawner_minecart:
+  readable_name: "Spawner Minecart"
+- spectral_arrow:
+  readable_name: "Spectral Arrow"
+- spider:
+  readable_name: "Spider"
+- squid:
+  readable_name: "Squid"
+- stray:
+  readable_name: "Stray"
+- strider:
+  readable_name: "Strider"
+- tadpole:
+  readable_name: "Tadpole"
+- text_display:
+  readable_name: "Text Display"
+- tnt:
+  readable_name: "TNT"
+- tnt_minecart:
+  readable_name: "TNT Minecart"
+- trader_llama:
+  readable_name: "Trader Llama"
+- trident:
+  readable_name: "Trident"
+- tropical_fish:
+  readable_name: "Tropical Fish"
+- turtle:
+  readable_name: "Turtle"
+- vex:
+  readable_name: "Vex"
+- villager:
+  readable_name: "Villager"
+- vindicator:
+  readable_name: "Vindicator"
+- wandering_trader:
+  readable_name: "Wandering Trader"
+- warden:
+  readable_name: "Warden"
+- wind_charge:
+  readable_name: "Wind Charge"
+- witch:
+  readable_name: "Witch"
+- wither:
+  readable_name: "Wither"
+- wither_skeleton:
+  readable_name: "Wither Skeleton"
+- wither_skull:
+  readable_name: "Wither Skull"
+- wolf:
+  readable_name: "Wolf"
+- zoglin:
+  readable_name: "Zoglin"
+- zombie:
+  readable_name: "Zombie"
+- zombie_horse:
+  readable_name: "Zombie Horse"
+- zombie_villager:
+  readable_name: "Zombie Villager"
+- zombified_piglin:
+  readable_name: "Zombified Piglin"

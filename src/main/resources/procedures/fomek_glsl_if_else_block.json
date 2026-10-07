@@ -1,0 +1,37 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"condition\"><block type=\"text\"><field name=\"TEXT\">x > 0.5</field></block></value>",
+      "<value name=\"if_body\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"else_body\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
+    ],
+    "inputs": [
+      "condition",
+      "if_body",
+      "else_body"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "condition",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "if_body",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "else_body",
+      "check": "String"
+    }
+  ],
+  "message0": "if (%1) '{' %2 '}' else '{' %3 '}'"
+}

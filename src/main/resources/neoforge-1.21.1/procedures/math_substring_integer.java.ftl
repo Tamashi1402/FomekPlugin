@@ -1,0 +1,1 @@
+(int) ((${input$input} / Math.pow(10, 1 + (int) Math.log10(${input$input}) - (${opt.toInt(input$pos)} + ${opt.toInt(input$digits)}))) % Math.pow(10, ${opt.toInt(input$digits)}))

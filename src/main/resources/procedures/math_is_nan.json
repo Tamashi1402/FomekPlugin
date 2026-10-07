@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "number",
+      "check": "Number"
+    }
+  ],
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "group": "data",
+    "toolbox_id": "fomek_math_number",
+    "toolbox_init": [
+      "<value name=\"number\"></value>"
+    ],
+    "inputs": [
+      "number"
+    ]
+  }
+}

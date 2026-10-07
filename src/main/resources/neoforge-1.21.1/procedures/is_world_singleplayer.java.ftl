@@ -1,0 +1,1 @@
+(world.getServer() != null ? world.getServer().isSingleplayer() : Minecraft.getInstance().isSingleplayer())

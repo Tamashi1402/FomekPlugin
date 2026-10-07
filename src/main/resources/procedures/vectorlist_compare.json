@@ -1,0 +1,46 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "left",
+      "check": "VectorList"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "operator",
+      "options": [
+        [
+          "=",
+          "="
+        ],
+        [
+          "≠",
+          "≠"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "right",
+      "check": "VectorList"
+    }
+  ],
+  "output": "Boolean",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTORLIST_HUE}",
+  "mcreator": {
+    "group": "generic3",
+    "toolbox_id": "fomek_math_vectorlist",
+    "toolbox_init": [
+      "<value name=\"left\"></value>",
+      "<value name=\"right\"></value>"
+    ],
+    "inputs": [
+      "left",
+      "right"
+    ],
+    "fields": [
+      "operator"
+    ]
+  }
+}

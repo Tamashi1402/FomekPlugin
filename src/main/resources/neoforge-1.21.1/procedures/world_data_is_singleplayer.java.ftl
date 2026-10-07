@@ -1,0 +1,1 @@
+((!world.isClientSide() && world.getServer() != null) ? (ServerLifecycleHooks.getCurrentServer().isSingleplayer()):true)

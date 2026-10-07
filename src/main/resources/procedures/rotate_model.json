@@ -1,0 +1,55 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "axis",
+      "options": [
+        [
+          "X",
+          "X"
+        ],
+        [
+          "Y",
+          "Y"
+        ],
+        [
+          "Z",
+          "Z"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "degrees",
+      "check": "Number"
+    },
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#a32931",
+  "mcreator": {
+    "toolbox_id": "cemmodels",
+    "toolbox_init": [
+      "<value name=\"degrees\"><block type=\"math_number\"><field name=\"NUM\">45</field></block></value>"
+    ],
+    "fields": [
+      "axis"
+    ],
+    "inputs": [
+      "degrees"
+    ],
+    "dependencies": [
+      {
+        "name": "poseStack",
+        "type": "posestack"
+      }
+    ]
+  }
+}

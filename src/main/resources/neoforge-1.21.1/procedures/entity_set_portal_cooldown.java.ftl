@@ -1,0 +1,1 @@
+${input$entity}.setPortalCooldown(${opt.toInt(input$amount)});

@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "expr",
+      "check": "String"
+    }
+  ],
+  "output": "String",
+  "colour": 210,
+  "inputsInline": true,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"expr\"><block type=\"text\"><field name=\"TEXT\">result</field></block></value>"
+    ],
+    "inputs": [
+      "expr"
+    ]
+  },
+  "message0": "return %1"
+}

@@ -1,0 +1,9 @@
+{
+  "message0": "Whole",
+  "output": "FomekMenuBox",
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "fomekmenu_data"
+  }
+}

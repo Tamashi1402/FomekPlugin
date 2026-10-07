@@ -1,0 +1,1 @@
+(${input$entity} instanceof AgeableMob _ageable${cbi} ? _ageable${cbi}.getAge():0)

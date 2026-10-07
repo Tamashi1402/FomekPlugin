@@ -1,0 +1,50 @@
+defaultvalue: new CompoundTag()
+scopes:
+  local:
+    init: ${var.getType().getJavaType(generator.getWorkspace())} ${var.getName()};
+    get: ${name}
+    set: ${name} = ${opt.removeParentheses(value)};
+  global_session:
+    init: public static CompoundTag ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    get: ${JavaModName}Variables.${name}
+    set: ${JavaModName}Variables.${name} = ${opt.removeParentheses(value)};
+  global_world:
+    init: public CompoundTag ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      this.${var.getName()} = nbt.get("${var.getName()}") instanceof CompoundTag ${var.getName()} ? ${var.getName()} : new CompoundTag();
+    write: nbt.put("${var.getName()}", this.${var.getName()});
+    get: ${JavaModName}Variables.WorldVariables.get(world).${name}
+    set: |
+      ${JavaModName}Variables.WorldVariables.get(world).${name} = ${opt.removeParentheses(value)};
+      ${JavaModName}Variables.WorldVariables.get(world).markSyncDirty();
+  global_map:
+    init: public CompoundTag ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      this.${var.getName()} = nbt.get("${var.getName()}") instanceof CompoundTag ${var.getName()} ? ${var.getName()} : new CompoundTag();
+    write: nbt.put("${var.getName()}", this.${var.getName()});
+    get: ${JavaModName}Variables.MapVariables.get(world).${name}
+    set: |
+      ${JavaModName}Variables.MapVariables.get(world).${name} = ${opt.removeParentheses(value)};
+      ${JavaModName}Variables.MapVariables.get(world).markSyncDirty();
+  player_lifetime:
+    init: public CompoundTag ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      this.${var.getName()} = nbt.get("${var.getName()}") instanceof CompoundTag ${var.getName()} ? ${var.getName()} : new CompoundTag();
+    write: nbt.put("${var.getName()}", this.${var.getName()});
+    get: ${entity}.getData(${JavaModName}Variables.PLAYER_VARIABLES).${name}
+    set: |
+      if (${entity} instanceof Player _player) {
+        ${JavaModName}Variables.PlayerVariables _vars = _player.getData(${JavaModName}Variables.PLAYER_VARIABLES);
+        _vars.${name} = ${opt.removeParentheses(value)};
+      }
+  player_persistent:
+    init: public CompoundTag ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      this.${var.getName()} = nbt.get("${var.getName()}") instanceof CompoundTag ${var.getName()} ? ${var.getName()} : new CompoundTag();
+    write: nbt.put("${var.getName()}", this.${var.getName()});
+    get: ${entity}.getData(${JavaModName}Variables.PLAYER_VARIABLES).${name}
+    set: |
+      if (${entity} instanceof Player _player) {
+        ${JavaModName}Variables.PlayerVariables _vars = _player.getData(${JavaModName}Variables.PLAYER_VARIABLES);
+        _vars.${name} = ${opt.removeParentheses(value)};
+      }

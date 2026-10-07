@@ -1,0 +1,13 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [],
+    "inputs": []
+  },
+  "output": "RenderAPI.GLSL",
+  "args0": [],
+  "message0": "Create GLSL builder"
+}

@@ -1,0 +1,37 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "index",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "list",
+      "check": "VectorList"
+    },
+    {
+      "type": "input_value",
+      "name": "vector",
+      "check": "Vector"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_VECTORLIST_HUE}",
+  "mcreator": {
+    "group": "generic3",
+    "toolbox_id": "fomek_math_vectorlist",
+    "toolbox_init": [
+      "<value name=\"index\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"list\"></value>",
+      "<value name=\"vector\"></value>"
+    ],
+    "inputs": [
+      "index",
+      "list",
+      "vector"
+    ]
+  }
+}

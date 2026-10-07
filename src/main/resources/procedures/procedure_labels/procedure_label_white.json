@@ -1,0 +1,20 @@
+{
+ "args0": [
+  {
+   "type": "field_display",
+   "name": "name",
+   "text": "Procedure label"
+  }
+ ],
+ "inputsInline": false,
+ "previousStatement": null,
+ "nextStatement": null,
+ "colour": "#b3b3b3",
+ "mcreator": {
+  "group": "z_labels_4",
+  "toolbox_id": "fomek_utils",
+  "fields": [
+   "name"
+  ]
+ }
+}

@@ -1,0 +1,1 @@
+/*@int*/(${input$element} instanceof IntTag _intTag ? _intTag.getAsInt() : 0)

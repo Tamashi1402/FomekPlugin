@@ -1,0 +1,11 @@
+{
+  "output": "BEWRL.Model",
+  "inputsInline": true,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_data",
+    "toolbox_id": "fomek_bewlr_data"
+  },
+  "message0": "empty BEWRL",
+  "toolbox_id": "fomek_bewlr_data"
+}

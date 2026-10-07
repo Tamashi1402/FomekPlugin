@@ -1,0 +1,1 @@
+(${input$vector}.multiply(${input$x}, ${input$y}, ${input$z}))

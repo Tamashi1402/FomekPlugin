@@ -1,0 +1,23 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">fragment_name</field></block></value>"
+    ],
+    "inputs": [
+      "name"
+    ]
+  },
+  "output": "RenderAPI.Fragment",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    }
+  ],
+  "message0": "Create fragment %1"
+}

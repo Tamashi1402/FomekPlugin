@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "damagesource",
+      "check": "DamageSource"
+    }
+  ],
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "group": "0",
+    "toolbox_id": "fomek_entity_data",
+    "toolbox_init": [
+      "<value name=\"damagesource\"><block type=\"damagesource_from_deps\"></block></value>"
+    ],
+    "inputs": [
+      "damagesource"
+    ]
+  }
+}

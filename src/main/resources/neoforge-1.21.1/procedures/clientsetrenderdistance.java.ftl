@@ -1,0 +1,1 @@
+Minecraft.getInstance().options.renderDistance().set(${input$value});

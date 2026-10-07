@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.getShaderFloat((${package}.api.render.Shader) ${input$shader}, ${input$name})

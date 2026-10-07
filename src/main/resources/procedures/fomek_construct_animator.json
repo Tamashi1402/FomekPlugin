@@ -1,0 +1,24 @@
+{
+  "args0": [],
+  "inputsInline": true,
+  "output": "BEWRL.Animator",
+  "colour": 140,
+  "mutator": "fomek_construct_animator_mutator",
+  "mcreator": {
+    "group": "fomek_bewlr_constructs",
+    "toolbox_id": "fomek_bewlr_constructs",
+    "repeating_inputs": [
+      "pulse",
+      "flicker",
+      "color_shift",
+      "trail",
+      "width_pulse",
+      "spin"
+    ],
+    "toolbox_init": [
+      "<mutation items=\"\" count=\"0\"></mutation>"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_constructs",
+  "message0": "Construct animator"
+}

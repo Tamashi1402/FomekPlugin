@@ -1,0 +1,52 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "side",
+      "options": [
+        [
+          "both",
+          "both"
+        ],
+        [
+          "left",
+          "left"
+        ],
+        [
+          "right",
+          "right"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "String"
+    }
+  ],
+  "message0": "Set page %1 texture side: %2 texture: %3",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "group": "fomekmenu_book",
+    "inputs": [
+      "id",
+      "texture"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">page1</field></block></value>",
+      "<value name=\"texture\"><block type=\"text\"><field name=\"TEXT\">modid:textures/gui/page1_left.png</field></block></value>"
+    ],
+    "fields": [
+      "side"
+    ]
+  }
+}

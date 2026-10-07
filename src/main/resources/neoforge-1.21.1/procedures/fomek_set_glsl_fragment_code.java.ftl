@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setGLSLFragmentCode((${package}.api.render.RenderAPI.GLSL) ${input$glsl}, ${input$code});

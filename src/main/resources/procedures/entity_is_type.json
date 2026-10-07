@@ -1,0 +1,110 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "entity_type",
+      "options": [
+        [
+          "mob",
+          "Mob"
+        ],
+        [
+          "non-mob",
+          "non_mob"
+        ],
+        [
+          "neutral mob",
+          "NeutralMob"
+        ],
+        [
+          "projectile",
+          "Projectile"
+        ],
+        [
+          "animal",
+          "animal"
+        ],
+        [
+          "ageable",
+          "AgeableMob"
+        ],
+        [
+          "pet",
+          "TamableAnimal"
+        ],
+        [
+          "pseudo-tamable",
+          "pseudo_tamable"
+        ],
+        [
+          "villager",
+          "AbstractVillager"
+        ],
+        [
+          "normal zombie",
+          "normal_zombie"
+        ],
+        [
+          "all zombies",
+          "all_zombies"
+        ],
+        [
+          "skeleton",
+          "AbstractSkeleton"
+        ],
+        [
+          "spider",
+          "Spider"
+        ],
+        [
+          "aquatic creature",
+          "aquatic_creature"
+        ],
+        [
+          "bucketable",
+          "Bucketable"
+        ],
+        [
+          "hangable",
+          "HangingEntity"
+        ],
+        [
+          "minecart",
+          "AbstractMinecart"
+        ],
+        [
+          "boat",
+          "Boat"
+        ],
+        [
+          "boat with chest",
+          "ChestBoat"
+        ],
+        [
+          "boat without chest",
+          "boat_without_chest"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_entity_data",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>"
+    ],
+    "inputs": [
+      "entity"
+    ],
+    "fields": [
+      "entity_type"
+    ]
+  }
+}

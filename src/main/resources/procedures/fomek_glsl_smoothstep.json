@@ -1,0 +1,37 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"edge0\"><block type=\"text\"><field name=\"TEXT\">0.0</field></block></value>",
+      "<value name=\"edge1\"><block type=\"text\"><field name=\"TEXT\">1.0</field></block></value>",
+      "<value name=\"x\"><block type=\"text\"><field name=\"TEXT\">x</field></block></value>"
+    ],
+    "inputs": [
+      "edge0",
+      "edge1",
+      "x"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "edge0",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "edge1",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "String"
+    }
+  ],
+  "message0": "smoothstep(edge0: %1 edge1: %2 x: %3)"
+}

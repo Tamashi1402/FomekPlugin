@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderVertexCode((${package}.api.render.Shader) ${input$shader}, ${input$code});

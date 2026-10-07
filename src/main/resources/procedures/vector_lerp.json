@@ -1,0 +1,36 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "start",
+      "check": "Vector"
+    },
+    {
+      "type": "input_value",
+      "name": "end",
+      "check": "Vector"
+    },
+    {
+      "type": "input_value",
+      "name": "step",
+      "check": "Number"
+    }
+  ],
+  "output": "Vector",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "math",
+    "toolbox_id": "fomek_math_vector",
+    "toolbox_init": [
+      "<value name=\"start\"></value>",
+      "<value name=\"end\"></value>",
+      "<value name=\"step\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>"
+    ],
+    "inputs": [
+      "start",
+      "end",
+      "step"
+    ]
+  }
+}

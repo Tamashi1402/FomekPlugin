@@ -1,0 +1,1 @@
+${input$item}.hideTooltipPart(ItemStack.TooltipPart.${field$hide_flag});

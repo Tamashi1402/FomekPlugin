@@ -1,0 +1,13 @@
+{
+  "args0": [],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions"
+  },
+  "toolbox_id": "fomek_bewlr_actions",
+  "message0": "Restore item display transform"
+}

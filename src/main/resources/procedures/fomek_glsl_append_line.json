@@ -1,0 +1,30 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"base\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>",
+      "<value name=\"line\"><block type=\"text\"><field name=\"TEXT\">gl_FragColor = vec4(1.0);</field></block></value>"
+    ],
+    "inputs": [
+      "base",
+      "line"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "base",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "line",
+      "check": "String"
+    }
+  ],
+  "message0": "Append line: %2 to %1"
+}

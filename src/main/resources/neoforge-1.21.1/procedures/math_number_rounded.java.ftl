@@ -1,0 +1,1 @@
+Math.round(Math.pow(10, ${input$decimals}) * ${input$input}) / Math.pow(10, ${input$decimals})

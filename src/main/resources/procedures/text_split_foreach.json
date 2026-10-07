@@ -1,0 +1,68 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "text",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "2split",
+      "check": "String"
+    },
+    {
+      "type": "input_statement",
+      "name": "foreach"
+    },
+    {
+      "type": "input_value",
+      "name": "_placeholder",
+      "check": "String"
+    },
+    {
+      "type": "field_checkbox",
+      "name": "usewholestring",
+      "checked": true
+    },
+    {
+      "type": "field_checkbox",
+      "name": "stringliteral",
+      "checked": true
+    },
+    {
+      "type": "field_checkbox",
+      "name": "includedelimiter",
+      "checked": false
+    }
+  ],
+  "extensions": [
+    "is_custom_loop"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_TEXTS_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_utils",
+    "toolbox_init": [
+      "<value name=\"text\"><block type=\"text\"><field name=\"TEXT\">text1,text2</field></block></value>",
+      "<value name=\"2split\"><block type=\"text\"><field name=\"TEXT\">,</field></block></value>",
+      "<value name=\"_placeholder\"><block deletable=\"false\" movable=\"false\" enabled=\"false\" type=\"stringiterator\"></block></value>"
+    ],
+    "inputs": [
+      "text",
+      "2split"
+    ],
+    "fields": [
+      "usewholestring",
+      "stringliteral",
+      "includedelimiter"
+    ],
+    "statements": [
+      {
+        "name": "foreach",
+        "disable_local_variables": false
+      }
+    ]
+  }
+}

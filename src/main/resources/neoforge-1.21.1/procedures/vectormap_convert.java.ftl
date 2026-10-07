@@ -1,0 +1,1 @@
+(new ArrayList<Vec3>(${input$map}.values()))

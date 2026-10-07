@@ -1,0 +1,2 @@
+<#include "mcitems.ftl">
+${mappedMCItemToItemStackCode(input$provideditemstack)}.set(DataComponents.FOOD, (new FoodProperties.Builder()).nutrition(${input$nutrition}).saturationModifier(${opt.toFloat(input$saturation)})<#if field$canalwayseat == "TRUE">.alwaysEdible()</#if><#if field$eatfast == "TRUE">.fast()</#if>.build());

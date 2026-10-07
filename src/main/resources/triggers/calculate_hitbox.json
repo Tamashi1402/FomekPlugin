@@ -1,0 +1,38 @@
+{
+  "dependencies_provided": [
+    {
+      "name": "world",
+      "type": "world"
+    },
+    {
+      "name": "entity",
+      "type": "entity"
+    },
+    {
+      "name": "x",
+      "type": "number"
+    },
+    {
+      "name": "y",
+      "type": "number"
+    },
+    {
+      "name": "z",
+      "type": "number"
+    },
+    {
+      "name": "oldWidth",
+      "type": "number"
+    },
+    {
+      "name": "oldHeight",
+      "type": "number"
+    },
+    {
+      "name": "hitboxCalculationEvent",
+      "type": "hitboxcalculating"
+    }
+  ],
+  "cancelable": "false",
+  "side": "both"
+}

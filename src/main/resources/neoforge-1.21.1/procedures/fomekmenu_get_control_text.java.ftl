@@ -1,0 +1,1 @@
+${package}.api.guisystems.VirtualGui.getControlText(${input$id})

@@ -1,0 +1,26 @@
+- armorCutoutNoCull:
+  readable_name: "Armor cutout no cull (highest priority)"
+- entityCutout:
+  readable_name: "Cutout"
+- entityCutoutNoCull:
+  readable_name: "Cutout no cull"
+- entityTranslucent:
+  readable_name: "Translucent"
+- entityTranslucentEmissive:
+  readable_name: "Translucent glowing"
+- eyes:
+  readable_name: "Enderman eyes"
+- energySwirl:
+  readable_name: "Energy swirl"
+- waterMark:
+  readable_name: "Water mask"
+- lightning:
+  readable_name: "Lightning"
+- lineStrip:
+  readable_name: "Line strip"
+- dragonExplosionAlpha:
+  readable_name: "Dragon explosion alpha (glowing)"
+- endPortal:
+  readable_name: "End portal"
+- endGateway:
+  readable_name: "End gateway"

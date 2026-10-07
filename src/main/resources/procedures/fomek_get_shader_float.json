@@ -1,0 +1,31 @@
+{
+  "inputsInline": true,
+  "output": "Number",
+  "colour": 55,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"shader\"><block type=\"entity_iterator\"><field name=\"ITERATOR\">shader</field></block></value>",
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">time</field></block></value>"
+    ],
+    "inputs": [
+      "shader",
+      "name"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    }
+  ],
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Get %1 shader float %2"
+}

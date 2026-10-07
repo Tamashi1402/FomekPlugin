@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "index",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "list",
+      "check": "DataList"
+    }
+  ],
+  "output": "DataElement",
+  "inputsInline": true,
+  "colour": "%{BKY_DATAELEMENT_HUE}",
+  "mcreator": {
+    "group": "data",
+    "toolbox_id": "fomek_math_datalist",
+    "toolbox_init": [
+      "<value name=\"index\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"list\"></value>"
+    ],
+    "inputs": [
+      "index",
+      "list"
+    ]
+  }
+}

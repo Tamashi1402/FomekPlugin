@@ -1,0 +1,22 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "Number"
+    }
+  ],
+  "previousStatement": null,
+  "colour": "#888888",
+  "mcreator": {
+    "toolbox_init": [
+      "<value name=\"key\"></value>"
+    ],
+    "inputs": [
+      "key"
+    ],
+    "warnings": [
+      "mathutils_return_sortkey"
+    ]
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "difficulty",
+      "options": [
+        [
+          "PEACEFUL",
+          "PEACEFUL"
+        ],
+        [
+          "EASY",
+          "EASY"
+        ],
+        [
+          "MEDIUM",
+          "MEDIUM"
+        ],
+        [
+          "HARD",
+          "HARD"
+        ]
+      ]
+    },
+    {
+      "type": "field_image",
+      "src": "./res/server.png",
+      "width": "8",
+      "height": "24"
+    },
+    {
+      "type": "input_value",
+      "name": "ignorelocked",
+      "check": "Boolean"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 35,
+  "mcreator": {
+    "toolbox_id": "fomek_world_actions",
+    "toolbox_init": [
+      "<value name=\"ignorelocked\"><block type=\"logic_boolean\"><field name=\"BOOL\">FALSE</field></block></value>"
+    ],
+    "inputs": [
+      "ignorelocked"
+    ],
+    "fields": [
+      "difficulty"
+    ],
+    "dependencies": [
+      {
+        "name": "world",
+        "type": "world"
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "list",
+      "check": "VectorList"
+    }
+  ],
+  "output": "VectorList",
+  "colour": "%{BKY_VECTORLIST_HUE}",
+  "mcreator": {
+    "group": "generic3",
+    "toolbox_id": "fomek_math_vectorlist",
+    "toolbox_init": [
+      "<value name=\"list\"></value>"
+    ],
+    "inputs": [
+      "list"
+    ]
+  }
+}

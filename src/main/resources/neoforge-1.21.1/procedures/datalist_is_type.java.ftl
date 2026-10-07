@@ -1,0 +1,1 @@
+(${input$list}.getElementType() == ${field$type})

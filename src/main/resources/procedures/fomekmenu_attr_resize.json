@@ -1,0 +1,25 @@
+{
+  "message0": "Resizable",
+  "output": "FomekMenuAttribute",
+  "inputsInline": true,
+  "colour": 50,
+  "mutator": "fomekmenu_resize_mutator",
+  "mcreator": {
+    "group": "interactions",
+    "repeating_inputs": [
+      "mt_checks",
+      "mt_min_resize_x",
+      "mt_min_resize_y",
+      "mt_max_resize_x",
+      "mt_max_resize_y",
+      "mt_highlight",
+      "mt_highlight_color",
+      "mt_corner_only",
+      "mt_aspect_ratio",
+      "mt_resize_bounds"
+    ],
+    "toolbox_init": [
+      "<mutation inputs=\"0\"></mutation>"
+    ]
+  }
+}

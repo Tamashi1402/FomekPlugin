@@ -1,0 +1,2 @@
+<#include "mcitems.ftl">
+/*@int*/(${mappedBlockToBlock(input$block)}.getStateDefinition().getProperty(${input$property}) instanceof IntegerProperty _max${cbi} ? _max${cbi}.getPossibleValues().stream().max(Integer::compareTo).get() : -1)

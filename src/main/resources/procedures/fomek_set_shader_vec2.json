@@ -1,0 +1,46 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "previousStatement": null,
+  "nextStatement": null,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"shader\"><block type=\"entity_iterator\"><field name=\"ITERATOR\">shader</field></block></value>",
+      "<value name=\"name\"><block type=\"text\"><field name=\"TEXT\">uv</field></block></value>",
+      "<value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ],
+    "inputs": [
+      "shader",
+      "name",
+      "x",
+      "y"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "shader",
+      "check": "Shader"
+    },
+    {
+      "type": "input_value",
+      "name": "name",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    }
+  ],
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Set %1 shader vec2 %2 to x: %3 y: %4"
+}

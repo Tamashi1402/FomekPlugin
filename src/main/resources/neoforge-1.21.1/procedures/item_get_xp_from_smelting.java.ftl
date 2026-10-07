@@ -1,0 +1,2 @@
+<#include "mcitems.ftl">
+(world instanceof Level _xp ? _xp.getRecipeManager().getRecipeFor(RecipeType.${field$smelting_type}, new SimpleContainer(${mappedMCItemToItemStackCode(input$item, 1)}), _xp).map(recipe -> recipe.getExperience()).orElse((float) 0.0) : (float) 0.0)

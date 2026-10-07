@@ -1,0 +1,18 @@
+{
+  "args0": [
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": 230,
+  "mcreator": {
+    "group": "camerarotation",
+    "toolbox_id": "render_data"
+  },
+  "message0": "Get pitch of camera %1"
+}

@@ -1,0 +1,38 @@
+{
+  "inputsInline": true,
+  "output": "Number",
+  "colour": 55,
+  "mcreator": {
+    "group": "fomek_shader_data",
+    "toolbox_id": "fomek_shader_data",
+    "toolbox_init": [
+      "<value name=\"edge0\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"edge1\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+      "<value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0.5</field></block></value>"
+    ],
+    "inputs": [
+      "edge0",
+      "edge1",
+      "x"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "edge0",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "edge1",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    }
+  ],
+  "toolbox_id": "fomek_shader_data",
+  "message0": "Smoothstep edge0 %1 edge1 %2 x: %3"
+}

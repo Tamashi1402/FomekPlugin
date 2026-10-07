@@ -1,0 +1,1 @@
+(event.getResult() == Event.Result.${field$result})

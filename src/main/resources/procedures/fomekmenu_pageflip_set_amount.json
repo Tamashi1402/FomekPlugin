@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "amount",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "inputs": [
+      "amount"
+    ],
+    "toolbox_init": [
+      "<value name=\"amount\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ]
+  },
+  "message0": "Set grabbed page flip amount (0-1): %1"
+}

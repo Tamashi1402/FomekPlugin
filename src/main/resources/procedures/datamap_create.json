@@ -1,0 +1,11 @@
+{
+  "output": [
+    "DataElement",
+    "DataMap"
+  ],
+  "colour": "%{BKY_DATAMAP_HUE}",
+  "mcreator": {
+    "group": "creator",
+    "toolbox_id": "fomek_math_datamap"
+  }
+}

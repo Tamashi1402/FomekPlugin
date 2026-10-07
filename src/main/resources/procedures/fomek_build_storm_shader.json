@@ -1,0 +1,59 @@
+{
+  "inputsInline": true,
+  "colour": 55,
+  "mcreator": {
+    "group": "fomek_shader_templates",
+    "toolbox_id": "fomek_shader_templates",
+    "toolbox_init": [
+      "<value name=\"speed\"><block type=\"math_number\"><field name=\"NUM\">1</field></block></value>",
+      "<value name=\"scale\"><block type=\"math_number\"><field name=\"NUM\">3</field></block></value>",
+      "<value name=\"r\"><block type=\"math_number\"><field name=\"NUM\">0.4</field></block></value>",
+      "<value name=\"g\"><block type=\"math_number\"><field name=\"NUM\">0.3</field></block></value>",
+      "<value name=\"b\"><block type=\"math_number\"><field name=\"NUM\">0.8</field></block></value>",
+      "<value name=\"intensity\"><block type=\"math_number\"><field name=\"NUM\">1.5</field></block></value>"
+    ],
+    "inputs": [
+      "speed",
+      "scale",
+      "r",
+      "g",
+      "b",
+      "intensity"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "speed",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "scale",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "r",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "g",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "b",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "intensity",
+      "check": "Number"
+    }
+  ],
+  "output": "Shader",
+  "toolbox_id": "fomek_shader_templates",
+  "message0": "Storm shader speed %1 scale %2 color R %3 G %4 B %5 intensity %6"
+}

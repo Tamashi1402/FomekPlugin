@@ -1,0 +1,50 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "list",
+      "check": "DataList"
+    },
+    {
+      "type": "input_value",
+      "name": "element",
+      "check": "DataElement"
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "foreach"
+    }
+  ],
+  "extensions": [
+    "is_custom_loop"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_DATALIST_HUE}",
+  "mcreator": {
+    "group": "generic5",
+    "toolbox_id": "fomek_math_datalist",
+    "toolbox_init": [
+      "<value name=\"list\"></value>",
+      "<value name=\"element\"><block type=\"iterator_dataelement\"></block></value>"
+    ],
+    "inputs": [
+      "list"
+    ],
+    "statements": [
+      {
+        "name": "foreach",
+        "provides": [
+          {
+            "name": "dataelementiterator",
+            "type": "dataelement"
+          }
+        ]
+      }
+    ]
+  }
+}

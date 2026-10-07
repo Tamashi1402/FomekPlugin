@@ -1,0 +1,31 @@
+{
+  "message0": "Set border color of element %1 to %2",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "value",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "data",
+    "inputs": [
+      "id",
+      "value"
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">btn1</field></block></value>",
+      "<value name=\"value\"><block type=\"fomekmenu_rgb\"><value name=\"r\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"g\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"b\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>"
+    ]
+  },
+  "previousStatement": null,
+  "nextStatement": null
+}

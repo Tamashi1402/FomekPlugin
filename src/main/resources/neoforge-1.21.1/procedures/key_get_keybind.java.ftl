@@ -1,0 +1,1 @@
+((Minecraft.getInstance().options.${field$keybind}.getKey().toString()).replace("key.", "")).replace("keyboard.", "")

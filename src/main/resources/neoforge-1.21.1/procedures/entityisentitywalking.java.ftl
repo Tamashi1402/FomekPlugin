@@ -1,0 +1,1 @@
+((${input$entity}.getDeltaMovement().x+${input$entity}.getDeltaMovement().y+${input$entity}.getDeltaMovement().z)/3.0>=(${input$entity} instanceof LivingEntity _livingEntity${cbi} ? _livingEntity${cbi}.getAttribute(Attributes.MOVEMENT_SPEED).getValue() : 0))

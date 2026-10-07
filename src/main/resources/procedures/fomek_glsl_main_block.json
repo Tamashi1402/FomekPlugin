@@ -1,0 +1,23 @@
+{
+  "inputsInline": true,
+  "output": "String",
+  "colour": 55,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"body\"><block type=\"text\"><field name=\"TEXT\"></field></block></value>"
+    ],
+    "inputs": [
+      "body"
+    ]
+  },
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "body",
+      "check": "String"
+    }
+  ],
+  "message0": "void main() '{' %1 '}'"
+}

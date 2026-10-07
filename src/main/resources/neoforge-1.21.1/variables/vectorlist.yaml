@@ -1,0 +1,126 @@
+defaultvalue: new ArrayList<Vec3>()
+scopes:
+  local:
+    init: ${var.getType().getJavaType(generator.getWorkspace())} ${var.getName()};
+    get: ${name}
+    set: ${name} = ${opt.removeParentheses(value)};
+  global_session:
+    init: public static ArrayList<Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    get: ${JavaModName}Variables.${name}
+    set: ${JavaModName}Variables.${name} = ${opt.removeParentheses(value)};
+  global_world:
+    init: public ArrayList<Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      {
+        this.${var.getName()} = new ArrayList<>();
+        for (Tag childTag : nbt.getList("${var.getName()}", 9))
+          if (childTag instanceof ListTag childListTag)
+            this.${var.getName()}.add(new Vec3(childListTag.getDouble(0), childListTag.getDouble(1), childListTag.getDouble(2)));
+      }
+    write: |
+      {
+        ListTag parentListTag = new ListTag();
+        int size = this.${var.getName()}.size();
+        for (int i = 0; i < size; ++i) {
+          Vec3 vec3 = this.${var.getName()}.get(i);
+          vec3 = vec3 == null ? Vec3.ZERO : vec3;
+          ListTag childListTag = new ListTag();
+          childListTag.addTag(0, DoubleTag.valueOf(vec3.x()));
+          childListTag.addTag(1, DoubleTag.valueOf(vec3.y()));
+          childListTag.addTag(2, DoubleTag.valueOf(vec3.z()));
+          parentListTag.addTag(i, childListTag);
+        }
+        nbt.put("${var.getName()}", parentListTag);
+      }
+    get: ${JavaModName}Variables.WorldVariables.get(world).${name}
+    set: |
+      ${JavaModName}Variables.WorldVariables.get(world).${name} = ${opt.removeParentheses(value)};
+      ${JavaModName}Variables.WorldVariables.get(world).markSyncDirty();
+  global_map:
+    init: public ArrayList<Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      {
+        this.${var.getName()} = new ArrayList<>();
+        for (Tag childTag : nbt.getList("${var.getName()}", 9))
+          if (childTag instanceof ListTag childListTag)
+            this.${var.getName()}.add(new Vec3(childListTag.getDouble(0), childListTag.getDouble(1), childListTag.getDouble(2)));
+      }
+    write: |
+      {
+        ListTag parentListTag = new ListTag();
+        int size = this.${var.getName()}.size();
+        for (int i = 0; i < size; ++i) {
+          Vec3 vec3 = this.${var.getName()}.get(i);
+          vec3 = vec3 == null ? Vec3.ZERO : vec3;
+          ListTag childListTag = new ListTag();
+          childListTag.addTag(0, DoubleTag.valueOf(vec3.x()));
+          childListTag.addTag(1, DoubleTag.valueOf(vec3.y()));
+          childListTag.addTag(2, DoubleTag.valueOf(vec3.z()));
+          parentListTag.addTag(i, childListTag);
+        }
+        nbt.put("${var.getName()}", parentListTag);
+      }
+    get: ${JavaModName}Variables.MapVariables.get(world).${name}
+    set: |
+      ${JavaModName}Variables.MapVariables.get(world).${name} = ${opt.removeParentheses(value)};
+      ${JavaModName}Variables.MapVariables.get(world).markSyncDirty();
+  player_lifetime:
+    init: public ArrayList<Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      {
+        this.${var.getName()} = new ArrayList<>();
+        for (Tag childTag : nbt.getList("${var.getName()}", 9))
+          if (childTag instanceof ListTag childListTag)
+            this.${var.getName()}.add(new Vec3(childListTag.getDouble(0), childListTag.getDouble(1), childListTag.getDouble(2)));
+      }
+    write: |
+      {
+        ListTag parentListTag = new ListTag();
+        int size = this.${var.getName()}.size();
+        for (int i = 0; i < size; ++i) {
+          Vec3 vec3 = this.${var.getName()}.get(i);
+          vec3 = vec3 == null ? Vec3.ZERO : vec3;
+          ListTag childListTag = new ListTag();
+          childListTag.addTag(0, DoubleTag.valueOf(vec3.x()));
+          childListTag.addTag(1, DoubleTag.valueOf(vec3.y()));
+          childListTag.addTag(2, DoubleTag.valueOf(vec3.z()));
+          parentListTag.addTag(i, childListTag);
+        }
+        nbt.put("${var.getName()}", parentListTag);
+      }
+    get: ${entity}.getData(${JavaModName}Variables.PLAYER_VARIABLES).${name}
+    set: |
+      if (${entity} instanceof Player _player) {
+        ${JavaModName}Variables.PlayerVariables _vars = _player.getData(${JavaModName}Variables.PLAYER_VARIABLES);
+        _vars.${name} = ${opt.removeParentheses(value)};
+      }
+  player_persistent:
+    init: public ArrayList<Vec3> ${var.getName()} = ${var.getType().getDefaultValue(generator.getWorkspace())};
+    read: |
+      {
+        this.${var.getName()} = new ArrayList<>();
+        for (Tag childTag : nbt.getList("${var.getName()}", 9))
+          if (childTag instanceof ListTag childListTag)
+            this.${var.getName()}.add(new Vec3(childListTag.getDouble(0), childListTag.getDouble(1), childListTag.getDouble(2)));
+      }
+    write: |
+      {
+        ListTag parentListTag = new ListTag();
+        int size = this.${var.getName()}.size();
+        for (int i = 0; i < size; ++i) {
+          Vec3 vec3 = this.${var.getName()}.get(i);
+          vec3 = vec3 == null ? Vec3.ZERO : vec3;
+          ListTag childListTag = new ListTag();
+          childListTag.addTag(0, DoubleTag.valueOf(vec3.x()));
+          childListTag.addTag(1, DoubleTag.valueOf(vec3.y()));
+          childListTag.addTag(2, DoubleTag.valueOf(vec3.z()));
+          parentListTag.addTag(i, childListTag);
+        }
+        nbt.put("${var.getName()}", parentListTag);
+      }
+    get: ${entity}.getData(${JavaModName}Variables.PLAYER_VARIABLES).${name}
+    set: |
+      if (${entity} instanceof Player _player) {
+        ${JavaModName}Variables.PlayerVariables _vars = _player.getData(${JavaModName}Variables.PLAYER_VARIABLES);
+        _vars.${name} = ${opt.removeParentheses(value)};
+      }

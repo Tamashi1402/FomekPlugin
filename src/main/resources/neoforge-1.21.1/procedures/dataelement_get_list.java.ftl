@@ -1,0 +1,1 @@
+(${input$element} instanceof ListTag _listTag ? _listTag.copy() : new ListTag())

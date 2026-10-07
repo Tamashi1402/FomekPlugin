@@ -1,0 +1,241 @@
+{
+  "extensions": [
+    "fomekmenu_studio_icon"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book",
+    "group": "fomekmenu_book",
+    "inputs": [
+      "id",
+      "x",
+      "y",
+      "pagew",
+      "height",
+      "duration",
+      "STUDIO_NORMAL_STYLE",
+      "STUDIO_HOVER_STYLE",
+      "STUDIO_HELD_STYLE",
+      "STUDIO_CLICK_STYLE"
+    ],
+    "statements": [
+      {
+        "name": "CHILDREN",
+        "disable_local_variables": false
+      },
+      {
+        "name": "STUDIO_HOVER",
+        "disable_local_variables": false
+      },
+      {
+        "name": "STUDIO_CLICK",
+        "disable_local_variables": false
+      },
+      {
+        "name": "STUDIO_CHECK",
+        "disable_local_variables": false
+      },
+      {
+        "name": "STUDIO_UPDATE",
+        "disable_local_variables": false
+      }
+    ],
+    "toolbox_init": [
+      "<value name=\"id\"><block type=\"text\"><field name=\"TEXT\">book1</field></block></value>",
+      "<value name=\"x\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"y\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"pagew\"><block type=\"math_number\"><field name=\"NUM\">145</field></block></value>",
+      "<value name=\"height\"><block type=\"math_number\"><field name=\"NUM\">190</field></block></value>",
+      "<value name=\"duration\"><block type=\"math_number\"><field name=\"NUM\">320</field></block></value>"
+    ],
+    "fields": [
+      "pivot",
+      "STUDIO_KEY"
+    ]
+  },
+  "message0": "Book %1 at x: %2 y: %3",
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "id",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "x",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "y",
+      "check": "Number"
+    }
+  ],
+  "message1": "do %1",
+  "args1": [
+    {
+      "type": "input_statement",
+      "name": "CHILDREN"
+    }
+  ],
+  "message2": "Anchor: %1 %2",
+  "args2": [
+    {
+      "type": "field_dropdown",
+      "name": "pivot",
+      "options": [
+        [
+          "center",
+          "center"
+        ],
+        [
+          "top-left",
+          "top-left"
+        ],
+        [
+          "top",
+          "top"
+        ],
+        [
+          "top-right",
+          "top-right"
+        ],
+        [
+          "left",
+          "left"
+        ],
+        [
+          "right",
+          "right"
+        ],
+        [
+          "bottom-left",
+          "bottom-left"
+        ],
+        [
+          "bottom",
+          "bottom"
+        ],
+        [
+          "bottom-right",
+          "bottom-right"
+        ]
+      ]
+    },
+    {
+      "type": "input_dummy",
+      "name": "FOMEK_STUDIO_FIELD_pivot"
+    }
+  ],
+  "message3": "Page width: %1",
+  "args3": [
+    {
+      "type": "input_value",
+      "name": "pagew",
+      "check": "Number"
+    }
+  ],
+  "message4": "Height: %1",
+  "args4": [
+    {
+      "type": "input_value",
+      "name": "height",
+      "check": "Number"
+    }
+  ],
+  "message5": "Flip duration (ms): %1",
+  "args5": [
+    {
+      "type": "input_value",
+      "name": "duration",
+      "check": "Number"
+    }
+  ],
+  "message6": "On Hover %1",
+  "args6": [
+    {
+      "type": "input_statement",
+      "name": "STUDIO_HOVER"
+    }
+  ],
+  "message7": "On Click %1",
+  "args7": [
+    {
+      "type": "input_statement",
+      "name": "STUDIO_CLICK"
+    }
+  ],
+  "message8": "On Check %1",
+  "args8": [
+    {
+      "type": "input_statement",
+      "name": "STUDIO_CHECK"
+    }
+  ],
+  "message9": "On Update %1",
+  "args9": [
+    {
+      "type": "input_statement",
+      "name": "STUDIO_UPDATE"
+    }
+  ],
+  "message10": "Style %1",
+  "args10": [
+    {
+      "type": "input_value",
+      "name": "STUDIO_NORMAL_STYLE",
+      "check": "FomekMenuStyle"
+    }
+  ],
+  "message11": "Style %1",
+  "args11": [
+    {
+      "type": "input_value",
+      "name": "STUDIO_HOVER_STYLE",
+      "check": "FomekMenuStyle"
+    }
+  ],
+  "message12": "Style %1",
+  "args12": [
+    {
+      "type": "input_value",
+      "name": "STUDIO_HELD_STYLE",
+      "check": "FomekMenuStyle"
+    }
+  ],
+  "message13": "%1 %2",
+  "args13": [
+    {
+      "type": "field_input",
+      "name": "STUDIO_KEY",
+      "text": ""
+    },
+    {
+      "type": "input_dummy",
+      "name": "STUDIO_KEY_ROW"
+    }
+  ],
+  "message14": "Style %1",
+  "args14": [
+    {
+      "type": "input_value",
+      "name": "STUDIO_CLICK_STYLE",
+      "check": "FomekMenuStyle"
+    }
+  ],
+  "message15": "%1 %2",
+  "args15": [
+    {
+      "type": "field_input",
+      "name": "STUDIO_LAYOUT",
+      "text": ""
+    },
+    {
+      "type": "input_dummy",
+      "name": "STUDIO_LAYOUT_ROW"
+    }
+  ]
+}

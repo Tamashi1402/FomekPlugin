@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "input_value",
+      "name": "position",
+      "check": "Vector"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "entity",
+    "toolbox_id": "fomek_math_utils",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+      "<value name=\"position\"></value>"
+    ],
+    "inputs": [
+      "entity",
+      "position"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.shaderNoise(${opt.toFloat(input$x)}, ${opt.toFloat(input$y)})

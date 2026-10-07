@@ -1,0 +1,13 @@
+armorCutoutNoCull: armorCutoutNoCull(texture
+entityCutout: entityCutout(texture
+entityCutoutNoCull: entityCutoutNoCull(texture
+entityTranslucent: entityTranslucent(texture
+entityTranslucentEmissive: entityTranslucentEmissive(texture
+eyes: eyes(texture
+energySwirl: energySwirl(texture, Minecraft.getInstance().player.tickCount * 1f * 0.01f, Minecraft.getInstance().player.tickCount * 1f * 0.01f
+waterMask: waterMask(
+lightning: lightning(
+lineStrip: lineStrip(
+dragonExplosionAlpha: dragonExplosionAlpha(texture
+endPortal: endPortal(
+endGateway: endGateway(

@@ -1,0 +1,1 @@
+if(${input$entity} instanceof Creeper _creeper) _creeper.setSwellDir(${opt.toInt(input$number)});

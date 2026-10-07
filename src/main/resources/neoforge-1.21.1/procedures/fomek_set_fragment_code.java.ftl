@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setFragmentCode((${package}.api.render.RenderAPI.Fragment) ${input$frag}, ${input$code});

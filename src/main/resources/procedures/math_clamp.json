@@ -1,0 +1,36 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "number",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "min",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "max",
+      "check": "Number"
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "actions",
+    "toolbox_id": "fomek_math_number",
+    "toolbox_init": [
+      "<value name=\"number\"></value>",
+      "<value name=\"min\"></value>",
+      "<value name=\"max\"></value>"
+    ],
+    "inputs": [
+      "number",
+      "min",
+      "max"
+    ]
+  }
+}

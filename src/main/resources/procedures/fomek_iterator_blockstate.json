@@ -1,0 +1,15 @@
+{
+  "output": "MCItemBlock",
+  "colour": "#a5a55b",
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_data",
+    "dependencies": [
+      {
+        "name": "blockstateiterator",
+        "type": "blockstate"
+      }
+    ]
+  },
+  "message0": "Blockstate iterator"
+}

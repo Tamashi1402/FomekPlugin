@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.renderShapeOverlay(${input$shape}, ${opt.toFloat(input$x)}, ${opt.toFloat(input$y)}, ${opt.toFloat(input$depth)}, ${opt.toFloat(input$yaw)}, ${opt.toFloat(input$pitch)}, ${opt.toFloat(input$roll)}, ${opt.toFloat(input$xscale)}, ${opt.toFloat(input$yscale)}, ${opt.toFloat(input$zscale)}, ${opt.toInt(input$color)});

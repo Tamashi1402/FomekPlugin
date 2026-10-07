@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "start",
+      "check": "Vector"
+    },
+    {
+      "type": "input_value",
+      "name": "end",
+      "check": "Vector"
+    }
+  ],
+  "output": "Number",
+  "inputsInline": true,
+  "colour": "%{BKY_MATH_HUE}",
+  "mcreator": {
+    "group": "distance",
+    "toolbox_id": "fomek_math_vector",
+    "toolbox_init": [
+      "<value name=\"start\"></value>",
+      "<value name=\"end\"></value>"
+    ],
+    "inputs": [
+      "start",
+      "end"
+    ]
+  }
+}

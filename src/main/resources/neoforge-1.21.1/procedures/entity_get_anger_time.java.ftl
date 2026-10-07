@@ -1,0 +1,1 @@
+(${input$entity} instanceof NeutralMob _neut${cbi} ? _neut${cbi}.getRemainingPersistentAngerTime():0)

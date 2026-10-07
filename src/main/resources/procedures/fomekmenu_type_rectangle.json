@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Number"
+    }
+  ],
+  "message0": "Rectangle color: %1",
+  "output": "FomekMenuType",
+  "inputsInline": true,
+  "colour": 130,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_building",
+    "group": "building",
+    "inputs": [
+      "color"
+    ],
+    "toolbox_init": [
+      "<value name=\"color\"><block type=\"fomekmenu_rgb\"><value name=\"r\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"g\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"b\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>"
+    ]
+  }
+}

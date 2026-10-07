@@ -1,0 +1,43 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "input_value",
+      "name": "dx",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "dy",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "dz",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 195,
+  "mcreator": {
+    "toolbox_id": "fomek_entity_specific",
+    "toolbox_init": [
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+      "<value name=\"dx\"><block type=\"projectile_get_power_x\"><value name=\"entity\"><block type=\"entity_from_deps\"></block></value></block></value>",
+      "<value name=\"dy\"><block type=\"projectile_get_power_y\"><value name=\"entity\"><block type=\"entity_from_deps\"></block></value></block></value>",
+      "<value name=\"dz\"><block type=\"projectile_get_power_z\"><value name=\"entity\"><block type=\"entity_from_deps\"></block></value></block></value>"
+    ],
+    "inputs": [
+      "entity",
+      "dx",
+      "dy",
+      "dz"
+    ]
+  }
+}

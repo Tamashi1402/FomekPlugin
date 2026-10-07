@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.renderModelTrail(${input$entity}, ${opt.toInt(input$channel)}, ${opt.toInt(input$color)}, ${opt.toInt(input$lifetime)}, ${opt.toInt(input$lifetimeVar)}, ${opt.toInt(input$fadesAmount)}, false);

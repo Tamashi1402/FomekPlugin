@@ -1,0 +1,144 @@
+MENU STUDIO — FomekPlugin 3.6.2
+
+PAKIET
+To pełny projekt źródłowy dla MCreator 2026.1 i NeoForge 1.21.1.
+Nie jest to gotowy plugin do wrzucenia bezpośrednio do folderu plugins.
+Ustaw ścieżki do źródeł MCreator 2026.1 i JDK 21 w gradle.properties,
+następnie wykonaj gradlew jar. Wynik: build/libs/fomek-plugin.zip.
+Runtime 1.11.0-studio odświeży pliki silnika podczas otwierania/budowania workspace.
+
+PRZECIĄGANIE
+Zwykłe bloki można przenosić bezpośrednio z głównego toolboxa i workspace
+do edytora oraz z edytora do workspace. Blok jest widoczny po stronie
+docelowej przed puszczeniem. Upuszczenie blisko zgodnego gniazda podpina
+go do tego gniazda. Zmienne zachowują identyfikatory. Niepodłączone zwykłe
+bloki wracają obok hosta po zamknięciu edytora.
+Zastosowano podejście z MacroForge: osobny workspace w tym samym dokumencie,
+podgląd przenoszenia przed puszczeniem i koordynację warstw. Obsługa używa
+natywnego cyklu przeciągania Blockly, także w JavaFX WebView.
+Wiersze ustawień, opcji, akcji i stylów pozostają w edytorze. Próba ich
+wyniesienia przywraca poprzednie gniazdo. Usuwanie: Delete lub menu kontekstowe.
+Kwadratowy ołówek otwiera edytor; przeciąganie korpusu przesuwa hosta.
+W oknie nie ma kosza ani ikon zoomu.
+
+STRUKTURA ELEMENTU
+Każdy z 20 edytorów ma cztery sekcje:
+  Settings — osobne bloczki ustawień: Box, Text, Width, Maximum characters itd.
+  Options — opcjonalne zachowania i istniejące ustawienia mutatora.
+  Actions — podłączane nagłówki zdarzeń z instrukcjami MCreator.
+  Style — podłączane sekcje stylu z osobnymi właściwościami.
+Nagłówek nie ma wbudowanych pól tekstu, placeholdera ani limitu znaków.
+Pierwsze otwarcie dodaje domyślne bloczki. Układ, wartości, usunięcia
+i luźne bloczki edytora zapisują się osobno dla każdego hosta.
+Starsze menu są przenoszone do nowego układu przy pierwszym otwarciu.
+Brak Default text oznacza pusty tekst; brak Placeholder oznacza brak
+placeholdera; brak Maximum characters oznacza brak ustawionego limitu
+(techniczny limit ciągu w Javie: Integer.MAX_VALUE).
+Brak Box daje zerowy obszar. Brak stylu zachowuje wygląd domyślny.
+
+ACTIONS
+Podepnij On Hover, On Click, On Check lub On Update do sekcji Actions.
+Instrukcje umieszczaj w gnieździe nagłówka. Luźny nagłówek nie wykonuje się.
+Kilka nagłówków tego samego zdarzenia wykonuje się w kolejności połączenia.
+On Hover — co klatkę nad obiektem.
+On Click — po naciśnięciu przycisku myszy na obiekcie.
+On Check — po zmianie checkboxa, także po odznaczeniu.
+On Update — raz na przebieg renderowania definicji; nie jest to tick serwera.
+Akcje wykonują się przy następnym przebiegu procedury definiującej menu.
+Umieszczaj definicje w procedurze renderowania menu.
+
+MODUŁOWE STYLE
+Sekcje Normal, Hovered, Clicked i Held przyjmują osobne właściwości:
+kolory tła/obramowania/tekstu, grubość obramowania, teksturę, tekst,
+font, rozmiar, widoczność tekstu, wygładzanie, cień, odstępy i wyrównanie.
+Surface wybiera Flat, Outline, Raised lub Text only.
+Wartości liczbowe, tekstowe i logiczne przyjmują zwykłe wyrażenia Blockly.
+Kilka sekcji tego samego stanu scala się w kolejności; ostatnia wartość
+danej właściwości obowiązuje.
+Można stylizować części: tekst, placeholder, etykietę checkboxa, znacznik,
+listę dropdowna i zaznaczenie w polu tekstowym. Odpowiednie ustawienia
+mają własne gniazdo Style; dostępne są też bloczki części w kategorii Styles.
+Przykład: Placeholder -> Style -> Text color [kolor], Font size [liczba].
+Wyrównanie i odstępy dotyczą etykiet. Kolor zaznaczenia pochodzi z tła
+części Selection. Wpisany tekst i wybór dropdowna pozostają wartościami
+kontrolki, nawet jeśli ustawiono osobny tekst w stylu.
+Części dziedziczą właściwości stylu głównego, o ile ich nie nadpiszesz.
+Style stanów dziedziczą Normal. Clicked trwa klatkę, Held czas przytrzymania.
+Kolory są liczbami ARGB; można używać istniejącego bloczka RGB.
+
+KONTROLKI
+Input field — pojedynczy wiersz tekstu.
+Text area — wiele wierszy; Enter dodaje wiersz, kółko przewija tekst.
+Check box — stan początkowy i etykieta.
+Dropdown — lista, domyślny wybór i liczba widocznych wierszy (1–30).
+Lista przyjmuje Iterable/List, tablicę albo tekst rozdzielony nowymi liniami.
+Pozycje i wybór są String. Jeśli wyboru nie ma na liście, wybierana jest
+pierwsza pozycja. W Data są Text / selection of [id] i Is checked [id].
+Kontrolki powinny mieć unikalne identyfikatory. Ponowne wykonanie definicji
+nie kasuje wpisanego tekstu ani wyboru. Zamknięcie menu czyści stan.
+W grze: Tab/Shift+Tab zmienia pole, Ctrl+C/V/X/A obsługuje tekst,
+Escape opuszcza pole, Space/Enter przełącza checkbox, strzałki zmieniają listę.
+
+PODGLĄD I JEGO GRANICE
+Przy 100% jeden piksel GUI zajmuje jeden piksel CSS. Podgląd nie dopasowuje
+automatycznie obiektu do okna. Można zmieniać rozmiar obszaru i skalę.
+Symulowane są geometrie, kolory, tekstury, tekst, kontrolki i zagnieżdżone
+elementy paneli/scroll view z przycinaniem. Podgląd reaguje na kliknięcia,
+wpisywanie tekstu, wybór listy, checkbox, slider i stany wizualne.
+Reset odtwarza stan początkowy. Obsługa kontrolek w podglądzie nie zmienia
+zapisanych ustawień ani rzeczywistych zmiennych procedury.
+Zasoby są czytane z src/main/resources/assets workspace. Zasoby Minecraft
+mogą być odczytane z lokalnych plików cache gry 1.21.1. Reload assets
+odświeża cache. Fonty bitmap/reference/space i dostępne fonty TTF korzystają
+z zasobów; brak fontu lub glifu jest zgłaszany.
+Scenario variables dostarcza wartości testowe. Podgląd interpretuje
+podstawowe wyrażenia, zmienne, warunki i ograniczone pętle. Zdarzenia mają
+liczniki. Dowolny kod Java i efekty gry nie są wykonywane.
+
+To nadal nie jest pełny renderer Minecraft 1:1. Modele przedmiotów 3D,
+shadery przewracania stron książki, animacje/interakcje silnika, zasoby
+dynamicznych paczek i nieobsługiwane procedury wymagają próby w grze.
+Płaskie przedmioty korzystają z dostępnej tekstury layer0. Wygładzanie,
+TTF i edycja tekstu w WebView mogą wyglądać inaczej niż w rendererze gry.
+Komunikaty pod podglądem wskazują brakujące zasoby i nieobsługiwane wartości.
+
+FONTY W GRZE
+Font resource to identyfikator, np. minecraft:default albo mojmod:menu.
+Dla mojmod:menu dodaj assets/mojmod/font/menu.json i wymagane pliki fontu.
+Rozmiar 9 odpowiada domyślnemu fontowi GUI. Smooth text używa bufora
+o większej rozdzielczości i filtrowania liniowego. Rysowanie wyłącza mgłę
+i przywraca ją po zakończeniu. Bufor czyści się po przeładowaniu zasobów
+i zamknięciu menu.
+
+WERYFIKACJA
+Przeszły testy Blockly 9.2.0: 20 definicji i lokalizacje, pierwsze przeciąganie,
+ikony, bezpośredni transfer z toolboxa, transfer w obie strony, zmienne,
+blokada wynoszenia wierszy, zapis usuniętych ustawień, akcje, zagnieżdżone
+style i wyrażenia logiczne, kontrolki podglądu, przycinanie i font bitmapowy.
+Test JavaFX WebView 23 potwierdził natywny cykl MouseEvent/BlockDragger,
+widoczne przeniesienie przed puszczeniem i zapis układu.
+Runtime i 46 wariantów szablonów Java skompilowano z Minecraft 1.21.1 /
+NeoForge 21.1.247. Przeszły testy stanu kontrolek i zdarzeń.
+Mostek zasobów sprawdzono na zasobach workspace i cache gry. Jego kompilacja
+użyła lokalnych klas MCreator 2025 oraz zastępczej deklaracji zdarzenia DOM
+z API 2026; pełny build pluginu wymaga źródeł MCreator 2026.1.
+Nie uruchomiono pełnego MCreator z pluginem ani klienta Minecraft.
+Źródła testów znajdują się w tests/.
+
+3.6.2
+- Poprawka: rozwijane listy (dropdown) w edytorze studia otwieraja sie nad
+  oknem (z-index). Bloki opcji we flyout to zwykle bloki, nie cienie.
+- Style: wlasnosci i czesci stylu mozna upuszczac teraz bezposrednio do
+  kazdego gniazda Style (sekcja stylu zepsutego elementu, gniazdo Style
+  bloczka ustawienia, czesci). Naglowki stanow dzialaja tez jako grupowanie
+  wewnatrz gniazd czesci; wlozone w sekcje Style glownego bloku licza sie
+  jako stan Normal.
+- Pierwsze otwarcie nowego elementu dodaje przykladowe bloki: styl Normal
+  (kolor tla i tekstu), pusty On Click, oraz przykladowy Check dla swiezych
+  elementow (istniejace elementy nie sa modyfikowane).
+- Checkbox: etykieta rysowana jest zawsze, gdy jest ustawiona (podglad
+  i silnik; wczesniej wymagala pola szerszego niz kwadrat o 7 px).
+- Nowe bloki w Data: Set text / selection, Get/Set background/border/text
+  color/font size/style text/show text, Is element hovered/held/clicked/checked.
+- Nowe bloki w Menu Objects: Menu object of element in menu (zwraca
+  MenuObject po menu id + element id, do uzycia poza edytorem elementu).

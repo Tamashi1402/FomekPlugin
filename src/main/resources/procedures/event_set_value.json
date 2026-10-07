@@ -1,0 +1,92 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "amount",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "event_type",
+      "options": [
+        [
+          "fall distance for 'entity/player falls'",
+          "entity_falls_1"
+        ],
+        [
+          "fall damage multiplier for 'entity/player falls'",
+          "entity_falls_2"
+        ],
+        [
+          "use duration for 'entity/player is/starts using item'",
+          "use_item"
+        ],
+        [
+          "damage for 'entity takes damage'",
+          "entity_damaged"
+        ],
+        [
+          "damage for 'before entity is hurt'",
+          "entity_hurt"
+        ],
+        [
+          "heal amount for 'entity heals'",
+          "entity_heals"
+        ],
+        [
+          "break speed for 'compute player break speed'",
+          "break_speed"
+        ],
+        [
+          "dropped xp for 'player breaks block'",
+          "block_break"
+        ],
+        [
+          "dropped xp for 'entity drops experience'",
+          "entity_xp_drop"
+        ],
+        [
+          "blocked damage for 'entity/player blocks with shield'",
+          "shield_block"
+        ],
+        [
+          "refilled air for 'entity breathes'",
+          "entity_breathes_1"
+        ],
+        [
+          "consumed air for 'entity breathes'",
+          "entity_breathes_2"
+        ],
+        [
+          "target X pos for 'entity teleports'",
+          "entity_teleports_1"
+        ],
+        [
+          "target Y pos for 'entity teleports'",
+          "entity_teleports_2"
+        ],
+        [
+          "target Z pos for 'entity teleports'",
+          "entity_teleports_3"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 90,
+  "mcreator": {
+    "group": "02a",
+    "toolbox_id": "fomek_event_specific",
+    "toolbox_init": [
+      "<value name=\"amount\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>"
+    ],
+    "inputs": [
+      "amount"
+    ],
+    "fields": [
+      "event_type"
+    ]
+  }
+}

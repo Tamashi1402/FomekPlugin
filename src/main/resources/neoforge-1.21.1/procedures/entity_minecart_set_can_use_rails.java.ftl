@@ -1,0 +1,1 @@
+if(${input$entity} instanceof AbstractMinecart _cart) _cart.setCanUseRail(${input$boolean});

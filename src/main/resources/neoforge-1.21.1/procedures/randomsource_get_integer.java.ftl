@@ -1,0 +1,1 @@
+/*@int*/Mth.nextInt(${input$randomsource}, ${opt.toInt(input$min)}, ${opt.toInt(input$max)})

@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "String"
+    }
+  ],
+  "inputsInline": true,
+  "output": "TextureLocation",
+  "colour": "#bf771f",
+  "mcreator": {
+    "toolbox_id": "cemtextures",
+    "toolbox_init": [
+      "<value name=\"texture\"><block type=\"text\"><field name=\"TEXT\">namespace:path/texture.png</field></block></value>"
+    ],
+    "inputs": [
+      "texture"
+    ]
+  }
+}

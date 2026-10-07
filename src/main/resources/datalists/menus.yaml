@@ -1,0 +1,43 @@
+- InventoryMenu:
+  readable_name: "None or Player Inventory"
+- CraftingMenu:
+  readable_name: "Crafting Table"
+- FurnaceMenu:
+  readable_name: "Furnace"
+- ChestMenu:
+  readable_name: "Chest (any)"
+- DispenserMenu:
+  readable_name: "Dispenser/Dropper"
+- HopperMenu:
+  readable_name: "Hopper"
+- BrewingStandMenu:
+  readable_name: "Brewing Stand"
+- EnchantmentMenu:
+  readable_name: "Enchanting Table"
+- AnvilMenu:
+  readable_name: "Anvil"
+- GrindstoneMenu:
+  readable_name: "Grindstone"
+- BeaconMenu:
+  readable_name: "Beacon"
+- HorseInventoryMenu:
+  readable_name: "Horse Inventory"
+- MerchantMenu:
+  readable_name: "Villager"
+- BlastFurnaceMenu:
+  readable_name: "Blast Furnace"
+- CartographyTableMenu:
+  readable_name: "Cartography Table"
+- LecternMenu:
+  readable_name: "Lectern"
+- LoomMenu:
+  readable_name: "Loom"
+- SmithingMenu:
+  readable_name: "Smithing Table"
+- SmokerMenu:
+  readable_name: "Smoker"
+- StonecutterMenu:
+  readable_name: "Stonecutter"
+- ShulkerBoxMenu:
+  readable_name: "Shulker Box"
+  

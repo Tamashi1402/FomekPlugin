@@ -1,0 +1,1 @@
+(${input$entity} instanceof AbstractMinecart _cart ? _cart.canUseRail():false)

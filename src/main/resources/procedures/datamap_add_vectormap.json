@@ -1,0 +1,34 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "VectorMap"
+    },
+    {
+      "type": "input_dummy",
+      "name": "datamapvar"
+    }
+  ],
+  "extensions": [
+    "mathutils_datamap_variables"
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#888888",
+  "mcreator": {
+    "toolbox_init": [
+      "<value name=\"map\"></value>"
+    ],
+    "inputs": [
+      "map"
+    ],
+    "fields": [
+      "DATAMAP_VAR"
+    ],
+    "warnings": [
+      "mathutils_add_vectors"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "action",
+      "check": "String"
+    }
+  ],
+  "message0": "Button action: %1",
+  "output": "FomekMenuAttribute",
+  "inputsInline": true,
+  "colour": 50,
+  "mutator": "fomekmenu_checks_mutator",
+  "mcreator": {
+    "group": "interactions",
+    "inputs": [
+      "action"
+    ],
+    "repeating_inputs": [
+      "checks"
+    ],
+    "toolbox_init": [
+      "<value name=\"action\"><block type=\"text\"><field name=\"TEXT\">action1</field></block></value>",
+      "<mutation inputs=\"0\"></mutation>"
+    ]
+  }
+}

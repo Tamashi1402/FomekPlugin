@@ -1,0 +1,14 @@
+{
+  "output": "Vector",
+  "colour": "%{BKY_VECTOR_HUE}",
+  "mcreator": {
+    "group": "iterator",
+    "toolbox_id": "fomek_math_others",
+    "dependencies": [
+      {
+        "name": "vectoriterator",
+        "type": "vector"
+      }
+    ]
+  }
+}

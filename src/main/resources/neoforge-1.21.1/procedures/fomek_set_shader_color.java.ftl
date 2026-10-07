@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderColor((${package}.api.render.Shader) ${input$shader}, ${opt.toInt(input$color)});

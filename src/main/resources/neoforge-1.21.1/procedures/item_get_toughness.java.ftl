@@ -1,0 +1,1 @@
+(${input$item}.getItem() instanceof ArmorItem _armor ? _armor.getToughness() : 0)

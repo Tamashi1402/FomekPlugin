@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "DataMap"
+    }
+  ],
+  "output": "MCItem",
+  "colour": 350,
+  "mcreator": {
+    "group": "data8",
+    "toolbox_id": "fomek_math_nbt",
+    "toolbox_init": [
+      "<value name=\"map\"></value>"
+    ],
+    "inputs": [
+      "map"
+    ]
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "mutator": "fomek_glsl_lines_mutator",
+  "output": "String",
+  "colour": 55,
+  "inputsInline": false,
+  "mcreator": {
+    "group": "render_shader_glsl",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<mutation inputs=\"2\"></mutation>"
+    ],
+    "repeating_inputs": [
+      "glsllines"
+    ]
+  },
+  "message0": "GLSL lines"
+}

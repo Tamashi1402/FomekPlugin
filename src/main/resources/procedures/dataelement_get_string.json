@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "element",
+      "check": "DataElement"
+    }
+  ],
+  "output": "String",
+  "colour": "%{BKY_TEXTS_HUE}",
+  "mcreator": {
+    "group": "data",
+    "toolbox_id": "fomek_math_dataelement",
+    "toolbox_init": [
+      "<value name=\"element\"></value>"
+    ],
+    "inputs": [
+      "element"
+    ]
+  }
+}

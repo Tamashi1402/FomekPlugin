@@ -1,0 +1,1 @@
+DoubleTag.valueOf(${input$number})

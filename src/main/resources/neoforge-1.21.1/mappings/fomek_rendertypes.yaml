@@ -1,0 +1,17 @@
+entityCutout: entityCutout
+entityCutoutNoCull: entityCutoutNoCull
+entityTranslucent: entityTranslucent
+entityTranslucentEmissive: entityTranslucentEmissive
+eyes: eyes
+energySwirl: energySwirl
+dragonExplosionAlpha: dragonExplosionAlpha
+endPortal: endPortal
+endGateway: endGateway
+portal: endPortal
+lightning: lightning
+glint: glint
+glintTranslucent: glintTranslucent
+entityGlintDirect: entityGlintDirect
+armorGlint: armorEntityGlint
+waterMask: waterMask
+outline: outline

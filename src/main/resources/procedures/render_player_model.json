@@ -1,0 +1,46 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "texture",
+      "check": "TextureLocation"
+    },
+    {
+      "type": "field_data_list_selector",
+      "name": "rendertype",
+      "datalist": "rendertypes"
+    },
+    {
+      "type": "field_image",
+      "src": "./res/client.png",
+      "width": 8,
+      "height": 24
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "#a84095",
+  "mcreator": {
+    "toolbox_id": "cemplayers",
+    "toolbox_init": [
+      "<value name=\"texture\"><block type=\"variables_get_texturelocation\"><mutation xmlns=\"http://www.w3.org/1999/xhtml\" is_player_var=\"false\" has_entity=\"false\"></mutation><field name=\"VAR\"></field></block></value>"
+    ],
+    "fields": [
+      "rendertype"
+    ],
+    "inputs": [
+      "texture"
+    ],
+    "dependencies": [
+      {
+        "name": "entityModel",
+        "type": "model"
+      },
+      {
+        "name": "playerRenderEvent",
+        "type": "playerrendering"
+      }
+    ]
+  }
+}

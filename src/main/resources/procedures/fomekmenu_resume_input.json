@@ -1,0 +1,15 @@
+{
+  "args0": [],
+  "message0": "Resume input",
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 0,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_actions",
+    "group": "actions",
+    "inputs": [],
+    "fields": [],
+    "toolbox_init": []
+  }
+}

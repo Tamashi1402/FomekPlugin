@@ -1,0 +1,11 @@
+{
+  "args0": [],
+  "message0": "Get current menu ID",
+  "output": "String",
+  "inputsInline": true,
+  "colour": 160,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "data"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "channel",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "entity",
+      "check": "Entity"
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "lifetime",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "lifetimeVar",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "fadesAmount",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 160,
+  "mcreator": {
+    "group": "fomek_bewlr_constructs",
+    "toolbox_id": "fomek_bewlr_constructs",
+    "inputs": [
+      "channel",
+      "entity",
+      "color",
+      "lifetime",
+      "lifetimeVar",
+      "fadesAmount"
+    ],
+    "toolbox_init": [
+      "<value name=\"channel\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value>",
+      "<value name=\"entity\"><block type=\"entity_from_deps\"></block></value>",
+      "<value name=\"color\"><block type=\"fomek_get_rgbacolor\"><value name=\"red\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"green\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"blue\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"alpha\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>",
+      "<value name=\"lifetime\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value>",
+      "<value name=\"lifetimeVar\"><block type=\"math_number\"><field name=\"NUM\">3</field></block></value>",
+      "<value name=\"fadesAmount\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value>"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_constructs",
+  "message0": "Construct textured model trail channel: %1 following %2 color: %3 lifetime: %4 lifetime variation: %5 fades amount: %6"
+}

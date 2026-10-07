@@ -1,0 +1,1 @@
+(4 * (${input$entity} instanceof LivingEntity _LivEnt ? _LivEnt.getArmorCoverPercentage():0))

@@ -1,0 +1,17 @@
+{
+  "side": "client",
+  "dependencies_provided": [
+    {
+      "name": "entity",
+      "type": "entity"
+    },
+    {
+      "name": "world",
+      "type": "world"
+    },
+    {
+      "name": "partialTick",
+      "type": "float"
+    }
+  ]
+}

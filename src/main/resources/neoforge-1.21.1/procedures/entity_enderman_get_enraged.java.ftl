@@ -1,0 +1,1 @@
+(${input$entity} instanceof EnderMan _enderman ? _enderman.isCreepy():false)

@@ -1,0 +1,1 @@
+${input$data}.setCompound(${input$key}, ${input$value});

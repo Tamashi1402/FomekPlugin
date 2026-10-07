@@ -1,0 +1,21 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "size",
+      "check": "Number"
+    }
+  ],
+  "output": "VectorList",
+  "colour": "%{BKY_VECTORLIST_HUE}",
+  "mcreator": {
+    "group": "creator",
+    "toolbox_id": "fomek_math_vectorlist",
+    "toolbox_init": [
+      "<value name=\"size\"><block type=\"math_number\"><field name=\"NUM\">10</field></block></value>"
+    ],
+    "inputs": [
+      "size"
+    ]
+  }
+}

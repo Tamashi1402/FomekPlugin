@@ -1,0 +1,1 @@
+/*@float*/(${input$element} instanceof FloatTag _floatTag ? _floatTag.getAsFloat() : 0.0F)

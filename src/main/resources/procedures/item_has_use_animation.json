@@ -1,0 +1,74 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "item",
+      "check": "MCItem"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "use_animation",
+      "options": [
+        [
+          "none",
+          "NONE"
+        ],
+        [
+          "bow",
+          "BOW"
+        ],
+        [
+          "crossbow",
+          "CROSSBOW"
+        ],
+        [
+          "shield",
+          "BLOCK"
+        ],
+        [
+          "trident",
+          "SPEAR"
+        ],
+        [
+          "eat",
+          "EAT"
+        ],
+        [
+          "drink",
+          "DRINK"
+        ],
+        [
+          "brush",
+          "BRUSH"
+        ],
+        [
+          "spyglass",
+          "SPYGLASS"
+        ],
+        [
+          "goat horn",
+          "TOOT_HORN"
+        ],
+        [
+          "custom",
+          "CUSTOM"
+        ]
+      ]
+    }
+  ],
+  "inputsInline": true,
+  "output": "Boolean",
+  "colour": "%{BKY_LOGIC_HUE}",
+  "mcreator": {
+    "toolbox_id": "fomek_items_data",
+    "toolbox_init": [
+      "<value name=\"item\"><block type=\"itemstack_to_mcitem\"></block></value>"
+    ],
+    "inputs": [
+      "item"
+    ],
+    "fields": [
+      "use_animation"
+    ]
+  }
+}

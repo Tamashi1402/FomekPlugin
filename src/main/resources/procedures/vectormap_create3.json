@@ -1,0 +1,29 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "size",
+      "check": "Number"
+    },
+    {
+      "type": "input_value",
+      "name": "factor",
+      "check": "Number"
+    }
+  ],
+  "output": "VectorMap",
+  "inputsInline": true,
+  "colour": "%{BKY_VECTORMAP_HUE}",
+  "mcreator": {
+    "group": "creator3",
+    "toolbox_id": "fomek_math_vectormap",
+    "toolbox_init": [
+      "<value name=\"size\"><block type=\"math_number\"><field name=\"NUM\">16</field></block></value>",
+      "<value name=\"factor\"><block type=\"math_number\"><field name=\"NUM\">0.75</field></block></value>"
+    ],
+    "inputs": [
+      "size",
+      "factor"
+    ]
+  }
+}

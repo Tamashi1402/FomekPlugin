@@ -1,0 +1,23 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "b",
+      "check": "Boolean"
+    }
+  ],
+  "output": "String",
+  "colour": 160,
+  "mcreator": {
+    "group": "render_data",
+    "toolbox_id": "render_shader_glsl",
+    "toolbox_init": [
+      "<value name=\"b\"><block type=\"logic_boolean\"><field name=\"BOOL\">TRUE</field></block></value>"
+    ],
+    "inputs": [
+      "b"
+    ]
+  },
+  "toolbox_id": "render_shader_glsl",
+  "message0": "bool %1 to string"
+}

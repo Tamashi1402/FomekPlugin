@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.setShaderTransparency((${package}.api.render.Shader) ${input$shader}, ${opt.toFloat(input$transparency)});

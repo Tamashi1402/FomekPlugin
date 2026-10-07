@@ -1,0 +1,1 @@
+!(${input$block}.getBlock() == Blocks.AIR)

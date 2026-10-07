@@ -1,0 +1,78 @@
+{
+  "args0": [
+    {
+      "type": "field_dropdown",
+      "name": "mode",
+      "options": [
+        [
+          "DEBUG_LINES",
+          "DEBUG_LINES"
+        ],
+        [
+          "DEBUG_LINE_STRIP",
+          "DEBUG_LINE_STRIP"
+        ],
+        [
+          "TRIANGLES",
+          "TRIANGLES"
+        ],
+        [
+          "TEXTURE_TRIANGLES",
+          "TEXTURE_TRIANGLES"
+        ],
+        [
+          "TRIANGLE_STRIP",
+          "TRIANGLE_STRIP"
+        ],
+        [
+          "TRIANGLE_FAN",
+          "TRIANGLE_FAN"
+        ],
+        [
+          "QUADS",
+          "QUADS"
+        ],
+        [
+          "TEXTURE",
+          "TEXTURE"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "update",
+      "check": "Boolean"
+    },
+    {
+      "type": "input_dummy"
+    },
+    {
+      "type": "input_statement",
+      "name": "do"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 320,
+  "mcreator": {
+    "toolbox_id": "fomek_shapes",
+    "toolbox_init": [
+      "<value name=\"update\"><block type=\"logic_boolean\"><field name=\"BOOL\">TRUE</field></block></value>"
+    ],
+    "fields": [
+      "mode"
+    ],
+    "inputs": [
+      "update"
+    ],
+    "statements": [
+      {
+        "name": "do"
+      }
+    ],
+    "group": "fomek_shapes"
+  },
+  "toolbox_id": "fomek_shapes",
+  "message0": "Create shape with type %1 immediate update %2 %3 do %4"
+}

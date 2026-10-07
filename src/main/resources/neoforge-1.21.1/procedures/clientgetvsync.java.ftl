@@ -1,0 +1,1 @@
+/*@bool*/(Minecraft.getInstance().options.enableVsync().get())

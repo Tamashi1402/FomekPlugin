@@ -1,0 +1,17 @@
+{
+  "args0": [
+    {
+      "type": "field_texture_selector",
+      "name": "texture"
+    }
+  ],
+  "inputsInline": true,
+  "output": "TextureLocation",
+  "colour": "#bf771f",
+  "mcreator": {
+    "toolbox_id": "cemtextures",
+    "fields": [
+      "texture"
+    ]
+  }
+}

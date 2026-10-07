@@ -1,0 +1,1 @@
+(1 == (${input$entity} instanceof Creeper _creeper ? _creeper.getSwellDir():0))

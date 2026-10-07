@@ -1,0 +1,1 @@
+${package}.api.render.RenderAPI.buildTemporalWaveShader((float) ${input$speed}, (float) ${input$numWaves}, (float) ${input$r}, (float) ${input$g}, (float) ${input$b}, (float) ${input$intensity})

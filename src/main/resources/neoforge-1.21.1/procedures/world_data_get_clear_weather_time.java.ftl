@@ -1,0 +1,1 @@
+(world.getLevelData() instanceof ServerLevelData _levelData${cbi} ? _levelData${cbi}.getClearWeatherTime():0)

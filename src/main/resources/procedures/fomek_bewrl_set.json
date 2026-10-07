@@ -1,0 +1,32 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "target",
+      "check": "BEWRL.Model"
+    },
+    {
+      "type": "input_value",
+      "name": "source",
+      "check": "BEWRL.Model"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": 140,
+  "mcreator": {
+    "group": "fomek_bewlr_actions",
+    "toolbox_id": "fomek_bewlr_actions",
+    "inputs": [
+      "target",
+      "source"
+    ],
+    "toolbox_init": [
+      "<value name=\"target\"><block type=\"fomek_bewrl_empty\"></block></value>",
+      "<value name=\"source\"><block type=\"fomek_bewrl_empty\"></block></value>"
+    ]
+  },
+  "message0": "Set BEWRL %1 to %2",
+  "toolbox_id": "fomek_bewlr_actions"
+}

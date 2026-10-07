@@ -1,0 +1,54 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "length",
+      "check": "Number"
+    },
+    {
+      "type": "field_dropdown",
+      "name": "pivot",
+      "options": [
+        [
+          "center back",
+          "center_back"
+        ],
+        [
+          "center front",
+          "center_front"
+        ]
+      ]
+    },
+    {
+      "type": "input_value",
+      "name": "color",
+      "check": "Number"
+    }
+  ],
+  "inputsInline": true,
+  "output": "BEWRL.Model",
+  "colour": 140,
+  "mutator": "fomek_construct_beam_mutator",
+  "mcreator": {
+    "group": "fomek_bewlr_constructs",
+    "toolbox_id": "fomek_bewlr_constructs",
+    "inputs": [
+      "length",
+      "color"
+    ],
+    "fields": [
+      "pivot"
+    ],
+    "repeating_inputs": [
+      "animators"
+    ],
+    "toolbox_init": [
+      "<value name=\"length\"><block type=\"math_number\"><field name=\"NUM\">1.0</field></block></value>",
+      "<field name=\"pivot\">center_back</field>",
+      "<value name=\"color\"><block type=\"fomek_get_rgbacolor\"><value name=\"red\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value><value name=\"green\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"blue\"><block type=\"math_number\"><field name=\"NUM\">0</field></block></value><value name=\"alpha\"><block type=\"math_number\"><field name=\"NUM\">255</field></block></value></block></value>",
+      "<mutation inputs=\"0\" count=\"0\"></mutation>"
+    ]
+  },
+  "toolbox_id": "fomek_bewlr_constructs",
+  "message0": "Construct beam length: %1 pivot: %2 color: %3"
+}

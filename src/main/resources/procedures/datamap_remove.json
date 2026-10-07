@@ -1,0 +1,30 @@
+{
+  "args0": [
+    {
+      "type": "input_value",
+      "name": "key",
+      "check": "String"
+    },
+    {
+      "type": "input_value",
+      "name": "map",
+      "check": "DataMap"
+    }
+  ],
+  "inputsInline": true,
+  "previousStatement": null,
+  "nextStatement": null,
+  "colour": "%{BKY_DATAMAP_HUE}",
+  "mcreator": {
+    "group": "generic4",
+    "toolbox_id": "fomek_math_datamap",
+    "toolbox_init": [
+      "<value name=\"key\"><block type=\"text\"><field name=\"TEXT\">key</field></block></value>",
+      "<value name=\"map\"></value>"
+    ],
+    "inputs": [
+      "key",
+      "map"
+    ]
+  }
+}

@@ -1,0 +1,1 @@
+${input$list}.addTag(${opt.toInt(input$index)}, ${input$element});

@@ -1,0 +1,1 @@
+(${input$start}.distanceToSqr(${input$end}))

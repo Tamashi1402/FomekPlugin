@@ -1,0 +1,10 @@
+{
+  "args0": [],
+  "message0": "current menu part ID",
+  "output": "String",
+  "colour": 210,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_data",
+    "group": "data"
+  }
+}

@@ -1,0 +1,1 @@
+${input$list2}.removeAll(${input$list1});

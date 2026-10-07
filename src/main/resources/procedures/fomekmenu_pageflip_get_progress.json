@@ -1,0 +1,8 @@
+{
+  "output": "Number",
+  "colour": 140,
+  "mcreator": {
+    "toolbox_id": "fomek_menu_book"
+  },
+  "message0": "Page flip progress (0-1)"
+}
